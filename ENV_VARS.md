@@ -10,6 +10,7 @@ Agents can be configured using environment variables:
 | TA_OPA_ENABLED | When `true` Open Policy Agent evaluation is enabled to block request |
 | TA_OPA_ENDPOINT | Represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/ |
 | TA_OPA_POLL_PERIOD_SECONDS | Poll period in seconds to query OPA service |
+| TA_OPA_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. If this is non-empty, you shoulds `https` for the protocol in `endpoint` above. |
 | TA_BLOCKING_CONFIG_ENABLED |  |
 | TA_BLOCKING_CONFIG_DEBUG_LOG |  |
 | TA_BLOCKING_CONFIG_MODSECURITY_ENABLED |  |
@@ -18,3 +19,4 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |

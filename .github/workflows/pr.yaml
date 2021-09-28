@@ -15,4 +15,4 @@ jobs:
       - uses: bufbuild/buf-setup-action@v0.5.0
 
       - name: make lint
-        uses: bufbuild/buf-lint-action@v0.5.0
+        uses: bufbuild/buf-lint-action@v1.0.0
