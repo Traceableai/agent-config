@@ -15,14 +15,18 @@ message AgentConfig {
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
 // The client should use secure and token option from reporting settings.
 message Opa {
-    // when `true` Open Policy Agent evaluation is enabled to block request
-    google.protobuf.BoolValue enabled = 1;
+  // when `true` Open Policy Agent evaluation is enabled to block request
+  google.protobuf.BoolValue enabled = 1;
 
-    // endpoint represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/
-    google.protobuf.StringValue endpoint = 2;
+  // endpoint represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/
+  google.protobuf.StringValue endpoint = 2;
 
-    // poll period in seconds to query OPA service
-    google.protobuf.Int32Value poll_period_seconds  = 3;
+  // poll period in seconds to query OPA service
+  google.protobuf.Int32Value poll_period_seconds  = 3;
+
+  // Certificate filename containing the CA to verify the server's certificate.
+  // If this is non-empty, you shoulds `https` for the protocol in `endpoint` above. 
+  google.protobuf.StringValue cert_file = 4;
 }
 
 // Blocking config
@@ -51,4 +55,6 @@ message RemoteConfig {
   google.protobuf.StringValue endpoint = 2;
   // poll period in seconds to query for config updates
   google.protobuf.Int32Value poll_period_seconds = 3;
+  // Certificate filename containing the CA to verify the server's certificate.
+  google.protobuf.StringValue cert_file = 4;
 }
