@@ -37,6 +37,10 @@ message BlockingConfig {
   google.protobuf.BoolValue evaluate_body = 4;
   RegionBlockingConfig region_blocking = 5;
   RemoteConfig remote_config = 6;
+
+  // when `true`, blocking evaluation will be skipped for internal requests i.e. requests coming
+  // from private IPs
+  google.protobuf.BoolValue skip_internal_request = 7;
 }
 
 message ModsecurityConfig {
