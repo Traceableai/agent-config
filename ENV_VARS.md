@@ -20,3 +20,4 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
+| TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs |

@@ -30,5 +30,7 @@ generate-env-vars: init-git-submodule ## Generates the ENV_VARS.md with all envi
 	-o "/usr/local/ENV_VARS.md" -p "TA_" \
 	/usr/local/config.proto
 
+generate: generate-proto generate-env-vars
+
 init-git-submodule:
 	git submodule update --init --recursive

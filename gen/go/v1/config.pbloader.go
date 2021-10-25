@@ -129,6 +129,16 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", defaultValues.RemoteConfig)
 	}
 
+	if val, ok := getBoolEnv(prefix + "SKIP_INTERNAL_REQUEST"); ok {
+		x.SkipInternalRequest = &wrappers.BoolValue{Value: val}
+	} else if x.SkipInternalRequest == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.SkipInternalRequest = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.SkipInternalRequest != nil {
+			x.SkipInternalRequest = &wrappers.BoolValue{Value: defaultValues.SkipInternalRequest.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
