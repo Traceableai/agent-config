@@ -6,41 +6,52 @@ import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/Traceableai/agent-config/gen/go/v1";
 
+message AgentConfig {
+  Opa opa = 1 [deprecated = true];
+  BlockingConfig blocking_config = 2 [deprecated = true];
+  LibtraceableConfig libtraceable = 3;
+}
+
 message LibtraceableConfig {
   google.protobuf.BoolValue enabled = 1;
   google.protobuf.BoolValue debug_log = 2;
-  google.protobuf.StringValue service_name = 3;
-  RemoteConfig remote_config = 4;
-  BlockingConfig blocking_config = 5;
-  ApiDiscoveryConfig api_discovery_config = 6;
-  SamplingConfig sampling_config = 7;
+  RemoteConfig remote_config = 3;
+  BlockingConfig blocking = 4;
+  ApiDiscoveryConfig api_discovery = 5;
+  SamplingConfig sampling = 6;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
 // The client should use secure and token option from reporting settings.
-message OpaConfig {
+message Opa {
+  // when `true` Open Policy Agent evaluation is enabled to block request
+  google.protobuf.BoolValue enabled = 1;
+
   // endpoint represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/
-  google.protobuf.StringValue endpoint = 1;
+  google.protobuf.StringValue endpoint = 2;
 
   // poll period in seconds to query OPA service
-  google.protobuf.Int32Value poll_period_seconds  = 2;
+  google.protobuf.Int32Value poll_period_seconds  = 3;
 
   // Certificate filename containing the CA to verify the server's certificate.
   // If this is non-empty, you shoulds `https` for the protocol in `endpoint` above. 
-  google.protobuf.StringValue cert_file = 3;
+  google.protobuf.StringValue cert_file = 4;
 }
 
 // Blocking config
 message BlockingConfig {
   google.protobuf.BoolValue enabled = 1;
-  OpaConfig opa_config = 2;
-  ModsecurityConfig modsecurity = 3;
+  // debug_log has moved to LibtraceableConfig
+  google.protobuf.BoolValue debug_log = 2 [deprecated = true];
+  ModsecurityConfig modsecurity_config = 3;
   google.protobuf.BoolValue evaluate_body = 4;
   RegionBlockingConfig region_blocking = 5;
+  // remote_config has moved to LibtracebleConfig
+  RemoteConfig remote_config = 6 [deprecated = true];
 
   // when `true`, blocking evaluation will be skipped for internal requests i.e. requests coming
   // from private IPs
-  google.protobuf.BoolValue skip_internal_request = 6;
+  google.protobuf.BoolValue skip_internal_request = 7;
 }
 
 message ModsecurityConfig {
