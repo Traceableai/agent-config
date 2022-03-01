@@ -11,9 +11,8 @@ message AgentConfig {
   BlockingConfig blocking_config = 2;
   google.protobuf.BoolValue debug_log = 3;
   RemoteConfig remote_config = 4;
-  BlockingConfig blocking = 5;
-  ApiDiscoveryConfig api_discovery = 6;
-  SamplingConfig sampling = 7;
+  ApiDiscoveryConfig api_discovery = 5;
+  SamplingConfig sampling = 6;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
