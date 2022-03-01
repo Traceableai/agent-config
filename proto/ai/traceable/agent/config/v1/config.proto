@@ -37,7 +37,7 @@ message BlockingConfig {
   google.protobuf.BoolValue enabled = 1;
   // debug_log has moved to top level
   google.protobuf.BoolValue debug_log = 2 [deprecated = true];
-  ModsecurityConfig modsecurity_config = 3;
+  ModsecurityConfig modsecurity = 3;
   google.protobuf.BoolValue evaluate_body = 4;
   RegionBlockingConfig region_blocking = 5;
   // remote_config has moved to top level
