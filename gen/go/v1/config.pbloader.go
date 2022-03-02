@@ -24,6 +24,43 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.BlockingConfig.loadFromEnv(prefix+"BLOCKING_CONFIG_", defaultValues.BlockingConfig)
 	}
 
+	if val, ok := getBoolEnv(prefix + "DEBUG_LOG"); ok {
+		x.DebugLog = &wrappers.BoolValue{Value: val}
+	} else if x.DebugLog == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.DebugLog = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.DebugLog != nil {
+			x.DebugLog = &wrappers.BoolValue{Value: defaultValues.DebugLog.Value}
+		}
+	}
+	if x.RemoteConfig == nil {
+		x.RemoteConfig = new(RemoteConfig)
+	}
+	if defaultValues == nil {
+		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", nil)
+	} else {
+		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", defaultValues.RemoteConfig)
+	}
+
+	if x.ApiDiscovery == nil {
+		x.ApiDiscovery = new(ApiDiscoveryConfig)
+	}
+	if defaultValues == nil {
+		x.ApiDiscovery.loadFromEnv(prefix+"API_DISCOVERY_", nil)
+	} else {
+		x.ApiDiscovery.loadFromEnv(prefix+"API_DISCOVERY_", defaultValues.ApiDiscovery)
+	}
+
+	if x.Sampling == nil {
+		x.Sampling = new(SamplingConfig)
+	}
+	if defaultValues == nil {
+		x.Sampling.loadFromEnv(prefix+"SAMPLING_", nil)
+	} else {
+		x.Sampling.loadFromEnv(prefix+"SAMPLING_", defaultValues.Sampling)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -209,6 +246,34 @@ func (x *RemoteConfig) loadFromEnv(prefix string, defaultValues *RemoteConfig) {
 		x.CertFile = new(wrappers.StringValue)
 		if defaultValues != nil && defaultValues.CertFile != nil {
 			x.CertFile = &wrappers.StringValue{Value: defaultValues.CertFile.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *ApiDiscoveryConfig) loadFromEnv(prefix string, defaultValues *ApiDiscoveryConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *SamplingConfig) loadFromEnv(prefix string, defaultValues *SamplingConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
 }
