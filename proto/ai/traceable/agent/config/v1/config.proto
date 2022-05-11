@@ -66,6 +66,7 @@ message RemoteConfig {
   google.protobuf.Int32Value poll_period_seconds = 3;
   // Certificate filename containing the CA to verify the server's certificate.
   google.protobuf.StringValue cert_file = 4;
+  google.protobuf.Int32Value grpc_max_call_recv_msg_size = 5;
 }
 
 message ApiDiscoveryConfig {
