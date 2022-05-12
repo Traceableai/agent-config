@@ -248,6 +248,16 @@ func (x *RemoteConfig) loadFromEnv(prefix string, defaultValues *RemoteConfig) {
 			x.CertFile = &wrappers.StringValue{Value: defaultValues.CertFile.Value}
 		}
 	}
+	if val, ok := getInt32Env(prefix + "GRPC_MAX_CALL_RECV_MSG_SIZE"); ok {
+		x.GrpcMaxCallRecvMsgSize = &wrappers.Int32Value{Value: val}
+	} else if x.GrpcMaxCallRecvMsgSize == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.GrpcMaxCallRecvMsgSize = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.GrpcMaxCallRecvMsgSize != nil {
+			x.GrpcMaxCallRecvMsgSize = &wrappers.Int32Value{Value: defaultValues.GrpcMaxCallRecvMsgSize.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
