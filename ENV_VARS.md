@@ -22,6 +22,7 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
 | TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs |
+| TA_BLOCKING_CONFIG_BLOCKING_STATUS_CODE | Allows user to set a custom blocking status code value |
 | TA_DEBUG_LOG |  |
 | TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
 | TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
