@@ -46,6 +46,9 @@ message BlockingConfig {
   // when `true`, blocking evaluation will be skipped for internal requests i.e. requests coming
   // from private IPs
   google.protobuf.BoolValue skip_internal_request = 7;
+
+  // Allows user to set a custom blocking status code value
+  google.protobuf.Int32Value response_status_code = 8;
 }
 
 message ModsecurityConfig {
