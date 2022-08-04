@@ -48,7 +48,7 @@ message BlockingConfig {
   google.protobuf.BoolValue skip_internal_request = 7;
 
   // Allows user to set a custom blocking status code value
-  google.protobuf.Int32Value blocking_status_code = 8;
+  google.protobuf.Int32Value response_status_code = 8;
 }
 
 message ModsecurityConfig {

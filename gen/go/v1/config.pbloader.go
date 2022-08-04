@@ -176,14 +176,14 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 			x.SkipInternalRequest = &wrappers.BoolValue{Value: defaultValues.SkipInternalRequest.Value}
 		}
 	}
-	if val, ok := getInt32Env(prefix + "BLOCKING_STATUS_CODE"); ok {
-		x.BlockingStatusCode = &wrappers.Int32Value{Value: val}
-	} else if x.BlockingStatusCode == nil {
+	if val, ok := getInt32Env(prefix + "RESPONSE_STATUS_CODE"); ok {
+		x.ResponseStatusCode = &wrappers.Int32Value{Value: val}
+	} else if x.ResponseStatusCode == nil {
 		// when there is no value to set we still prefer to initialize the variable to avoid
 		// `nil` checks in the consumers.
-		x.BlockingStatusCode = new(wrappers.Int32Value)
-		if defaultValues != nil && defaultValues.BlockingStatusCode != nil {
-			x.BlockingStatusCode = &wrappers.Int32Value{Value: defaultValues.BlockingStatusCode.Value}
+		x.ResponseStatusCode = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.ResponseStatusCode != nil {
+			x.ResponseStatusCode = &wrappers.Int32Value{Value: defaultValues.ResponseStatusCode.Value}
 		}
 	}
 }
