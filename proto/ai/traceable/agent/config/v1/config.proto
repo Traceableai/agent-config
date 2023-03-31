@@ -13,6 +13,9 @@ message AgentConfig {
   RemoteConfig remote_config = 4;
   ApiDiscoveryConfig api_discovery = 5;
   SamplingConfig sampling = 6;
+
+  // This is copied from hypertrace agent config
+  google.protobuf.StringValue service_name = 7;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
