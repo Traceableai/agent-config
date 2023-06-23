@@ -11,6 +11,7 @@ Agents can be configured using environment variables:
 | TA_OPA_ENDPOINT | Represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/ |
 | TA_OPA_POLL_PERIOD_SECONDS | Poll period in seconds to query OPA service |
 | TA_OPA_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. If this is non-empty, you shoulds `https` for the protocol in `endpoint` above. |
+| TA_OPA_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_BLOCKING_CONFIG_ENABLED |  |
 | TA_BLOCKING_CONFIG_DEBUG_LOG | Has moved to top level |
 | TA_BLOCKING_CONFIG_MODSECURITY_ENABLED |  |
@@ -21,6 +22,7 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs |
 | TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value |
 | TA_DEBUG_LOG |  |
@@ -29,5 +31,6 @@ Agents can be configured using environment variables:
 | TA_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
 | TA_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
 | TA_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
+| TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_API_DISCOVERY_ENABLED |  |
 | TA_SAMPLING_ENABLED |  |
