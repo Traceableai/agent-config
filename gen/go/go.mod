@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/ghodss/yaml v1.0.0
-	github.com/stretchr/testify v1.8.0
-	google.golang.org/protobuf v1.28.1
+	github.com/stretchr/testify v1.8.4
+	google.golang.org/protobuf v1.30.0
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
