@@ -25,6 +25,7 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs |
 | TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value |
+| TA_BLOCKING_CONFIG_MAX_RECURSION_DEPTH | Setting a maximum allowed depth for recursion while parsing combination policies |
 | TA_DEBUG_LOG |  |
 | TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
 | TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
