@@ -51,6 +51,9 @@ message BlockingConfig {
 
   // Allows user to set a custom blocking status code value
   google.protobuf.Int32Value response_status_code = 8;
+
+  // setting a maximum allowed depth for recursion while parsing combination policies
+  google.protobuf.Int32Value max_recursion_depth = 9;
 }
 
 message ModsecurityConfig {
