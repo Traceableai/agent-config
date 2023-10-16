@@ -13,6 +13,9 @@ message AgentConfig {
   RemoteConfig remote_config = 4;
   ApiDiscoveryConfig api_discovery = 5;
   SamplingConfig sampling = 6;
+
+  // javaagent has the configs specific to javaagent
+  Javaagent javaagent = 7;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
@@ -85,4 +88,9 @@ message ApiDiscoveryConfig {
 
 message SamplingConfig {
   google.protobuf.BoolValue enabled = 1;
+}
+
+message Javaagent {
+  // set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA.
+  google.protobuf.BoolValue import_jks_certs = 1;
 }
