@@ -61,6 +61,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.Sampling.loadFromEnv(prefix+"SAMPLING_", defaultValues.Sampling)
 	}
 
+	if x.Javaagent == nil {
+		x.Javaagent = new(Javaagent)
+	}
+	if defaultValues == nil {
+		x.Javaagent.loadFromEnv(prefix+"JAVAAGENT_", nil)
+	} else {
+		x.Javaagent.loadFromEnv(prefix+"JAVAAGENT_", defaultValues.Javaagent)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -324,6 +333,20 @@ func (x *SamplingConfig) loadFromEnv(prefix string, defaultValues *SamplingConfi
 		x.Enabled = new(wrappers.BoolValue)
 		if defaultValues != nil && defaultValues.Enabled != nil {
 			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *Javaagent) loadFromEnv(prefix string, defaultValues *Javaagent) {
+	if val, ok := getBoolEnv(prefix + "EXPORT_CERTS"); ok {
+		x.ExportCerts = &wrappers.BoolValue{Value: val}
+	} else if x.ExportCerts == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ExportCerts = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.ExportCerts != nil {
+			x.ExportCerts = &wrappers.BoolValue{Value: defaultValues.ExportCerts.Value}
 		}
 	}
 }

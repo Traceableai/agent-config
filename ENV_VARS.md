@@ -35,3 +35,4 @@ Agents can be configured using environment variables:
 | TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_API_DISCOVERY_ENABLED |  |
 | TA_SAMPLING_ENABLED |  |
+| TA_JAVAAGENT_EXPORT_CERTS | Set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA. |
