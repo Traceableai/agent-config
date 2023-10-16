@@ -92,5 +92,5 @@ message SamplingConfig {
 
 message Javaagent {
   // set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA.
-  google.protobuf.BoolValue export_certs = 1;
+  google.protobuf.BoolValue import_jks_certs = 1;
 }

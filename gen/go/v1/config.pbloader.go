@@ -339,14 +339,14 @@ func (x *SamplingConfig) loadFromEnv(prefix string, defaultValues *SamplingConfi
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *Javaagent) loadFromEnv(prefix string, defaultValues *Javaagent) {
-	if val, ok := getBoolEnv(prefix + "EXPORT_CERTS"); ok {
-		x.ExportCerts = &wrappers.BoolValue{Value: val}
-	} else if x.ExportCerts == nil {
+	if val, ok := getBoolEnv(prefix + "IMPORT_JKS_CERTS"); ok {
+		x.ImportJksCerts = &wrappers.BoolValue{Value: val}
+	} else if x.ImportJksCerts == nil {
 		// when there is no value to set we still prefer to initialize the variable to avoid
 		// `nil` checks in the consumers.
-		x.ExportCerts = new(wrappers.BoolValue)
-		if defaultValues != nil && defaultValues.ExportCerts != nil {
-			x.ExportCerts = &wrappers.BoolValue{Value: defaultValues.ExportCerts.Value}
+		x.ImportJksCerts = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.ImportJksCerts != nil {
+			x.ImportJksCerts = &wrappers.BoolValue{Value: defaultValues.ImportJksCerts.Value}
 		}
 	}
 }
