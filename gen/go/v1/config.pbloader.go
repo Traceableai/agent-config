@@ -215,6 +215,16 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 			x.MaxRecursionDepth = &wrappers.Int32Value{Value: defaultValues.MaxRecursionDepth.Value}
 		}
 	}
+	if val, ok := getStringEnv(prefix + "RESPONSE_MESSAGE"); ok {
+		x.ResponseMessage = &wrappers.StringValue{Value: val}
+	} else if x.ResponseMessage == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ResponseMessage = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.ResponseMessage != nil {
+			x.ResponseMessage = &wrappers.StringValue{Value: defaultValues.ResponseMessage.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
