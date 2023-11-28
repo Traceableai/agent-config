@@ -57,6 +57,9 @@ message BlockingConfig {
 
   // setting a maximum allowed depth for recursion while parsing combination policies
   google.protobuf.Int32Value max_recursion_depth = 9;
+
+  // Allows user to set a custom blocking message
+  google.protobuf.StringValue response_message = 10;
 }
 
 message ModsecurityConfig {
