@@ -20,3 +20,12 @@ After making changes to config.proto, run
 ```
 make generate
 ```
+
+### Updating Submodules
+
+While updating submodules, do not add your commits inside submodule directories.
+After pulling new changes in the submodule,
+if you see some untracked changes in submodule, delete those untracked changes in the submodule.  
+If you see some new commits in nested submodule, update the nested submodule in your local to the commit it points to in the new version of the submodule.
+After these, there should not be any changes to be committed in the submodule directory.
+In the root directory, add and commit the change to update submodules.
