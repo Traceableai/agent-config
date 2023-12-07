@@ -7,7 +7,7 @@ import "google/protobuf/wrappers.proto";
 option go_package = "github.com/Traceableai/agent-config/gen/go/v1";
 
 message AgentConfig {
-  Opa opa = 1;
+  Opa opa = 1 [deprecated = true];
   BlockingConfig blocking_config = 2;
   google.protobuf.BoolValue debug_log = 3;
   RemoteConfig remote_config = 4;
