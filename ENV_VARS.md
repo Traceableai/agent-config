@@ -5,40 +5,40 @@
 
 Agents can be configured using environment variables:
 
-| Name | Description                                                                                                                                               |
-|------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| TA_OPA_ENABLED | When `true` Open Policy Agent evaluation is enabled to block request                                                                                      |
-| TA_OPA_ENDPOINT | Represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/                                                                     |
-| TA_OPA_POLL_PERIOD_SECONDS | Poll period in seconds to query OPA service                                                                                                               |
+| Name | Description |
+|------|-------------|
+| TA_OPA_ENABLED | When `true` Open Policy Agent evaluation is enabled to block request |
+| TA_OPA_ENDPOINT | Represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/ |
+| TA_OPA_POLL_PERIOD_SECONDS | Poll period in seconds to query OPA service |
 | TA_OPA_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. If this is non-empty, you shoulds `https` for the protocol in `endpoint` above. |
-| TA_OPA_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty                                                                         |
-| TA_BLOCKING_CONFIG_ENABLED |                                                                                                                                                           |
-| TA_BLOCKING_CONFIG_DEBUG_LOG | Has moved to top level                                                                                                                                    |
-| TA_BLOCKING_CONFIG_MODSECURITY_ENABLED |                                                                                                                                                           |
-| TA_BLOCKING_CONFIG_EVALUATE_BODY |                                                                                                                                                           |
-| TA_BLOCKING_CONFIG_REGION_BLOCKING_ENABLED |                                                                                                                                                           |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not                                                                                                  |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441                                                                            |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates                                                                                                        |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate.                                                                                |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |                                                                                                                                                           |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty                                                                         |
-| TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs                                              |
-| TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value                                                                                                    |
-| TA_BLOCKING_CONFIG_MAX_RECURSION_DEPTH | Setting a maximum allowed depth for recursion while parsing combination policies                                                                          |
-| TA_BLOCKING_CONFIG_RESPONSE_MESSAGE | Allows user to set a custom blocking message                                                                                                              |
-| TA_DEBUG_LOG |                                                                                                                                                           |
-| TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not                                                                                                  |
-| TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441                                                                            |
-| TA_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates                                                                                                        |
-| TA_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate.                                                                                |
-| TA_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |                                                                                                                                                           |
-| TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty                                                                         |
-| TA_API_DISCOVERY_ENABLED |                                                                                                                                                           |
-| TA_SAMPLING_ENABLED |                                                                                                                                                           |
-| TA_JAVAAGENT_IMPORT_JKS_CERTS | Set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA.                                                |
-| TA_LOGGING_MODE | Denotes logging mode. Allowed values are none, stdout, file.                                                                                              |
-| TA_LOGGING_LEVEL | Denotes logging level. Allowed values are trace, debug, info, warn, error, critical.                                                                      |
-| TA_LOGGING_LOG_FILE_MAX_FILES | Maximum number of log files to keep when logging mode is "file". Default is 3.                                                                            |
-| TA_LOGGING_LOG_FILE_MAX_FILE_SIZE | Maximum file size when logging mode is "file". Default value is 10485760 (10 MB).                                                                         |
-| TA_LOGGING_LOG_FILE_FILE_PATH | File path where logfile should be placed. Default is /var/traceable/log/libtraceable.log                                                                  |
+| TA_OPA_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
+| TA_BLOCKING_CONFIG_ENABLED |  |
+| TA_BLOCKING_CONFIG_DEBUG_LOG | Has moved to top level |
+| TA_BLOCKING_CONFIG_MODSECURITY_ENABLED |  |
+| TA_BLOCKING_CONFIG_EVALUATE_BODY |  |
+| TA_BLOCKING_CONFIG_REGION_BLOCKING_ENABLED |  |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
+| TA_BLOCKING_CONFIG_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
+| TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs |
+| TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value |
+| TA_BLOCKING_CONFIG_MAX_RECURSION_DEPTH | Setting a maximum allowed depth for recursion while parsing combination policies |
+| TA_BLOCKING_CONFIG_RESPONSE_MESSAGE | Allows user to set a custom blocking message |
+| TA_DEBUG_LOG |  |
+| TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
+| TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
+| TA_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
+| TA_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
+| TA_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
+| TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
+| TA_API_DISCOVERY_ENABLED |  |
+| TA_SAMPLING_ENABLED |  |
+| TA_JAVAAGENT_IMPORT_JKS_CERTS | Set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA. |
+| TA_LOGGING_MODE | Logging mode. Allowed values are none, stdout, file. |
+| TA_LOGGING_LEVEL | Logging level. Allowed values are trace, debug, info, warn, error, critical. |
+| TA_LOGGING_LOG_FILE_MAX_FILES | Maximum number of log files to keep |
+| TA_LOGGING_LOG_FILE_MAX_FILE_SIZE | Maximum file size of the log files. Default value is 10485760 (10MB). |
+| TA_LOGGING_LOG_FILE_FILE_PATH | File path for the log file. Default value is /var/traceable/log/libtraceable.log |
