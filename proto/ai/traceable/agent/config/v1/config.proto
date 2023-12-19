@@ -9,7 +9,7 @@ option go_package = "github.com/Traceableai/agent-config/gen/go/v1";
 message AgentConfig {
   Opa opa = 1 [deprecated = true];
   BlockingConfig blocking_config = 2;
-  google.protobuf.BoolValue debug_log = 3;
+  google.protobuf.BoolValue debug_log = 3 [deprecated = true];
   RemoteConfig remote_config = 4;
   ApiDiscoveryConfig api_discovery = 5;
   SamplingConfig sampling = 6;
