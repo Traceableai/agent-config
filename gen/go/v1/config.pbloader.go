@@ -70,6 +70,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.Javaagent.loadFromEnv(prefix+"JAVAAGENT_", defaultValues.Javaagent)
 	}
 
+	if x.Logging == nil {
+		x.Logging = new(LogConfig)
+	}
+	if defaultValues == nil {
+		x.Logging.loadFromEnv(prefix+"LOGGING_", nil)
+	} else {
+		x.Logging.loadFromEnv(prefix+"LOGGING_", defaultValues.Logging)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -357,6 +366,73 @@ func (x *Javaagent) loadFromEnv(prefix string, defaultValues *Javaagent) {
 		x.ImportJksCerts = new(wrappers.BoolValue)
 		if defaultValues != nil && defaultValues.ImportJksCerts != nil {
 			x.ImportJksCerts = &wrappers.BoolValue{Value: defaultValues.ImportJksCerts.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *LogConfig) loadFromEnv(prefix string, defaultValues *LogConfig) {
+	if val, ok := getStringEnv(prefix + "MODE"); ok {
+		x.Mode = &wrappers.StringValue{Value: val}
+	} else if x.Mode == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Mode = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Mode != nil {
+			x.Mode = &wrappers.StringValue{Value: defaultValues.Mode.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "LEVEL"); ok {
+		x.Level = &wrappers.StringValue{Value: val}
+	} else if x.Level == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Level = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Level != nil {
+			x.Level = &wrappers.StringValue{Value: defaultValues.Level.Value}
+		}
+	}
+	if x.LogFile == nil {
+		x.LogFile = new(LogFileConfig)
+	}
+	if defaultValues == nil {
+		x.LogFile.loadFromEnv(prefix+"LOG_FILE_", nil)
+	} else {
+		x.LogFile.loadFromEnv(prefix+"LOG_FILE_", defaultValues.LogFile)
+	}
+
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *LogFileConfig) loadFromEnv(prefix string, defaultValues *LogFileConfig) {
+	if val, ok := getInt32Env(prefix + "MAX_FILES"); ok {
+		x.MaxFiles = &wrappers.Int32Value{Value: val}
+	} else if x.MaxFiles == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxFiles = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxFiles != nil {
+			x.MaxFiles = &wrappers.Int32Value{Value: defaultValues.MaxFiles.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "MAX_FILE_SIZE"); ok {
+		x.MaxFileSize = &wrappers.Int32Value{Value: val}
+	} else if x.MaxFileSize == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxFileSize = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxFileSize != nil {
+			x.MaxFileSize = &wrappers.Int32Value{Value: defaultValues.MaxFileSize.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "FILE_PATH"); ok {
+		x.FilePath = &wrappers.StringValue{Value: val}
+	} else if x.FilePath == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.FilePath = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.FilePath != nil {
+			x.FilePath = &wrappers.StringValue{Value: defaultValues.FilePath.Value}
 		}
 	}
 }

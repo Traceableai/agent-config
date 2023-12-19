@@ -13,9 +13,9 @@ message AgentConfig {
   RemoteConfig remote_config = 4;
   ApiDiscoveryConfig api_discovery = 5;
   SamplingConfig sampling = 6;
-
   // javaagent has the configs specific to javaagent
   Javaagent javaagent = 7;
+  LogConfig logging = 8;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
@@ -96,4 +96,22 @@ message SamplingConfig {
 message Javaagent {
   // set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA.
   google.protobuf.BoolValue import_jks_certs = 1;
+}
+
+message LogConfig {
+  // logging mode. Allowed values are none, stdout, file.
+  google.protobuf.StringValue mode = 1;
+  // logging level. Allowed values are trace, debug, info, warn, error, critical.
+  google.protobuf.StringValue level = 2;
+  // if logging mode is file, provide this additional configuration
+  LogFileConfig log_file = 3;
+}
+
+message LogFileConfig {
+  // maximum number of log files to keep
+  google.protobuf.Int32Value max_files = 1;
+  // maximum file size of the log files. Default value is 10485760 (10MB).
+  google.protobuf.Int32Value max_file_size = 2;
+  // file path for the log file. Default value is /var/traceable/log/libtraceable.log
+  google.protobuf.StringValue file_path = 3;
 }
