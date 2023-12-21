@@ -99,11 +99,25 @@ message Javaagent {
 }
 
 message LogConfig {
-  // logging mode. Allowed values are none, stdout, file.
-  google.protobuf.StringValue mode = 1;
-  // logging level. Allowed values are trace, debug, info, warn, error, critical.
-  google.protobuf.StringValue level = 2;
-  // if logging mode is file, provide this additional configuration
+  enum TraceableLogMode {
+    TRACEABLE_LOG_UNSPECIFIED = 0;
+    TRACEABLE_LOG_NONE = 1;
+    TRACEABLE_LOG_STDOUT = 2;
+    TRACEABLE_LOG_FILE = 3;
+  }
+  enum TraceableLogLevel {
+    TRACEABLE_LOG_LEVEL_UNSPECIFIED = 0;
+    TRACEABLE_LOG_LEVEL_TRACE = 1;
+    TRACEABLE_LOG_LEVEL_DEBUG = 2;
+    TRACEABLE_LOG_LEVEL_INFO = 3;
+    TRACEABLE_LOG_LEVEL_WARN = 4;
+    TRACEABLE_LOG_LEVEL_ERROR = 5;
+    TRACEABLE_LOG_LEVEL_CRITICAL = 6;
+  }
+
+  TraceableLogMode mode = 1;
+  TraceableLogLevel level = 2;
+  // if mode is TRACEABLE_LOG_FILE, provide this additional configuration
   LogFileConfig log_file = 3;
 }
 
