@@ -98,12 +98,27 @@ message Javaagent {
   google.protobuf.BoolValue import_jks_certs = 1;
 }
 
+enum LogMode {
+  LOG_MODE_UNSPECIFIED = 0;
+  LOG_MODE_NONE = 1;
+  LOG_MODE_STDOUT = 2;
+  LOG_MODE_FILE = 3;
+}
+
+enum LogLevel {
+  LOG_LEVEL_UNSPECIFIED = 0;
+  LOG_LEVEL_TRACE = 1;
+  LOG_LEVEL_DEBUG = 2;
+  LOG_LEVEL_INFO = 3;
+  LOG_LEVEL_WARN = 4;
+  LOG_LEVEL_ERROR = 5;
+  LOG_LEVEL_CRITICAL = 6;
+}
+
 message LogConfig {
-  // logging mode. Allowed values are none, stdout, file.
-  google.protobuf.StringValue mode = 1;
-  // logging level. Allowed values are trace, debug, info, warn, error, critical.
-  google.protobuf.StringValue level = 2;
-  // if logging mode is file, provide this additional configuration
+  LogMode log_mode = 1;
+  LogLevel log_level = 2;
+  // if mode is LOG_MODE_FILE, provide this additional configuration
   LogFileConfig log_file = 3;
 }
 

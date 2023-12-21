@@ -21,6 +21,119 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type Mode int32
+
+const (
+	Mode_LOG_MODE_UNSPECIFIED Mode = 0
+	Mode_LOG_MODE_NONE        Mode = 1
+	Mode_LOG_MODE_STDOUT      Mode = 2
+	Mode_LOG_MODE_FILE        Mode = 3
+)
+
+// Enum value maps for Mode.
+var (
+	Mode_name = map[int32]string{
+		0: "LOG_MODE_UNSPECIFIED",
+		1: "LOG_MODE_NONE",
+		2: "LOG_MODE_STDOUT",
+		3: "LOG_MODE_FILE",
+	}
+	Mode_value = map[string]int32{
+		"LOG_MODE_UNSPECIFIED": 0,
+		"LOG_MODE_NONE":        1,
+		"LOG_MODE_STDOUT":      2,
+		"LOG_MODE_FILE":        3,
+	}
+)
+
+func (x Mode) Enum() *Mode {
+	p := new(Mode)
+	*p = x
+	return p
+}
+
+func (x Mode) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Mode) Descriptor() protoreflect.EnumDescriptor {
+	return file_ai_traceable_agent_config_v1_config_proto_enumTypes[0].Descriptor()
+}
+
+func (Mode) Type() protoreflect.EnumType {
+	return &file_ai_traceable_agent_config_v1_config_proto_enumTypes[0]
+}
+
+func (x Mode) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Mode.Descriptor instead.
+func (Mode) EnumDescriptor() ([]byte, []int) {
+	return file_ai_traceable_agent_config_v1_config_proto_rawDescGZIP(), []int{0}
+}
+
+type Level int32
+
+const (
+	Level_LOG_LEVEL_UNSPECIFIED Level = 0
+	Level_LOG_LEVEL_TRACE       Level = 1
+	Level_LOG_LEVEL_DEBUG       Level = 2
+	Level_LOG_LEVEL_INFO        Level = 3
+	Level_LOG_LEVEL_WARN        Level = 4
+	Level_LOG_LEVEL_ERROR       Level = 5
+	Level_LOG_LEVEL_CRITICAL    Level = 6
+)
+
+// Enum value maps for Level.
+var (
+	Level_name = map[int32]string{
+		0: "LOG_LEVEL_UNSPECIFIED",
+		1: "LOG_LEVEL_TRACE",
+		2: "LOG_LEVEL_DEBUG",
+		3: "LOG_LEVEL_INFO",
+		4: "LOG_LEVEL_WARN",
+		5: "LOG_LEVEL_ERROR",
+		6: "LOG_LEVEL_CRITICAL",
+	}
+	Level_value = map[string]int32{
+		"LOG_LEVEL_UNSPECIFIED": 0,
+		"LOG_LEVEL_TRACE":       1,
+		"LOG_LEVEL_DEBUG":       2,
+		"LOG_LEVEL_INFO":        3,
+		"LOG_LEVEL_WARN":        4,
+		"LOG_LEVEL_ERROR":       5,
+		"LOG_LEVEL_CRITICAL":    6,
+	}
+)
+
+func (x Level) Enum() *Level {
+	p := new(Level)
+	*p = x
+	return p
+}
+
+func (x Level) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (Level) Descriptor() protoreflect.EnumDescriptor {
+	return file_ai_traceable_agent_config_v1_config_proto_enumTypes[1].Descriptor()
+}
+
+func (Level) Type() protoreflect.EnumType {
+	return &file_ai_traceable_agent_config_v1_config_proto_enumTypes[1]
+}
+
+func (x Level) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use Level.Descriptor instead.
+func (Level) EnumDescriptor() ([]byte, []int) {
+	return file_ai_traceable_agent_config_v1_config_proto_rawDescGZIP(), []int{1}
+}
+
 type AgentConfig struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -683,11 +796,9 @@ type LogConfig struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	// logging mode. Allowed values are none, stdout, file.
-	Mode *wrapperspb.StringValue `protobuf:"bytes,1,opt,name=mode,proto3" json:"mode,omitempty"`
-	// logging level. Allowed values are trace, debug, info, warn, error, critical.
-	Level *wrapperspb.StringValue `protobuf:"bytes,2,opt,name=level,proto3" json:"level,omitempty"`
-	// if logging mode is file, provide this additional configuration
+	Mode  Mode  `protobuf:"varint,1,opt,name=mode,proto3,enum=ai.traceable.agent.config.v1.Mode" json:"mode,omitempty"`
+	Level Level `protobuf:"varint,2,opt,name=level,proto3,enum=ai.traceable.agent.config.v1.Level" json:"level,omitempty"`
+	// if mode is TRACEABLE_LOG_FILE, provide this additional configuration
 	LogFile *LogFileConfig `protobuf:"bytes,3,opt,name=log_file,json=logFile,proto3" json:"log_file,omitempty"`
 }
 
@@ -723,18 +834,18 @@ func (*LogConfig) Descriptor() ([]byte, []int) {
 	return file_ai_traceable_agent_config_v1_config_proto_rawDescGZIP(), []int{9}
 }
 
-func (x *LogConfig) GetMode() *wrapperspb.StringValue {
+func (x *LogConfig) GetMode() Mode {
 	if x != nil {
 		return x.Mode
 	}
-	return nil
+	return Mode_LOG_MODE_UNSPECIFIED
 }
 
-func (x *LogConfig) GetLevel() *wrapperspb.StringValue {
+func (x *LogConfig) GetLevel() Level {
 	if x != nil {
 		return x.Level
 	}
-	return nil
+	return Level_LOG_LEVEL_UNSPECIFIED
 }
 
 func (x *LogConfig) GetLogFile() *LogFileConfig {
@@ -977,35 +1088,52 @@ var file_ai_traceable_agent_config_v1_config_proto_rawDesc = []byte{
 	0x65, 0x72, 0x74, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f,
 	0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x42, 0x6f, 0x6f,
 	0x6c, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x0e, 0x69, 0x6d, 0x70, 0x6f, 0x72, 0x74, 0x4a, 0x6b,
-	0x73, 0x43, 0x65, 0x72, 0x74, 0x73, 0x22, 0xb9, 0x01, 0x0a, 0x09, 0x4c, 0x6f, 0x67, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x12, 0x30, 0x0a, 0x04, 0x6d, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65,
-	0x52, 0x04, 0x6d, 0x6f, 0x64, 0x65, 0x12, 0x32, 0x0a, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61,
-	0x6c, 0x75, 0x65, 0x52, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x12, 0x46, 0x0a, 0x08, 0x6c, 0x6f,
-	0x67, 0x5f, 0x66, 0x69, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x61,
-	0x69, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x65, 0x61, 0x62, 0x6c, 0x65, 0x2e, 0x61, 0x67, 0x65, 0x6e,
-	0x74, 0x2e, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x6f, 0x67, 0x46,
-	0x69, 0x6c, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x07, 0x6c, 0x6f, 0x67, 0x46, 0x69,
-	0x6c, 0x65, 0x22, 0xc5, 0x01, 0x0a, 0x0d, 0x4c, 0x6f, 0x67, 0x46, 0x69, 0x6c, 0x65, 0x43, 0x6f,
-	0x6e, 0x66, 0x69, 0x67, 0x12, 0x38, 0x0a, 0x09, 0x6d, 0x61, 0x78, 0x5f, 0x66, 0x69, 0x6c, 0x65,
-	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x49, 0x6e, 0x74, 0x33, 0x32, 0x56,
-	0x61, 0x6c, 0x75, 0x65, 0x52, 0x08, 0x6d, 0x61, 0x78, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x12, 0x3f,
-	0x0a, 0x0d, 0x6d, 0x61, 0x78, 0x5f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x49, 0x6e, 0x74, 0x33, 0x32, 0x56, 0x61, 0x6c,
-	0x75, 0x65, 0x52, 0x0b, 0x6d, 0x61, 0x78, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12,
-	0x39, 0x0a, 0x09, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65,
-	0x52, 0x08, 0x66, 0x69, 0x6c, 0x65, 0x50, 0x61, 0x74, 0x68, 0x42, 0x2f, 0x5a, 0x2d, 0x67, 0x69,
-	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x54, 0x72, 0x61, 0x63, 0x65, 0x61, 0x62,
-	0x6c, 0x65, 0x61, 0x69, 0x2f, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x2d, 0x63, 0x6f, 0x6e, 0x66, 0x69,
-	0x67, 0x2f, 0x67, 0x65, 0x6e, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f,
-	0x74, 0x6f, 0x33,
+	0x73, 0x43, 0x65, 0x72, 0x74, 0x73, 0x22, 0xc6, 0x01, 0x0a, 0x09, 0x4c, 0x6f, 0x67, 0x43, 0x6f,
+	0x6e, 0x66, 0x69, 0x67, 0x12, 0x36, 0x0a, 0x04, 0x6d, 0x6f, 0x64, 0x65, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x0e, 0x32, 0x22, 0x2e, 0x61, 0x69, 0x2e, 0x74, 0x72, 0x61, 0x63, 0x65, 0x61, 0x62, 0x6c,
+	0x65, 0x2e, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x2e, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x76,
+	0x31, 0x2e, 0x4d, 0x6f, 0x64, 0x65, 0x52, 0x04, 0x6d, 0x6f, 0x64, 0x65, 0x12, 0x39, 0x0a, 0x05,
+	0x6c, 0x65, 0x76, 0x65, 0x6c, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0e, 0x32, 0x23, 0x2e, 0x61, 0x69,
+	0x2e, 0x74, 0x72, 0x61, 0x63, 0x65, 0x61, 0x62, 0x6c, 0x65, 0x2e, 0x61, 0x67, 0x65, 0x6e, 0x74,
+	0x2e, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x65, 0x76, 0x65, 0x6c,
+	0x52, 0x05, 0x6c, 0x65, 0x76, 0x65, 0x6c, 0x12, 0x46, 0x0a, 0x08, 0x6c, 0x6f, 0x67, 0x5f, 0x66,
+	0x69, 0x6c, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2b, 0x2e, 0x61, 0x69, 0x2e, 0x74,
+	0x72, 0x61, 0x63, 0x65, 0x61, 0x62, 0x6c, 0x65, 0x2e, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x2e, 0x63,
+	0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2e, 0x76, 0x31, 0x2e, 0x4c, 0x6f, 0x67, 0x46, 0x69, 0x6c, 0x65,
+	0x43, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x52, 0x07, 0x6c, 0x6f, 0x67, 0x46, 0x69, 0x6c, 0x65, 0x22,
+	0xc5, 0x01, 0x0a, 0x0d, 0x4c, 0x6f, 0x67, 0x46, 0x69, 0x6c, 0x65, 0x43, 0x6f, 0x6e, 0x66, 0x69,
+	0x67, 0x12, 0x38, 0x0a, 0x09, 0x6d, 0x61, 0x78, 0x5f, 0x66, 0x69, 0x6c, 0x65, 0x73, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x49, 0x6e, 0x74, 0x33, 0x32, 0x56, 0x61, 0x6c, 0x75,
+	0x65, 0x52, 0x08, 0x6d, 0x61, 0x78, 0x46, 0x69, 0x6c, 0x65, 0x73, 0x12, 0x3f, 0x0a, 0x0d, 0x6d,
+	0x61, 0x78, 0x5f, 0x66, 0x69, 0x6c, 0x65, 0x5f, 0x73, 0x69, 0x7a, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x0b, 0x32, 0x1b, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x75, 0x66, 0x2e, 0x49, 0x6e, 0x74, 0x33, 0x32, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52,
+	0x0b, 0x6d, 0x61, 0x78, 0x46, 0x69, 0x6c, 0x65, 0x53, 0x69, 0x7a, 0x65, 0x12, 0x39, 0x0a, 0x09,
+	0x66, 0x69, 0x6c, 0x65, 0x5f, 0x70, 0x61, 0x74, 0x68, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32,
+	0x1c, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
+	0x66, 0x2e, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67, 0x56, 0x61, 0x6c, 0x75, 0x65, 0x52, 0x08, 0x66,
+	0x69, 0x6c, 0x65, 0x50, 0x61, 0x74, 0x68, 0x2a, 0x5b, 0x0a, 0x04, 0x4d, 0x6f, 0x64, 0x65, 0x12,
+	0x18, 0x0a, 0x14, 0x4c, 0x4f, 0x47, 0x5f, 0x4d, 0x4f, 0x44, 0x45, 0x5f, 0x55, 0x4e, 0x53, 0x50,
+	0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x11, 0x0a, 0x0d, 0x4c, 0x4f, 0x47,
+	0x5f, 0x4d, 0x4f, 0x44, 0x45, 0x5f, 0x4e, 0x4f, 0x4e, 0x45, 0x10, 0x01, 0x12, 0x13, 0x0a, 0x0f,
+	0x4c, 0x4f, 0x47, 0x5f, 0x4d, 0x4f, 0x44, 0x45, 0x5f, 0x53, 0x54, 0x44, 0x4f, 0x55, 0x54, 0x10,
+	0x02, 0x12, 0x11, 0x0a, 0x0d, 0x4c, 0x4f, 0x47, 0x5f, 0x4d, 0x4f, 0x44, 0x45, 0x5f, 0x46, 0x49,
+	0x4c, 0x45, 0x10, 0x03, 0x2a, 0xa1, 0x01, 0x0a, 0x05, 0x4c, 0x65, 0x76, 0x65, 0x6c, 0x12, 0x19,
+	0x0a, 0x15, 0x4c, 0x4f, 0x47, 0x5f, 0x4c, 0x45, 0x56, 0x45, 0x4c, 0x5f, 0x55, 0x4e, 0x53, 0x50,
+	0x45, 0x43, 0x49, 0x46, 0x49, 0x45, 0x44, 0x10, 0x00, 0x12, 0x13, 0x0a, 0x0f, 0x4c, 0x4f, 0x47,
+	0x5f, 0x4c, 0x45, 0x56, 0x45, 0x4c, 0x5f, 0x54, 0x52, 0x41, 0x43, 0x45, 0x10, 0x01, 0x12, 0x13,
+	0x0a, 0x0f, 0x4c, 0x4f, 0x47, 0x5f, 0x4c, 0x45, 0x56, 0x45, 0x4c, 0x5f, 0x44, 0x45, 0x42, 0x55,
+	0x47, 0x10, 0x02, 0x12, 0x12, 0x0a, 0x0e, 0x4c, 0x4f, 0x47, 0x5f, 0x4c, 0x45, 0x56, 0x45, 0x4c,
+	0x5f, 0x49, 0x4e, 0x46, 0x4f, 0x10, 0x03, 0x12, 0x12, 0x0a, 0x0e, 0x4c, 0x4f, 0x47, 0x5f, 0x4c,
+	0x45, 0x56, 0x45, 0x4c, 0x5f, 0x57, 0x41, 0x52, 0x4e, 0x10, 0x04, 0x12, 0x13, 0x0a, 0x0f, 0x4c,
+	0x4f, 0x47, 0x5f, 0x4c, 0x45, 0x56, 0x45, 0x4c, 0x5f, 0x45, 0x52, 0x52, 0x4f, 0x52, 0x10, 0x05,
+	0x12, 0x16, 0x0a, 0x12, 0x4c, 0x4f, 0x47, 0x5f, 0x4c, 0x45, 0x56, 0x45, 0x4c, 0x5f, 0x43, 0x52,
+	0x49, 0x54, 0x49, 0x43, 0x41, 0x4c, 0x10, 0x06, 0x42, 0x2f, 0x5a, 0x2d, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x54, 0x72, 0x61, 0x63, 0x65, 0x61, 0x62, 0x6c, 0x65,
+	0x61, 0x69, 0x2f, 0x61, 0x67, 0x65, 0x6e, 0x74, 0x2d, 0x63, 0x6f, 0x6e, 0x66, 0x69, 0x67, 0x2f,
+	0x67, 0x65, 0x6e, 0x2f, 0x67, 0x6f, 0x2f, 0x76, 0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -1020,64 +1148,67 @@ func file_ai_traceable_agent_config_v1_config_proto_rawDescGZIP() []byte {
 	return file_ai_traceable_agent_config_v1_config_proto_rawDescData
 }
 
+var file_ai_traceable_agent_config_v1_config_proto_enumTypes = make([]protoimpl.EnumInfo, 2)
 var file_ai_traceable_agent_config_v1_config_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
 var file_ai_traceable_agent_config_v1_config_proto_goTypes = []interface{}{
-	(*AgentConfig)(nil),            // 0: ai.traceable.agent.config.v1.AgentConfig
-	(*Opa)(nil),                    // 1: ai.traceable.agent.config.v1.Opa
-	(*BlockingConfig)(nil),         // 2: ai.traceable.agent.config.v1.BlockingConfig
-	(*ModsecurityConfig)(nil),      // 3: ai.traceable.agent.config.v1.ModsecurityConfig
-	(*RegionBlockingConfig)(nil),   // 4: ai.traceable.agent.config.v1.RegionBlockingConfig
-	(*RemoteConfig)(nil),           // 5: ai.traceable.agent.config.v1.RemoteConfig
-	(*ApiDiscoveryConfig)(nil),     // 6: ai.traceable.agent.config.v1.ApiDiscoveryConfig
-	(*SamplingConfig)(nil),         // 7: ai.traceable.agent.config.v1.SamplingConfig
-	(*Javaagent)(nil),              // 8: ai.traceable.agent.config.v1.Javaagent
-	(*LogConfig)(nil),              // 9: ai.traceable.agent.config.v1.LogConfig
-	(*LogFileConfig)(nil),          // 10: ai.traceable.agent.config.v1.LogFileConfig
-	(*wrapperspb.BoolValue)(nil),   // 11: google.protobuf.BoolValue
-	(*wrapperspb.StringValue)(nil), // 12: google.protobuf.StringValue
-	(*wrapperspb.Int32Value)(nil),  // 13: google.protobuf.Int32Value
+	(Mode)(0),                      // 0: ai.traceable.agent.config.v1.Mode
+	(Level)(0),                     // 1: ai.traceable.agent.config.v1.Level
+	(*AgentConfig)(nil),            // 2: ai.traceable.agent.config.v1.AgentConfig
+	(*Opa)(nil),                    // 3: ai.traceable.agent.config.v1.Opa
+	(*BlockingConfig)(nil),         // 4: ai.traceable.agent.config.v1.BlockingConfig
+	(*ModsecurityConfig)(nil),      // 5: ai.traceable.agent.config.v1.ModsecurityConfig
+	(*RegionBlockingConfig)(nil),   // 6: ai.traceable.agent.config.v1.RegionBlockingConfig
+	(*RemoteConfig)(nil),           // 7: ai.traceable.agent.config.v1.RemoteConfig
+	(*ApiDiscoveryConfig)(nil),     // 8: ai.traceable.agent.config.v1.ApiDiscoveryConfig
+	(*SamplingConfig)(nil),         // 9: ai.traceable.agent.config.v1.SamplingConfig
+	(*Javaagent)(nil),              // 10: ai.traceable.agent.config.v1.Javaagent
+	(*LogConfig)(nil),              // 11: ai.traceable.agent.config.v1.LogConfig
+	(*LogFileConfig)(nil),          // 12: ai.traceable.agent.config.v1.LogFileConfig
+	(*wrapperspb.BoolValue)(nil),   // 13: google.protobuf.BoolValue
+	(*wrapperspb.StringValue)(nil), // 14: google.protobuf.StringValue
+	(*wrapperspb.Int32Value)(nil),  // 15: google.protobuf.Int32Value
 }
 var file_ai_traceable_agent_config_v1_config_proto_depIdxs = []int32{
-	1,  // 0: ai.traceable.agent.config.v1.AgentConfig.opa:type_name -> ai.traceable.agent.config.v1.Opa
-	2,  // 1: ai.traceable.agent.config.v1.AgentConfig.blocking_config:type_name -> ai.traceable.agent.config.v1.BlockingConfig
-	11, // 2: ai.traceable.agent.config.v1.AgentConfig.debug_log:type_name -> google.protobuf.BoolValue
-	5,  // 3: ai.traceable.agent.config.v1.AgentConfig.remote_config:type_name -> ai.traceable.agent.config.v1.RemoteConfig
-	6,  // 4: ai.traceable.agent.config.v1.AgentConfig.api_discovery:type_name -> ai.traceable.agent.config.v1.ApiDiscoveryConfig
-	7,  // 5: ai.traceable.agent.config.v1.AgentConfig.sampling:type_name -> ai.traceable.agent.config.v1.SamplingConfig
-	8,  // 6: ai.traceable.agent.config.v1.AgentConfig.javaagent:type_name -> ai.traceable.agent.config.v1.Javaagent
-	9,  // 7: ai.traceable.agent.config.v1.AgentConfig.logging:type_name -> ai.traceable.agent.config.v1.LogConfig
-	11, // 8: ai.traceable.agent.config.v1.Opa.enabled:type_name -> google.protobuf.BoolValue
-	12, // 9: ai.traceable.agent.config.v1.Opa.endpoint:type_name -> google.protobuf.StringValue
-	13, // 10: ai.traceable.agent.config.v1.Opa.poll_period_seconds:type_name -> google.protobuf.Int32Value
-	12, // 11: ai.traceable.agent.config.v1.Opa.cert_file:type_name -> google.protobuf.StringValue
-	11, // 12: ai.traceable.agent.config.v1.Opa.use_secure_connection:type_name -> google.protobuf.BoolValue
-	11, // 13: ai.traceable.agent.config.v1.BlockingConfig.enabled:type_name -> google.protobuf.BoolValue
-	11, // 14: ai.traceable.agent.config.v1.BlockingConfig.debug_log:type_name -> google.protobuf.BoolValue
-	3,  // 15: ai.traceable.agent.config.v1.BlockingConfig.modsecurity:type_name -> ai.traceable.agent.config.v1.ModsecurityConfig
-	11, // 16: ai.traceable.agent.config.v1.BlockingConfig.evaluate_body:type_name -> google.protobuf.BoolValue
-	4,  // 17: ai.traceable.agent.config.v1.BlockingConfig.region_blocking:type_name -> ai.traceable.agent.config.v1.RegionBlockingConfig
-	5,  // 18: ai.traceable.agent.config.v1.BlockingConfig.remote_config:type_name -> ai.traceable.agent.config.v1.RemoteConfig
-	11, // 19: ai.traceable.agent.config.v1.BlockingConfig.skip_internal_request:type_name -> google.protobuf.BoolValue
-	13, // 20: ai.traceable.agent.config.v1.BlockingConfig.response_status_code:type_name -> google.protobuf.Int32Value
-	13, // 21: ai.traceable.agent.config.v1.BlockingConfig.max_recursion_depth:type_name -> google.protobuf.Int32Value
-	12, // 22: ai.traceable.agent.config.v1.BlockingConfig.response_message:type_name -> google.protobuf.StringValue
-	11, // 23: ai.traceable.agent.config.v1.ModsecurityConfig.enabled:type_name -> google.protobuf.BoolValue
-	11, // 24: ai.traceable.agent.config.v1.RegionBlockingConfig.enabled:type_name -> google.protobuf.BoolValue
-	11, // 25: ai.traceable.agent.config.v1.RemoteConfig.enabled:type_name -> google.protobuf.BoolValue
-	12, // 26: ai.traceable.agent.config.v1.RemoteConfig.endpoint:type_name -> google.protobuf.StringValue
-	13, // 27: ai.traceable.agent.config.v1.RemoteConfig.poll_period_seconds:type_name -> google.protobuf.Int32Value
-	12, // 28: ai.traceable.agent.config.v1.RemoteConfig.cert_file:type_name -> google.protobuf.StringValue
-	13, // 29: ai.traceable.agent.config.v1.RemoteConfig.grpc_max_call_recv_msg_size:type_name -> google.protobuf.Int32Value
-	11, // 30: ai.traceable.agent.config.v1.RemoteConfig.use_secure_connection:type_name -> google.protobuf.BoolValue
-	11, // 31: ai.traceable.agent.config.v1.ApiDiscoveryConfig.enabled:type_name -> google.protobuf.BoolValue
-	11, // 32: ai.traceable.agent.config.v1.SamplingConfig.enabled:type_name -> google.protobuf.BoolValue
-	11, // 33: ai.traceable.agent.config.v1.Javaagent.import_jks_certs:type_name -> google.protobuf.BoolValue
-	12, // 34: ai.traceable.agent.config.v1.LogConfig.mode:type_name -> google.protobuf.StringValue
-	12, // 35: ai.traceable.agent.config.v1.LogConfig.level:type_name -> google.protobuf.StringValue
-	10, // 36: ai.traceable.agent.config.v1.LogConfig.log_file:type_name -> ai.traceable.agent.config.v1.LogFileConfig
-	13, // 37: ai.traceable.agent.config.v1.LogFileConfig.max_files:type_name -> google.protobuf.Int32Value
-	13, // 38: ai.traceable.agent.config.v1.LogFileConfig.max_file_size:type_name -> google.protobuf.Int32Value
-	12, // 39: ai.traceable.agent.config.v1.LogFileConfig.file_path:type_name -> google.protobuf.StringValue
+	3,  // 0: ai.traceable.agent.config.v1.AgentConfig.opa:type_name -> ai.traceable.agent.config.v1.Opa
+	4,  // 1: ai.traceable.agent.config.v1.AgentConfig.blocking_config:type_name -> ai.traceable.agent.config.v1.BlockingConfig
+	13, // 2: ai.traceable.agent.config.v1.AgentConfig.debug_log:type_name -> google.protobuf.BoolValue
+	7,  // 3: ai.traceable.agent.config.v1.AgentConfig.remote_config:type_name -> ai.traceable.agent.config.v1.RemoteConfig
+	8,  // 4: ai.traceable.agent.config.v1.AgentConfig.api_discovery:type_name -> ai.traceable.agent.config.v1.ApiDiscoveryConfig
+	9,  // 5: ai.traceable.agent.config.v1.AgentConfig.sampling:type_name -> ai.traceable.agent.config.v1.SamplingConfig
+	10, // 6: ai.traceable.agent.config.v1.AgentConfig.javaagent:type_name -> ai.traceable.agent.config.v1.Javaagent
+	11, // 7: ai.traceable.agent.config.v1.AgentConfig.logging:type_name -> ai.traceable.agent.config.v1.LogConfig
+	13, // 8: ai.traceable.agent.config.v1.Opa.enabled:type_name -> google.protobuf.BoolValue
+	14, // 9: ai.traceable.agent.config.v1.Opa.endpoint:type_name -> google.protobuf.StringValue
+	15, // 10: ai.traceable.agent.config.v1.Opa.poll_period_seconds:type_name -> google.protobuf.Int32Value
+	14, // 11: ai.traceable.agent.config.v1.Opa.cert_file:type_name -> google.protobuf.StringValue
+	13, // 12: ai.traceable.agent.config.v1.Opa.use_secure_connection:type_name -> google.protobuf.BoolValue
+	13, // 13: ai.traceable.agent.config.v1.BlockingConfig.enabled:type_name -> google.protobuf.BoolValue
+	13, // 14: ai.traceable.agent.config.v1.BlockingConfig.debug_log:type_name -> google.protobuf.BoolValue
+	5,  // 15: ai.traceable.agent.config.v1.BlockingConfig.modsecurity:type_name -> ai.traceable.agent.config.v1.ModsecurityConfig
+	13, // 16: ai.traceable.agent.config.v1.BlockingConfig.evaluate_body:type_name -> google.protobuf.BoolValue
+	6,  // 17: ai.traceable.agent.config.v1.BlockingConfig.region_blocking:type_name -> ai.traceable.agent.config.v1.RegionBlockingConfig
+	7,  // 18: ai.traceable.agent.config.v1.BlockingConfig.remote_config:type_name -> ai.traceable.agent.config.v1.RemoteConfig
+	13, // 19: ai.traceable.agent.config.v1.BlockingConfig.skip_internal_request:type_name -> google.protobuf.BoolValue
+	15, // 20: ai.traceable.agent.config.v1.BlockingConfig.response_status_code:type_name -> google.protobuf.Int32Value
+	15, // 21: ai.traceable.agent.config.v1.BlockingConfig.max_recursion_depth:type_name -> google.protobuf.Int32Value
+	14, // 22: ai.traceable.agent.config.v1.BlockingConfig.response_message:type_name -> google.protobuf.StringValue
+	13, // 23: ai.traceable.agent.config.v1.ModsecurityConfig.enabled:type_name -> google.protobuf.BoolValue
+	13, // 24: ai.traceable.agent.config.v1.RegionBlockingConfig.enabled:type_name -> google.protobuf.BoolValue
+	13, // 25: ai.traceable.agent.config.v1.RemoteConfig.enabled:type_name -> google.protobuf.BoolValue
+	14, // 26: ai.traceable.agent.config.v1.RemoteConfig.endpoint:type_name -> google.protobuf.StringValue
+	15, // 27: ai.traceable.agent.config.v1.RemoteConfig.poll_period_seconds:type_name -> google.protobuf.Int32Value
+	14, // 28: ai.traceable.agent.config.v1.RemoteConfig.cert_file:type_name -> google.protobuf.StringValue
+	15, // 29: ai.traceable.agent.config.v1.RemoteConfig.grpc_max_call_recv_msg_size:type_name -> google.protobuf.Int32Value
+	13, // 30: ai.traceable.agent.config.v1.RemoteConfig.use_secure_connection:type_name -> google.protobuf.BoolValue
+	13, // 31: ai.traceable.agent.config.v1.ApiDiscoveryConfig.enabled:type_name -> google.protobuf.BoolValue
+	13, // 32: ai.traceable.agent.config.v1.SamplingConfig.enabled:type_name -> google.protobuf.BoolValue
+	13, // 33: ai.traceable.agent.config.v1.Javaagent.import_jks_certs:type_name -> google.protobuf.BoolValue
+	0,  // 34: ai.traceable.agent.config.v1.LogConfig.mode:type_name -> ai.traceable.agent.config.v1.Mode
+	1,  // 35: ai.traceable.agent.config.v1.LogConfig.level:type_name -> ai.traceable.agent.config.v1.Level
+	12, // 36: ai.traceable.agent.config.v1.LogConfig.log_file:type_name -> ai.traceable.agent.config.v1.LogFileConfig
+	15, // 37: ai.traceable.agent.config.v1.LogFileConfig.max_files:type_name -> google.protobuf.Int32Value
+	15, // 38: ai.traceable.agent.config.v1.LogFileConfig.max_file_size:type_name -> google.protobuf.Int32Value
+	14, // 39: ai.traceable.agent.config.v1.LogFileConfig.file_path:type_name -> google.protobuf.StringValue
 	40, // [40:40] is the sub-list for method output_type
 	40, // [40:40] is the sub-list for method input_type
 	40, // [40:40] is the sub-list for extension type_name
@@ -1229,13 +1360,14 @@ func file_ai_traceable_agent_config_v1_config_proto_init() {
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_ai_traceable_agent_config_v1_config_proto_rawDesc,
-			NumEnums:      0,
+			NumEnums:      2,
 			NumMessages:   11,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_ai_traceable_agent_config_v1_config_proto_goTypes,
 		DependencyIndexes: file_ai_traceable_agent_config_v1_config_proto_depIdxs,
+		EnumInfos:         file_ai_traceable_agent_config_v1_config_proto_enumTypes,
 		MessageInfos:      file_ai_traceable_agent_config_v1_config_proto_msgTypes,
 	}.Build()
 	File_ai_traceable_agent_config_v1_config_proto = out.File
