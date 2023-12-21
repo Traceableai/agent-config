@@ -372,26 +372,18 @@ func (x *Javaagent) loadFromEnv(prefix string, defaultValues *Javaagent) {
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *LogConfig) loadFromEnv(prefix string, defaultValues *LogConfig) {
-	if val, ok := getStringEnv(prefix + "MODE"); ok {
-		x.Mode = &wrappers.StringValue{Value: val}
-	} else if x.Mode == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.Mode = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.Mode != nil {
-			x.Mode = &wrappers.StringValue{Value: defaultValues.Mode.Value}
-		}
+	if rawVal, ok := getStringEnv(prefix + "MODE"); ok {
+		x.Mode = Mode(Mode_value[rawVal])
+	} else if x.Mode == Mode(0) && defaultValues != nil && defaultValues.Mode != Mode(0) {
+		x.Mode = defaultValues.Mode
 	}
-	if val, ok := getStringEnv(prefix + "LEVEL"); ok {
-		x.Level = &wrappers.StringValue{Value: val}
-	} else if x.Level == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.Level = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.Level != nil {
-			x.Level = &wrappers.StringValue{Value: defaultValues.Level.Value}
-		}
+
+	if rawVal, ok := getStringEnv(prefix + "LEVEL"); ok {
+		x.Level = Level(Level_value[rawVal])
+	} else if x.Level == Level(0) && defaultValues != nil && defaultValues.Level != Level(0) {
+		x.Level = defaultValues.Level
 	}
+
 	if x.LogFile == nil {
 		x.LogFile = new(LogFileConfig)
 	}
