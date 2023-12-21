@@ -372,16 +372,16 @@ func (x *Javaagent) loadFromEnv(prefix string, defaultValues *Javaagent) {
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *LogConfig) loadFromEnv(prefix string, defaultValues *LogConfig) {
-	if rawVal, ok := getStringEnv(prefix + "MODE"); ok {
-		x.Mode = Mode(Mode_value[rawVal])
-	} else if x.Mode == Mode(0) && defaultValues != nil && defaultValues.Mode != Mode(0) {
-		x.Mode = defaultValues.Mode
+	if rawVal, ok := getStringEnv(prefix + "LOG_MODE"); ok {
+		x.LogMode = LogMode(LogMode_value[rawVal])
+	} else if x.LogMode == LogMode(0) && defaultValues != nil && defaultValues.LogMode != LogMode(0) {
+		x.LogMode = defaultValues.LogMode
 	}
 
-	if rawVal, ok := getStringEnv(prefix + "LEVEL"); ok {
-		x.Level = Level(Level_value[rawVal])
-	} else if x.Level == Level(0) && defaultValues != nil && defaultValues.Level != Level(0) {
-		x.Level = defaultValues.Level
+	if rawVal, ok := getStringEnv(prefix + "LOG_LEVEL"); ok {
+		x.LogLevel = LogLevel(LogLevel_value[rawVal])
+	} else if x.LogLevel == LogLevel(0) && defaultValues != nil && defaultValues.LogLevel != LogLevel(0) {
+		x.LogLevel = defaultValues.LogLevel
 	}
 
 	if x.LogFile == nil {
