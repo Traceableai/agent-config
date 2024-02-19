@@ -1002,7 +1002,7 @@ type MetricsConfig struct {
 
 	// set this flag to enable metrics
 	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// set the frequency at which endpoint level metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
+	// set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
 	Frequency *wrapperspb.StringValue `protobuf:"bytes,2,opt,name=frequency,proto3" json:"frequency,omitempty"`
 	// endpoint level configuration
 	EndpointConfig *EndpointMetricsConfig `protobuf:"bytes,3,opt,name=endpoint_config,json=endpointConfig,proto3" json:"endpoint_config,omitempty"`

@@ -144,7 +144,7 @@ message EndpointMetricsConfig {
 message MetricsConfig {
     // set this flag to enable metrics
     google.protobuf.BoolValue enabled = 1;
-    // set the frequency at which endpoint level metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
+    // set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
     google.protobuf.StringValue frequency = 2;
     // endpoint level configuration
     EndpointMetricsConfig endpoint_config = 3;
