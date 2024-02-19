@@ -79,6 +79,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.Logging.loadFromEnv(prefix+"LOGGING_", defaultValues.Logging)
 	}
 
+	if x.MetricsConfig == nil {
+		x.MetricsConfig = new(MetricsConfig)
+	}
+	if defaultValues == nil {
+		x.MetricsConfig.loadFromEnv(prefix+"METRICS_CONFIG_", nil)
+	} else {
+		x.MetricsConfig.loadFromEnv(prefix+"METRICS_CONFIG_", defaultValues.MetricsConfig)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -427,4 +436,71 @@ func (x *LogFileConfig) loadFromEnv(prefix string, defaultValues *LogFileConfig)
 			x.FilePath = &wrappers.StringValue{Value: defaultValues.FilePath.Value}
 		}
 	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *EndpointMetricsConfig) loadFromEnv(prefix string, defaultValues *EndpointMetricsConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "FREQUENCY"); ok {
+		x.Frequency = &wrappers.StringValue{Value: val}
+	} else if x.Frequency == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Frequency = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Frequency != nil {
+			x.Frequency = &wrappers.StringValue{Value: defaultValues.Frequency.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "MAX_ENDPOINTS"); ok {
+		x.MaxEndpoints = &wrappers.Int32Value{Value: val}
+	} else if x.MaxEndpoints == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxEndpoints = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxEndpoints != nil {
+			x.MaxEndpoints = &wrappers.Int32Value{Value: defaultValues.MaxEndpoints.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *MetricsConfig) loadFromEnv(prefix string, defaultValues *MetricsConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "FREQUENCY"); ok {
+		x.Frequency = &wrappers.StringValue{Value: val}
+	} else if x.Frequency == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Frequency = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Frequency != nil {
+			x.Frequency = &wrappers.StringValue{Value: defaultValues.Frequency.Value}
+		}
+	}
+	if x.EndpointConfig == nil {
+		x.EndpointConfig = new(EndpointMetricsConfig)
+	}
+	if defaultValues == nil {
+		x.EndpointConfig.loadFromEnv(prefix+"ENDPOINT_CONFIG_", nil)
+	} else {
+		x.EndpointConfig.loadFromEnv(prefix+"ENDPOINT_CONFIG_", defaultValues.EndpointConfig)
+	}
+
 }
