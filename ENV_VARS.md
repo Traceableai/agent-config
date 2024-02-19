@@ -40,7 +40,7 @@ Agents can be configured using environment variables:
 | TA_LOGGING_LOG_FILE_MAX_FILES | Maximum number of log files to keep |
 | TA_LOGGING_LOG_FILE_MAX_FILE_SIZE | Maximum file size of the log files. Default value is 10485760 (10MB). |
 | TA_LOGGING_LOG_FILE_FILE_PATH | File path for the log file. Default value is /var/traceable/log/libtraceable.log |
-| TA_METRICS_CONFIG_ENABLED | Set this flag to enable endpoint level metrics |
+| TA_METRICS_CONFIG_ENABLED | Set this flag to enable metrics |
 | TA_METRICS_CONFIG_FREQUENCY | Set the frequency at which endpoint level metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
 | TA_METRICS_CONFIG_ENDPOINT_CONFIG_ENABLED | Set this flag to enable endpoint level metrics |
 | TA_METRICS_CONFIG_ENDPOINT_CONFIG_FREQUENCY | Set the frequency at which endpoint level metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
