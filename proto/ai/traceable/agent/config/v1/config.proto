@@ -169,9 +169,9 @@ message RateLimitConfig {
       // set this flag to enable rate limiter
       google.protobuf.BoolValue enabled = 1;
       // total number of requests to be rate limited in a given time window
-      google.protobuf.Int32Value max_count_global = 2;
+      google.protobuf.Int64Value max_count_global = 2;
       // number of requests per endpoint to be rate limited in a given time window
-      google.protobuf.Int32Value max_count_per_endpoint = 3;
+      google.protobuf.Int64Value max_count_per_endpoint = 3;
       // set the interval for rate limiter buckets to be reset. Examples are '1s', '2m', '3h'. 
       google.protobuf.StringValue refresh_period = 4;
       // set the interval for rate limiter cache to be reset. Examples are '1s', '2m', '3h'. 

@@ -548,24 +548,24 @@ func (x *RateLimitConfig) loadFromEnv(prefix string, defaultValues *RateLimitCon
 			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
-	if val, ok := getInt32Env(prefix + "MAX_COUNT_GLOBAL"); ok {
-		x.MaxCountGlobal = &wrappers.Int32Value{Value: val}
+	if val, ok := getInt64Env(prefix + "MAX_COUNT_GLOBAL"); ok {
+		x.MaxCountGlobal = &wrappers.Int64Value{Value: val}
 	} else if x.MaxCountGlobal == nil {
 		// when there is no value to set we still prefer to initialize the variable to avoid
 		// `nil` checks in the consumers.
-		x.MaxCountGlobal = new(wrappers.Int32Value)
+		x.MaxCountGlobal = new(wrappers.Int64Value)
 		if defaultValues != nil && defaultValues.MaxCountGlobal != nil {
-			x.MaxCountGlobal = &wrappers.Int32Value{Value: defaultValues.MaxCountGlobal.Value}
+			x.MaxCountGlobal = &wrappers.Int64Value{Value: defaultValues.MaxCountGlobal.Value}
 		}
 	}
-	if val, ok := getInt32Env(prefix + "MAX_COUNT_PER_ENDPOINT"); ok {
-		x.MaxCountPerEndpoint = &wrappers.Int32Value{Value: val}
+	if val, ok := getInt64Env(prefix + "MAX_COUNT_PER_ENDPOINT"); ok {
+		x.MaxCountPerEndpoint = &wrappers.Int64Value{Value: val}
 	} else if x.MaxCountPerEndpoint == nil {
 		// when there is no value to set we still prefer to initialize the variable to avoid
 		// `nil` checks in the consumers.
-		x.MaxCountPerEndpoint = new(wrappers.Int32Value)
+		x.MaxCountPerEndpoint = new(wrappers.Int64Value)
 		if defaultValues != nil && defaultValues.MaxCountPerEndpoint != nil {
-			x.MaxCountPerEndpoint = &wrappers.Int32Value{Value: defaultValues.MaxCountPerEndpoint.Value}
+			x.MaxCountPerEndpoint = &wrappers.Int64Value{Value: defaultValues.MaxCountPerEndpoint.Value}
 		}
 	}
 	if val, ok := getStringEnv(prefix + "REFRESH_PERIOD"); ok {
