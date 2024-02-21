@@ -92,6 +92,7 @@ message ApiDiscoveryConfig {
 
 message SamplingConfig {
   google.protobuf.BoolValue enabled = 1;
+  RateLimitConfig default_rate_limit_config = 2;
 }
 
 message Javaagent {
@@ -155,4 +156,26 @@ message MetricsConfig {
     EndpointMetricsConfig endpoint_config = 2;
     // config for printing metrics in logs
     MetricsLogConfig logging = 3;
+}
+
+enum SpanType {
+  SPAN_TYPE_UNSPECIFIED = 0;
+  SPAN_TYPE_NO_SPAN = 1;
+  SPAN_TYPE_BARE_SPAN = 2;
+  SPAN_TYPE_FULL_SPAN = 3;
+}
+
+message RateLimitConfig {
+      // set this flag to enable rate limiter
+      google.protobuf.BoolValue enabled = 1;
+      // total number of requests to be rate limited in a given time window
+      google.protobuf.Int64Value max_count_global = 2;
+      // number of requests per endpoint to be rate limited in a given time window
+      google.protobuf.Int64Value max_count_per_endpoint = 3;
+      // set the interval for rate limiter buckets to be reset. Examples are '1s', '2m', '3h'. 
+      google.protobuf.StringValue refresh_period = 4;
+      // set the interval for rate limiter cache to be reset. Examples are '1s', '2m', '3h'. 
+      google.protobuf.StringValue value_expiration_period = 5;
+      // set the span type for rate limited spans
+      SpanType span_type = 6;
 }
