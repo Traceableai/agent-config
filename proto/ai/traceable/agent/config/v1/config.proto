@@ -16,6 +16,7 @@ message AgentConfig {
   // javaagent has the configs specific to javaagent
   Javaagent javaagent = 7;
   LogConfig logging = 8;
+  MetricsConfig metrics_config = 9;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
@@ -129,4 +130,29 @@ message LogFileConfig {
   google.protobuf.Int32Value max_file_size = 2;
   // file path for the log file. Default value is /var/traceable/log/libtraceable.log
   google.protobuf.StringValue file_path = 3;
+}
+
+message MetricsLogConfig {
+    // set this flag to print metrics in logs
+    google.protobuf.BoolValue enabled = 1;
+    // set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
+    google.protobuf.StringValue frequency = 2;
+}
+
+message EndpointMetricsConfig {
+  // set this flag to enable endpoint level metrics
+  google.protobuf.BoolValue enabled = 1;
+  // set the max number of endpoints to track
+  google.protobuf.Int32Value max_endpoints = 2;
+  // config for printing endpoint metrics in logs
+  MetricsLogConfig logging = 3;
+}
+
+message MetricsConfig {
+    // set this flag to enable metrics
+    google.protobuf.BoolValue enabled = 1;
+    // endpoint level configuration
+    EndpointMetricsConfig endpoint_config = 2;
+    // config for printing metrics in logs
+    MetricsLogConfig logging = 3;
 }
