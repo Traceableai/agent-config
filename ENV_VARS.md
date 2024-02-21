@@ -36,6 +36,11 @@ Agents can be configured using environment variables:
 | TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_API_DISCOVERY_ENABLED |  |
 | TA_SAMPLING_ENABLED |  |
+| TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_ENABLED | Set this flag to enable rate limiter |
+| TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_MAX_COUNT_GLOBAL | Total number of requests to be rate limited in a given time window |
+| TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_MAX_COUNT_PER_ENDPOINT | Number of requests per endpoint to be rate limited in a given time window |
+| TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_REFRESH_PERIOD | Set the interval for rate limiter buckets to be reset. Examples are '1s', '2m', '3h'. |
+| TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_VALUE_EXPIRATION_PERIOD | Set the interval for rate limiter cache to be reset. Examples are '1s', '2m', '3h'. |
 | TA_JAVAAGENT_IMPORT_JKS_CERTS | Set this flag to export certificates configured in JKS to libtraceable for making HTTPS connection to TPA. |
 | TA_LOGGING_LOG_FILE_MAX_FILES | Maximum number of log files to keep |
 | TA_LOGGING_LOG_FILE_MAX_FILE_SIZE | Maximum file size of the log files. Default value is 10485760 (10MB). |

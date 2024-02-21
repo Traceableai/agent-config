@@ -363,6 +363,15 @@ func (x *SamplingConfig) loadFromEnv(prefix string, defaultValues *SamplingConfi
 			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
+	if x.DefaultRateLimitConfig == nil {
+		x.DefaultRateLimitConfig = new(RateLimitConfig)
+	}
+	if defaultValues == nil {
+		x.DefaultRateLimitConfig.loadFromEnv(prefix+"DEFAULT_RATE_LIMIT_CONFIG_", nil)
+	} else {
+		x.DefaultRateLimitConfig.loadFromEnv(prefix+"DEFAULT_RATE_LIMIT_CONFIG_", defaultValues.DefaultRateLimitConfig)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -523,6 +532,66 @@ func (x *MetricsConfig) loadFromEnv(prefix string, defaultValues *MetricsConfig)
 		x.Logging.loadFromEnv(prefix+"LOGGING_", nil)
 	} else {
 		x.Logging.loadFromEnv(prefix+"LOGGING_", defaultValues.Logging)
+	}
+
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *RateLimitConfig) loadFromEnv(prefix string, defaultValues *RateLimitConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "MAX_COUNT_GLOBAL"); ok {
+		x.MaxCountGlobal = &wrappers.Int32Value{Value: val}
+	} else if x.MaxCountGlobal == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxCountGlobal = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxCountGlobal != nil {
+			x.MaxCountGlobal = &wrappers.Int32Value{Value: defaultValues.MaxCountGlobal.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "MAX_COUNT_PER_ENDPOINT"); ok {
+		x.MaxCountPerEndpoint = &wrappers.Int32Value{Value: val}
+	} else if x.MaxCountPerEndpoint == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxCountPerEndpoint = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxCountPerEndpoint != nil {
+			x.MaxCountPerEndpoint = &wrappers.Int32Value{Value: defaultValues.MaxCountPerEndpoint.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "REFRESH_PERIOD"); ok {
+		x.RefreshPeriod = &wrappers.StringValue{Value: val}
+	} else if x.RefreshPeriod == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.RefreshPeriod = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.RefreshPeriod != nil {
+			x.RefreshPeriod = &wrappers.StringValue{Value: defaultValues.RefreshPeriod.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "VALUE_EXPIRATION_PERIOD"); ok {
+		x.ValueExpirationPeriod = &wrappers.StringValue{Value: val}
+	} else if x.ValueExpirationPeriod == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ValueExpirationPeriod = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.ValueExpirationPeriod != nil {
+			x.ValueExpirationPeriod = &wrappers.StringValue{Value: defaultValues.ValueExpirationPeriod.Value}
+		}
+	}
+	if rawVal, ok := getStringEnv(prefix + "SPAN_TYPE"); ok {
+		x.SpanType = SpanType(SpanType_value[rawVal])
+	} else if x.SpanType == SpanType(0) && defaultValues != nil && defaultValues.SpanType != SpanType(0) {
+		x.SpanType = defaultValues.SpanType
 	}
 
 }
