@@ -5,6 +5,7 @@ package ai.traceable.agent.config.v1;
 import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/Traceableai/agent-config/gen/go/v1";
+option csharp_namespace = "Traceable.Agent.Config.V1";
 
 message AgentConfig {
   Opa opa = 1 [deprecated = true];
