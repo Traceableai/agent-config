@@ -11,7 +11,7 @@ message AgentConfig {
   BlockingConfig blocking_config = 2;
   google.protobuf.BoolValue debug_log = 3 [deprecated = true];
   RemoteConfig remote_config = 4;
-  ApiDiscoveryConfig api_discovery = 5;
+  ApiDiscoveryConfig api_discovery = 5 [deprecated = true];
   SamplingConfig sampling = 6;
   // javaagent has the configs specific to javaagent
   Javaagent javaagent = 7;
