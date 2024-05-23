@@ -52,3 +52,4 @@ Agents can be configured using environment variables:
 | TA_METRICS_CONFIG_ENDPOINT_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
 | TA_METRICS_CONFIG_LOGGING_ENABLED | Set this flag to print metrics in logs |
 | TA_METRICS_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
+| TA_ENVIRONMENT | Represents the environment name of agent |
