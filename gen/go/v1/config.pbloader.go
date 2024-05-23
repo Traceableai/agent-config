@@ -88,6 +88,16 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.MetricsConfig.loadFromEnv(prefix+"METRICS_CONFIG_", defaultValues.MetricsConfig)
 	}
 
+	if val, ok := getStringEnv(prefix + "ENVIRONMENT"); ok {
+		x.Environment = &wrappers.StringValue{Value: val}
+	} else if x.Environment == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Environment = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Environment != nil {
+			x.Environment = &wrappers.StringValue{Value: defaultValues.Environment.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.

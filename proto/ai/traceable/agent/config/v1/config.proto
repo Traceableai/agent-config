@@ -17,6 +17,8 @@ message AgentConfig {
   Javaagent javaagent = 7;
   LogConfig logging = 8;
   MetricsConfig metrics_config = 9;
+  // represents the environment name of agent
+  google.protobuf.StringValue environment = 10;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
