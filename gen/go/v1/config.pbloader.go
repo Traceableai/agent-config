@@ -88,16 +88,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.MetricsConfig.loadFromEnv(prefix+"METRICS_CONFIG_", defaultValues.MetricsConfig)
 	}
 
-	if val, ok := getStringEnv(prefix + "ENVIRONMENT"); ok {
-		x.Environment = &wrappers.StringValue{Value: val}
-	} else if x.Environment == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.Environment = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.Environment != nil {
-			x.Environment = &wrappers.StringValue{Value: defaultValues.Environment.Value}
-		}
+	if x.AgentAttributesConfig == nil {
+		x.AgentAttributesConfig = new(AgentAttributesConfig)
 	}
+	if defaultValues == nil {
+		x.AgentAttributesConfig.loadFromEnv(prefix+"AGENT_ATTRIBUTES_CONFIG_", nil)
+	} else {
+		x.AgentAttributesConfig.loadFromEnv(prefix+"AGENT_ATTRIBUTES_CONFIG_", defaultValues.AgentAttributesConfig)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -604,4 +603,18 @@ func (x *RateLimitConfig) loadFromEnv(prefix string, defaultValues *RateLimitCon
 		x.SpanType = defaultValues.SpanType
 	}
 
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *AgentAttributesConfig) loadFromEnv(prefix string, defaultValues *AgentAttributesConfig) {
+	if val, ok := getStringEnv(prefix + "ENVIRONMENT"); ok {
+		x.Environment = &wrappers.StringValue{Value: val}
+	} else if x.Environment == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Environment = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Environment != nil {
+			x.Environment = &wrappers.StringValue{Value: defaultValues.Environment.Value}
+		}
+	}
 }
