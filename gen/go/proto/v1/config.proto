@@ -18,8 +18,8 @@ message AgentConfig {
   Javaagent javaagent = 7;
   LogConfig logging = 8;
   MetricsConfig metrics_config = 9;
-  // AgentAttributesConfig has the parameters specific to an agent
-  AgentAttributesConfig agent_attributes_config = 10;
+  // AgentHostAttributesConfig contains attributes that are specific to agent
+  AgentHostAttributesConfig agent_host_attributes = 10;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
@@ -183,7 +183,7 @@ message RateLimitConfig {
       SpanType span_type = 6;
 }
 
-message AgentAttributesConfig {
+message AgentHostAttributesConfig {
   // represents the environment name of agent
   google.protobuf.StringValue environment = 1;
 }

@@ -88,13 +88,13 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.MetricsConfig.loadFromEnv(prefix+"METRICS_CONFIG_", defaultValues.MetricsConfig)
 	}
 
-	if x.AgentAttributesConfig == nil {
-		x.AgentAttributesConfig = new(AgentAttributesConfig)
+	if x.AgentHostAttributes == nil {
+		x.AgentHostAttributes = new(AgentHostAttributesConfig)
 	}
 	if defaultValues == nil {
-		x.AgentAttributesConfig.loadFromEnv(prefix+"AGENT_ATTRIBUTES_CONFIG_", nil)
+		x.AgentHostAttributes.loadFromEnv(prefix+"AGENT_HOST_ATTRIBUTES_", nil)
 	} else {
-		x.AgentAttributesConfig.loadFromEnv(prefix+"AGENT_ATTRIBUTES_CONFIG_", defaultValues.AgentAttributesConfig)
+		x.AgentHostAttributes.loadFromEnv(prefix+"AGENT_HOST_ATTRIBUTES_", defaultValues.AgentHostAttributes)
 	}
 
 }
@@ -606,7 +606,7 @@ func (x *RateLimitConfig) loadFromEnv(prefix string, defaultValues *RateLimitCon
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
-func (x *AgentAttributesConfig) loadFromEnv(prefix string, defaultValues *AgentAttributesConfig) {
+func (x *AgentHostAttributesConfig) loadFromEnv(prefix string, defaultValues *AgentHostAttributesConfig) {
 	if val, ok := getStringEnv(prefix + "ENVIRONMENT"); ok {
 		x.Environment = &wrappers.StringValue{Value: val}
 	} else if x.Environment == nil {
