@@ -98,6 +98,173 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 			x.Environment = &wrappers.StringValue{Value: defaultValues.Environment.Value}
 		}
 	}
+	if val, ok := getStringEnv(prefix + "SERVICE_NAME"); ok {
+		x.ServiceName = &wrappers.StringValue{Value: val}
+	} else if x.ServiceName == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ServiceName = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.ServiceName != nil {
+			x.ServiceName = &wrappers.StringValue{Value: defaultValues.ServiceName.Value}
+		}
+	}
+	if x.Reporting == nil {
+		x.Reporting = new(Reporting)
+	}
+	if defaultValues == nil {
+		x.Reporting.loadFromEnv(prefix+"REPORTING_", nil)
+	} else {
+		x.Reporting.loadFromEnv(prefix+"REPORTING_", defaultValues.Reporting)
+	}
+
+	if x.DataCapture == nil {
+		x.DataCapture = new(DataCapture)
+	}
+	if defaultValues == nil {
+		x.DataCapture.loadFromEnv(prefix+"DATA_CAPTURE_", nil)
+	} else {
+		x.DataCapture.loadFromEnv(prefix+"DATA_CAPTURE_", defaultValues.DataCapture)
+	}
+
+	if rawVals, ok := getArrayStringEnv(prefix + "PROPAGATION_FORMATS"); ok {
+		vals := []PropagationFormat{}
+		for _, rawVal := range rawVals {
+			vals = append(vals, PropagationFormat(PropagationFormat_value[rawVal]))
+		}
+		x.PropagationFormats = vals
+	} else if len(x.PropagationFormats) == 0 && defaultValues != nil && len(defaultValues.PropagationFormats) > 0 {
+		x.PropagationFormats = defaultValues.PropagationFormats
+	}
+
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if defaultValues != nil && len(defaultValues.ResourceAttributes) > 0 {
+		if x.ResourceAttributes == nil {
+			x.ResourceAttributes = make(map[string]string)
+		}
+		for k, v := range defaultValues.ResourceAttributes {
+			// defaults should not override existing resource attributes unless empty
+			if _, ok := x.ResourceAttributes[k]; !ok {
+				x.ResourceAttributes[k] = v
+			}
+		}
+	}
+
+	if x.Telemetry == nil {
+		x.Telemetry = new(Telemetry)
+	}
+	if defaultValues == nil {
+		x.Telemetry.loadFromEnv(prefix+"TELEMETRY_", nil)
+	} else {
+		x.Telemetry.loadFromEnv(prefix+"TELEMETRY_", defaultValues.Telemetry)
+	}
+
+	if x.Goagent == nil {
+		x.Goagent = new(GoAgent)
+	}
+	if defaultValues == nil {
+		x.Goagent.loadFromEnv(prefix+"GOAGENT_", nil)
+	} else {
+		x.Goagent.loadFromEnv(prefix+"GOAGENT_", defaultValues.Goagent)
+	}
+
+}
+
+// PutResourceAttributes sets values in the ResourceAttributes map.
+func (x *AgentConfig) PutResourceAttributes(m map[string]string) {
+	if len(m) == 0 {
+		return
+	}
+	if x.ResourceAttributes == nil {
+		x.ResourceAttributes = make(map[string]string)
+	}
+	for k, v := range m {
+		x.ResourceAttributes[k] = v
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *Reporting) loadFromEnv(prefix string, defaultValues *Reporting) {
+	if val, ok := getStringEnv(prefix + "ENDPOINT"); ok {
+		x.Endpoint = &wrappers.StringValue{Value: val}
+	} else if x.Endpoint == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Endpoint = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Endpoint != nil {
+			x.Endpoint = &wrappers.StringValue{Value: defaultValues.Endpoint.Value}
+		}
+	}
+	if val, ok := getBoolEnv(prefix + "SECURE"); ok {
+		x.Secure = &wrappers.BoolValue{Value: val}
+	} else if x.Secure == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Secure = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Secure != nil {
+			x.Secure = &wrappers.BoolValue{Value: defaultValues.Secure.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "TOKEN"); ok {
+		x.Token = &wrappers.StringValue{Value: val}
+	} else if x.Token == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Token = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Token != nil {
+			x.Token = &wrappers.StringValue{Value: defaultValues.Token.Value}
+		}
+	}
+	if rawVal, ok := getStringEnv(prefix + "TRACE_REPORTER_TYPE"); ok {
+		x.TraceReporterType = TraceReporterType(TraceReporterType_value[rawVal])
+	} else if x.TraceReporterType == TraceReporterType(0) && defaultValues != nil && defaultValues.TraceReporterType != TraceReporterType(0) {
+		x.TraceReporterType = defaultValues.TraceReporterType
+	}
+
+	if val, ok := getStringEnv(prefix + "CERT_FILE"); ok {
+		x.CertFile = &wrappers.StringValue{Value: val}
+	} else if x.CertFile == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.CertFile = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.CertFile != nil {
+			x.CertFile = &wrappers.StringValue{Value: defaultValues.CertFile.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "METRIC_ENDPOINT"); ok {
+		x.MetricEndpoint = &wrappers.StringValue{Value: val}
+	} else if x.MetricEndpoint == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MetricEndpoint = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.MetricEndpoint != nil {
+			x.MetricEndpoint = &wrappers.StringValue{Value: defaultValues.MetricEndpoint.Value}
+		}
+	}
+	if rawVal, ok := getStringEnv(prefix + "METRIC_REPORTER_TYPE"); ok {
+		x.MetricReporterType = MetricReporterType(MetricReporterType_value[rawVal])
+	} else if x.MetricReporterType == MetricReporterType(0) && defaultValues != nil && defaultValues.MetricReporterType != MetricReporterType(0) {
+		x.MetricReporterType = defaultValues.MetricReporterType
+	}
+
+	if val, ok := getBoolEnv(prefix + "ENABLE_GRPC_LOADBALANCING"); ok {
+		x.EnableGrpcLoadbalancing = &wrappers.BoolValue{Value: val}
+	} else if x.EnableGrpcLoadbalancing == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.EnableGrpcLoadbalancing = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.EnableGrpcLoadbalancing != nil {
+			x.EnableGrpcLoadbalancing = &wrappers.BoolValue{Value: defaultValues.EnableGrpcLoadbalancing.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -396,6 +563,14 @@ func (x *Javaagent) loadFromEnv(prefix string, defaultValues *Javaagent) {
 			x.ImportJksCerts = &wrappers.BoolValue{Value: defaultValues.ImportJksCerts.Value}
 		}
 	}
+	if rawVals, ok := getArrayStringEnv(prefix + "FILTER_JAR_PATHS"); ok {
+		for _, val := range rawVals {
+			x.FilterJarPaths = append(x.FilterJarPaths, wrappers.String(val))
+		}
+	} else if len(x.FilterJarPaths) == 0 && defaultValues != nil && len(defaultValues.FilterJarPaths) > 0 {
+		x.FilterJarPaths = defaultValues.FilterJarPaths
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -604,4 +779,134 @@ func (x *RateLimitConfig) loadFromEnv(prefix string, defaultValues *RateLimitCon
 		x.SpanType = defaultValues.SpanType
 	}
 
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *Message) loadFromEnv(prefix string, defaultValues *Message) {
+	if val, ok := getBoolEnv(prefix + "REQUEST"); ok {
+		x.Request = &wrappers.BoolValue{Value: val}
+	} else if x.Request == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Request = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Request != nil {
+			x.Request = &wrappers.BoolValue{Value: defaultValues.Request.Value}
+		}
+	}
+	if val, ok := getBoolEnv(prefix + "RESPONSE"); ok {
+		x.Response = &wrappers.BoolValue{Value: val}
+	} else if x.Response == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Response = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Response != nil {
+			x.Response = &wrappers.BoolValue{Value: defaultValues.Response.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *DataCapture) loadFromEnv(prefix string, defaultValues *DataCapture) {
+	if x.HttpHeaders == nil {
+		x.HttpHeaders = new(Message)
+	}
+	if defaultValues == nil {
+		x.HttpHeaders.loadFromEnv(prefix+"HTTP_HEADERS_", nil)
+	} else {
+		x.HttpHeaders.loadFromEnv(prefix+"HTTP_HEADERS_", defaultValues.HttpHeaders)
+	}
+
+	if x.HttpBody == nil {
+		x.HttpBody = new(Message)
+	}
+	if defaultValues == nil {
+		x.HttpBody.loadFromEnv(prefix+"HTTP_BODY_", nil)
+	} else {
+		x.HttpBody.loadFromEnv(prefix+"HTTP_BODY_", defaultValues.HttpBody)
+	}
+
+	if x.RpcMetadata == nil {
+		x.RpcMetadata = new(Message)
+	}
+	if defaultValues == nil {
+		x.RpcMetadata.loadFromEnv(prefix+"RPC_METADATA_", nil)
+	} else {
+		x.RpcMetadata.loadFromEnv(prefix+"RPC_METADATA_", defaultValues.RpcMetadata)
+	}
+
+	if x.RpcBody == nil {
+		x.RpcBody = new(Message)
+	}
+	if defaultValues == nil {
+		x.RpcBody.loadFromEnv(prefix+"RPC_BODY_", nil)
+	} else {
+		x.RpcBody.loadFromEnv(prefix+"RPC_BODY_", defaultValues.RpcBody)
+	}
+
+	if val, ok := getInt32Env(prefix + "BODY_MAX_SIZE_BYTES"); ok {
+		x.BodyMaxSizeBytes = &wrappers.Int32Value{Value: val}
+	} else if x.BodyMaxSizeBytes == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.BodyMaxSizeBytes = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.BodyMaxSizeBytes != nil {
+			x.BodyMaxSizeBytes = &wrappers.Int32Value{Value: defaultValues.BodyMaxSizeBytes.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "BODY_MAX_PROCESSING_SIZE_BYTES"); ok {
+		x.BodyMaxProcessingSizeBytes = &wrappers.Int32Value{Value: val}
+	} else if x.BodyMaxProcessingSizeBytes == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.BodyMaxProcessingSizeBytes = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.BodyMaxProcessingSizeBytes != nil {
+			x.BodyMaxProcessingSizeBytes = &wrappers.Int32Value{Value: defaultValues.BodyMaxProcessingSizeBytes.Value}
+		}
+	}
+	if rawVals, ok := getArrayStringEnv(prefix + "ALLOWED_CONTENT_TYPES"); ok {
+		for _, val := range rawVals {
+			x.AllowedContentTypes = append(x.AllowedContentTypes, wrappers.String(val))
+		}
+	} else if len(x.AllowedContentTypes) == 0 && defaultValues != nil && len(defaultValues.AllowedContentTypes) > 0 {
+		x.AllowedContentTypes = defaultValues.AllowedContentTypes
+	}
+
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *GoAgent) loadFromEnv(prefix string, defaultValues *GoAgent) {
+	if val, ok := getBoolEnv(prefix + "USE_CUSTOM_BSP"); ok {
+		x.UseCustomBsp = &wrappers.BoolValue{Value: val}
+	} else if x.UseCustomBsp == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.UseCustomBsp = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.UseCustomBsp != nil {
+			x.UseCustomBsp = &wrappers.BoolValue{Value: defaultValues.UseCustomBsp.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *Telemetry) loadFromEnv(prefix string, defaultValues *Telemetry) {
+	if val, ok := getBoolEnv(prefix + "STARTUP_SPAN_ENABLED"); ok {
+		x.StartupSpanEnabled = &wrappers.BoolValue{Value: val}
+	} else if x.StartupSpanEnabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.StartupSpanEnabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.StartupSpanEnabled != nil {
+			x.StartupSpanEnabled = &wrappers.BoolValue{Value: defaultValues.StartupSpanEnabled.Value}
+		}
+	}
+	if val, ok := getBoolEnv(prefix + "METRICS_ENABLED"); ok {
+		x.MetricsEnabled = &wrappers.BoolValue{Value: val}
+	} else if x.MetricsEnabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MetricsEnabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.MetricsEnabled != nil {
+			x.MetricsEnabled = &wrappers.BoolValue{Value: defaultValues.MetricsEnabled.Value}
+		}
+	}
 }
