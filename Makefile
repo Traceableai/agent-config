@@ -15,21 +15,21 @@ generate-proto:
 	OUT_DIR="$(PWD)/gen/go" \
 	OPT_MODULE="github.com/Traceableai/agent-config/gen/go" \
 	ENV_PREFIX="TA_" \
-	$(MAKE) -C ./tools/hypertrace/agent-config/tools/go-generator
+	$(MAKE) -C ./tools/go-generator
 
 	@echo "Tidy generated modules."
-	@find $(PWD)/gen/go \( -name vendor -o -name '[._].*' -o -name node_modules \) -prune -o -name go.mod -print | sed 's:/go.mod::' | xargs -I {} bash -c 'cd {}; go mod tidy -go=1.19'
+	@find $(PWD)/gen/go \( -name vendor -o -name '[._].*' -o -name node_modules \) -prune -o -name go.mod -print | sed 's:/go.mod::' | xargs -I {} bash -c 'cd {}; go mod tidy -go=1.21'
 
 	@# Run gen/go load sanity tests
 	cd $(PWD)/gen/go && go test ./...
 
 generate-env-vars: ## Generates the ENV_VARS.md with all environment variables.
-	docker build -t hypertrace/agent-config/env-vars-generator tools/hypertrace/agent-config/tools/env-vars-generator
+	docker build -t tools/env-vars-generator tools/env-vars-generator
 	touch $(PWD)/ENV_VARS.md # makes sure this is created as a file and not as a directory
 	docker run \
 	-v $(PWD)/ENV_VARS.md:/usr/local/ENV_VARS.md \
 	-v $(PWD)/proto/ai/traceable/agent/config/v1/config.proto:/usr/local/config.proto \
-	hypertrace/agent-config/env-vars-generator \
+	tools/env-vars-generator \
 	-o "/usr/local/ENV_VARS.md" -p "TA_" \
 	/usr/local/config.proto
 

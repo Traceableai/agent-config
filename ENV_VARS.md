@@ -53,3 +53,26 @@ Agents can be configured using environment variables:
 | TA_METRICS_CONFIG_LOGGING_ENABLED | Set this flag to print metrics in logs |
 | TA_METRICS_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
 | TA_ENVIRONMENT | Represents the environment name of agent |
+| TA_SERVICE_NAME | From HT config |
+| TA_REPORTING_ENDPOINT | Represents the endpoint for reporting the traces For ZIPKIN reporter type use http://api.traceable.ai:9411/api/v2/spans For OTLP reporter type use http://api.traceable.ai:4317 |
+| TA_REPORTING_SECURE | When `true`, connects to endpoints over TLS. |
+| TA_REPORTING_TOKEN | User specific token to access Traceable API |
+| TA_REPORTING_CERT_FILE | Certificate file containing the CA to verify the server's certificate. This is for private certificates. If this is set then `secure` above should also be set to `true`. |
+| TA_REPORTING_METRIC_ENDPOINT | Represents the endpoint for reporting the metrics. For OTLP metric reporter type use http://api.traceable.ai:4317 |
+| TA_REPORTING_ENABLE_GRPC_LOADBALANCING | When `true`, modifies grpc resolver to use dns instead of passthrough and configure round robin client side loadbalancing |
+| TA_DATA_CAPTURE_HTTP_HEADERS_REQUEST | When `false` it disables the capture for the request in a client/request operation |
+| TA_DATA_CAPTURE_HTTP_HEADERS_RESPONSE | When `false` it disables the capture for the response in a client/request operation |
+| TA_DATA_CAPTURE_HTTP_BODY_REQUEST | When `false` it disables the capture for the request in a client/request operation |
+| TA_DATA_CAPTURE_HTTP_BODY_RESPONSE | When `false` it disables the capture for the response in a client/request operation |
+| TA_DATA_CAPTURE_RPC_METADATA_REQUEST | When `false` it disables the capture for the request in a client/request operation |
+| TA_DATA_CAPTURE_RPC_METADATA_RESPONSE | When `false` it disables the capture for the response in a client/request operation |
+| TA_DATA_CAPTURE_RPC_BODY_REQUEST | When `false` it disables the capture for the request in a client/request operation |
+| TA_DATA_CAPTURE_RPC_BODY_RESPONSE | When `false` it disables the capture for the response in a client/request operation |
+| TA_DATA_CAPTURE_BODY_MAX_SIZE_BYTES | Is the maximum size of captured body in bytes. Default should be 131_072 (128 KiB). |
+| TA_DATA_CAPTURE_BODY_MAX_PROCESSING_SIZE_BYTES | Is maximum size of body being processed by filters in bytes. Default should be 1_048_576 (1MB).  For uncompressed bodies we capture all bytes up to `body_max_processing_size_bytes` in memory and pass that through the filter. For compressed and GRPC bodies, if the size of the body is larger than this, we ignore it entirely, otherwise we decompress/decode the body and then pass it to the filter. |
+| TA_DATA_CAPTURE_ALLOWED_CONTENT_TYPES | Array of allowed content type substrings to record default should be json, x-www-form-urlencoded ex: ["json"] will record any request bodies that have a content-type header that includes "json". The values should be separated by `,`. |
+| TA_PROPAGATION_FORMATS | List the supported propagation formats e.g. `TA_PROPAGATION_FORMATS="B3,TRACECONTEXT"`. |
+| TA_ENABLED | When `false`, disables the agent |
+| TA_TELEMETRY_STARTUP_SPAN_ENABLED | When `true`, an internal span is created and exported when the agent is initialized and started. It's useful to denote when the application the agent is in started. |
+| TA_TELEMETRY_METRICS_ENABLED | Whether to capture metrics or not. The metrics will be otel go metrics. See https://github.com/open-telemetry/opentelemetry-go/tree/main/metric |
+| TA_GOAGENT_USE_CUSTOM_BSP | Use the custom batch_span_processor adapted from the one in opentelemetry go and supports some additional metrics |
