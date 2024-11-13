@@ -20,6 +20,8 @@ message AgentConfig {
   MetricsConfig metrics_config = 9;
   // represents the environment name of agent
   google.protobuf.StringValue environment = 10;
+  // represents the agent token to be used by the agent
+  google.protobuf.StringValue agent_token = 11;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
@@ -64,6 +66,9 @@ message BlockingConfig {
 
   // Allows user to set a custom blocking message
   google.protobuf.StringValue response_message = 10;
+
+  // EdgeDecisionService based evaluator configuration
+  EdgeDecisionServiceConfig edge_decision_service = 11;
 }
 
 message ModsecurityConfig {
@@ -137,10 +142,10 @@ message LogFileConfig {
 }
 
 message MetricsLogConfig {
-    // set this flag to print metrics in logs
-    google.protobuf.BoolValue enabled = 1;
-    // set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
-    google.protobuf.StringValue frequency = 2;
+  // set this flag to print metrics in logs
+  google.protobuf.BoolValue enabled = 1;
+  // set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m
+  google.protobuf.StringValue frequency = 2;
 }
 
 message EndpointMetricsConfig {
@@ -169,16 +174,29 @@ enum SpanType {
 }
 
 message RateLimitConfig {
-      // set this flag to enable rate limiter
-      google.protobuf.BoolValue enabled = 1;
-      // total number of requests to be rate limited in a given time window
-      google.protobuf.Int64Value max_count_global = 2;
-      // number of requests per endpoint to be rate limited in a given time window
-      google.protobuf.Int64Value max_count_per_endpoint = 3;
-      // set the interval for rate limiter buckets to be reset. Examples are '1s', '2m', '3h'. 
-      google.protobuf.StringValue refresh_period = 4;
-      // set the interval for rate limiter cache to be reset. Examples are '1s', '2m', '3h'. 
-      google.protobuf.StringValue value_expiration_period = 5;
-      // set the span type for rate limited spans
-      SpanType span_type = 6;
+  // set this flag to enable rate limiter
+  google.protobuf.BoolValue enabled = 1;
+  // total number of requests to be rate limited in a given time window
+  google.protobuf.Int64Value max_count_global = 2;
+  // number of requests per endpoint to be rate limited in a given time window
+  google.protobuf.Int64Value max_count_per_endpoint = 3;
+  // set the interval for rate limiter buckets to be reset. Examples are '1s', '2m', '3h'. 
+  google.protobuf.StringValue refresh_period = 4;
+  // set the interval for rate limiter cache to be reset. Examples are '1s', '2m', '3h'. 
+  google.protobuf.StringValue value_expiration_period = 5;
+  // set the span type for rate limited spans
+  SpanType span_type = 6;
+}
+
+message EdgeDecisionServiceConfig {
+  // when `true` EdgeDecisionService based evaluation is enabled to block requests
+  google.protobuf.BoolValue enabled = 1;
+  // endpoint represents the endpoint of the EdgeDecisionService
+  google.protobuf.StringValue endpoint = 2;
+  // max timeout for calls to EdgeDecisionService
+  google.protobuf.Int32Value timeout_ms  = 3;
+  // specify regexes which will be matched with http.url attribute to do EdgeDecisionService evaluation.
+  repeated google.protobuf.StringValue include_path_regexes = 4;
+    // specify regexes which will be matched with http.url attribute to exclude spans from EdgeDecisionService evaluation.
+  repeated google.protobuf.StringValue exclude_path_regexes = 5;
 }
