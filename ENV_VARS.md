@@ -27,6 +27,11 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value |
 | TA_BLOCKING_CONFIG_MAX_RECURSION_DEPTH | Setting a maximum allowed depth for recursion while parsing combination policies |
 | TA_BLOCKING_CONFIG_RESPONSE_MESSAGE | Allows user to set a custom blocking message |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_ENABLED | When `true` EdgeDecisionService based evaluation is enabled to block requests |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_ENDPOINT | Represents the endpoint of the EdgeDecisionService |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_TIMEOUT_MS | Max timeout for calls to EdgeDecisionService |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_INCLUDE_PATH_REGEXES | Specify regexes which will be matched with http.url attribute to do EdgeDecisionService evaluation. The values should be separated by `,`. |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_EXCLUDE_PATH_REGEXES | Specify regexes which will be matched with http.url attribute to exclude spans from EdgeDecisionService evaluation. The values should be separated by `,`. |
 | TA_DEBUG_LOG |  |
 | TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
 | TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
@@ -53,3 +58,4 @@ Agents can be configured using environment variables:
 | TA_METRICS_CONFIG_LOGGING_ENABLED | Set this flag to print metrics in logs |
 | TA_METRICS_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
 | TA_ENVIRONMENT | Represents the environment name of agent |
+| TA_AGENT_TOKEN | Represents the agent token to be used by the agent |

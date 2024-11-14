@@ -98,6 +98,16 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 			x.Environment = &wrappers.StringValue{Value: defaultValues.Environment.Value}
 		}
 	}
+	if val, ok := getStringEnv(prefix + "AGENT_TOKEN"); ok {
+		x.AgentToken = &wrappers.StringValue{Value: val}
+	} else if x.AgentToken == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.AgentToken = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.AgentToken != nil {
+			x.AgentToken = &wrappers.StringValue{Value: defaultValues.AgentToken.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -253,6 +263,15 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 			x.ResponseMessage = &wrappers.StringValue{Value: defaultValues.ResponseMessage.Value}
 		}
 	}
+	if x.EdgeDecisionService == nil {
+		x.EdgeDecisionService = new(EdgeDecisionServiceConfig)
+	}
+	if defaultValues == nil {
+		x.EdgeDecisionService.loadFromEnv(prefix+"EDGE_DECISION_SERVICE_", nil)
+	} else {
+		x.EdgeDecisionService.loadFromEnv(prefix+"EDGE_DECISION_SERVICE_", defaultValues.EdgeDecisionService)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -602,6 +621,56 @@ func (x *RateLimitConfig) loadFromEnv(prefix string, defaultValues *RateLimitCon
 		x.SpanType = SpanType(SpanType_value[rawVal])
 	} else if x.SpanType == SpanType(0) && defaultValues != nil && defaultValues.SpanType != SpanType(0) {
 		x.SpanType = defaultValues.SpanType
+	}
+
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *EdgeDecisionServiceConfig) loadFromEnv(prefix string, defaultValues *EdgeDecisionServiceConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "ENDPOINT"); ok {
+		x.Endpoint = &wrappers.StringValue{Value: val}
+	} else if x.Endpoint == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Endpoint = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.Endpoint != nil {
+			x.Endpoint = &wrappers.StringValue{Value: defaultValues.Endpoint.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "TIMEOUT_MS"); ok {
+		x.TimeoutMs = &wrappers.Int32Value{Value: val}
+	} else if x.TimeoutMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.TimeoutMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.TimeoutMs != nil {
+			x.TimeoutMs = &wrappers.Int32Value{Value: defaultValues.TimeoutMs.Value}
+		}
+	}
+	if rawVals, ok := getArrayStringEnv(prefix + "INCLUDE_PATH_REGEXES"); ok {
+		for _, val := range rawVals {
+			x.IncludePathRegexes = append(x.IncludePathRegexes, wrappers.String(val))
+		}
+	} else if len(x.IncludePathRegexes) == 0 && defaultValues != nil && len(defaultValues.IncludePathRegexes) > 0 {
+		x.IncludePathRegexes = defaultValues.IncludePathRegexes
+	}
+
+	if rawVals, ok := getArrayStringEnv(prefix + "EXCLUDE_PATH_REGEXES"); ok {
+		for _, val := range rawVals {
+			x.ExcludePathRegexes = append(x.ExcludePathRegexes, wrappers.String(val))
+		}
+	} else if len(x.ExcludePathRegexes) == 0 && defaultValues != nil && len(defaultValues.ExcludePathRegexes) > 0 {
+		x.ExcludePathRegexes = defaultValues.ExcludePathRegexes
 	}
 
 }
