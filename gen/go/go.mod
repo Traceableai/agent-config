@@ -1,11 +1,11 @@
 module github.com/Traceableai/agent-config/gen/go
 
-go 1.23.2
+go 1.22
 
 require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/stretchr/testify v1.9.0
-	google.golang.org/protobuf v1.35.1
+	google.golang.org/protobuf v1.35.2
 )
 
 require (
