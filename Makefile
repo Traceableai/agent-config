@@ -18,7 +18,7 @@ generate-proto:
 	$(MAKE) -C ./tools/hypertrace/agent-config/tools/go-generator
 
 	@echo "Tidy generated modules."
-	@find $(PWD)/gen/go \( -name vendor -o -name '[._].*' -o -name node_modules \) -prune -o -name go.mod -print | sed 's:/go.mod::' | xargs -I {} bash -c 'cd {}; go mod tidy'
+	@find $(PWD)/gen/go \( -name vendor -o -name '[._].*' -o -name node_modules \) -prune -o -name go.mod -print | sed 's:/go.mod::' | xargs -I {} bash -c 'cd {}; go mod tidy -go=1.22'
 
 	@# Run gen/go load sanity tests
 	cd $(PWD)/gen/go && go test ./...
