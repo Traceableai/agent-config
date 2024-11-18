@@ -27,6 +27,11 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value |
 | TA_BLOCKING_CONFIG_MAX_RECURSION_DEPTH | Setting a maximum allowed depth for recursion while parsing combination policies |
 | TA_BLOCKING_CONFIG_RESPONSE_MESSAGE | Allows user to set a custom blocking message |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_ENABLED | When `true` EdgeDecisionService based evaluation is enabled to block requests |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_ENDPOINT | Represents the endpoint of the EdgeDecisionService |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_TIMEOUT_MS | Max timeout for calls to EdgeDecisionService |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_INCLUDE_PATH_REGEXES | Specify regexes which will be matched with http.url attribute to do EdgeDecisionService evaluation. The values should be separated by `,`. |
+| TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_EXCLUDE_PATH_REGEXES | Specify regexes which will be matched with http.url attribute to exclude spans from EdgeDecisionService evaluation. The values should be separated by `,`. |
 | TA_DEBUG_LOG |  |
 | TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
 | TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
@@ -60,6 +65,7 @@ Agents can be configured using environment variables:
 | TA_REPORTING_CERT_FILE | Certificate file containing the CA to verify the server's certificate. This is for private certificates. If this is set then `secure` above should also be set to `true`. |
 | TA_REPORTING_METRIC_ENDPOINT | Represents the endpoint for reporting the metrics. For OTLP metric reporter type use http://api.traceable.ai:4317 |
 | TA_REPORTING_ENABLE_GRPC_LOADBALANCING | When `true`, modifies grpc resolver to use dns instead of passthrough and configure round robin client side loadbalancing |
+| TA_REPORTING_AGENT_TOKEN | Represents the agent token to be used by the agent |
 | TA_DATA_CAPTURE_HTTP_HEADERS_REQUEST | When `false` it disables the capture for the request in a client/request operation |
 | TA_DATA_CAPTURE_HTTP_HEADERS_RESPONSE | When `false` it disables the capture for the response in a client/request operation |
 | TA_DATA_CAPTURE_HTTP_BODY_REQUEST | When `false` it disables the capture for the request in a client/request operation |
