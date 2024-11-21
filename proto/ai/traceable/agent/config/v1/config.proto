@@ -218,12 +218,14 @@ message EndpointMetricsConfig {
 }
 
 message MetricsConfig {
-    // set this flag to enable metrics
-    google.protobuf.BoolValue enabled = 1;
-    // endpoint level configuration
-    EndpointMetricsConfig endpoint_config = 2;
-    // config for printing metrics in logs
-    MetricsLogConfig logging = 3;
+  // set this flag to enable metrics
+  google.protobuf.BoolValue enabled = 1;
+  // endpoint level configuration
+  EndpointMetricsConfig endpoint_config = 2;
+  // config for printing metrics in logs
+  MetricsLogConfig logging = 3;
+  // config for exporting metrics to Traceable Platform
+  MetricsExporterConfig exporter = 4;
 }
 
 enum SpanType {
@@ -376,4 +378,13 @@ message Telemetry {
   // Whether to capture metrics or not. The metrics will be otel go metrics.
   // See https://github.com/open-telemetry/opentelemetry-go/tree/main/metric
   google.protobuf.BoolValue metrics_enabled = 2;
+}
+
+message MetricsExporterConfig {
+  // when `true` metrics will be exported as spans from libtraceable
+  google.protobuf.BoolValue enabled = 1;
+  // max interval for calls to TPA
+  google.protobuf.Int32Value export_interval_ms  = 2;
+  // max timeout for calls to TPA
+  google.protobuf.Int32Value export_timeout_ms  = 3;
 }

@@ -57,6 +57,9 @@ Agents can be configured using environment variables:
 | TA_METRICS_CONFIG_ENDPOINT_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
 | TA_METRICS_CONFIG_LOGGING_ENABLED | Set this flag to print metrics in logs |
 | TA_METRICS_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
+| TA_METRICS_CONFIG_EXPORTER_ENABLED | When `true` metrics will be exported as spans from libtraceable |
+| TA_METRICS_CONFIG_EXPORTER_EXPORT_INTERVAL_MS | Max interval for calls to TPA |
+| TA_METRICS_CONFIG_EXPORTER_EXPORT_TIMEOUT_MS | Max timeout for calls to TPA |
 | TA_ENVIRONMENT | Represents the environment name of agent |
 | TA_SERVICE_NAME | From HT config |
 | TA_REPORTING_ENDPOINT | Represents the endpoint for reporting the traces For ZIPKIN reporter type use http://api.traceable.ai:9411/api/v2/spans For OTLP reporter type use http://api.traceable.ai:4317 |
