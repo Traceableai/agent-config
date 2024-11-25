@@ -60,6 +60,7 @@ Agents can be configured using environment variables:
 | TA_METRICS_CONFIG_EXPORTER_ENABLED | When `true` metrics will be exported as spans from libtraceable |
 | TA_METRICS_CONFIG_EXPORTER_EXPORT_INTERVAL_MS | Max interval for calls to TPA |
 | TA_METRICS_CONFIG_EXPORTER_EXPORT_TIMEOUT_MS | Max timeout for calls to TPA |
+| TA_METRICS_CONFIG_QUEUE_SIZE | Max length for metrics queue |
 | TA_ENVIRONMENT | Represents the environment name of agent |
 | TA_SERVICE_NAME | From HT config |
 | TA_REPORTING_ENDPOINT | Represents the endpoint for reporting the traces For ZIPKIN reporter type use http://api.traceable.ai:9411/api/v2/spans For OTLP reporter type use http://api.traceable.ai:4317 |
