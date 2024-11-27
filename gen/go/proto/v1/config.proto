@@ -227,7 +227,7 @@ message MetricsConfig {
   // config for exporting metrics to Traceable Platform
   MetricsExporterConfig exporter = 4;
   // max length for metrics queue
-  google.protobuf.Int32Value queue_size = 5; 
+  google.protobuf.Int32Value max_queue_size = 5; 
 }
 
 enum SpanType {

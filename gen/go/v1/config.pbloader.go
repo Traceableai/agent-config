@@ -747,14 +747,14 @@ func (x *MetricsConfig) loadFromEnv(prefix string, defaultValues *MetricsConfig)
 		x.Exporter.loadFromEnv(prefix+"EXPORTER_", defaultValues.Exporter)
 	}
 
-	if val, ok := getInt32Env(prefix + "QUEUE_SIZE"); ok {
-		x.QueueSize = &wrappers.Int32Value{Value: val}
-	} else if x.QueueSize == nil {
+	if val, ok := getInt32Env(prefix + "MAX_QUEUE_SIZE"); ok {
+		x.MaxQueueSize = &wrappers.Int32Value{Value: val}
+	} else if x.MaxQueueSize == nil {
 		// when there is no value to set we still prefer to initialize the variable to avoid
 		// `nil` checks in the consumers.
-		x.QueueSize = new(wrappers.Int32Value)
-		if defaultValues != nil && defaultValues.QueueSize != nil {
-			x.QueueSize = &wrappers.Int32Value{Value: defaultValues.QueueSize.Value}
+		x.MaxQueueSize = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxQueueSize != nil {
+			x.MaxQueueSize = &wrappers.Int32Value{Value: defaultValues.MaxQueueSize.Value}
 		}
 	}
 }
