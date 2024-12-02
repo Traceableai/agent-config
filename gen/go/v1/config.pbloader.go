@@ -265,16 +265,6 @@ func (x *Reporting) loadFromEnv(prefix string, defaultValues *Reporting) {
 			x.EnableGrpcLoadbalancing = &wrappers.BoolValue{Value: defaultValues.EnableGrpcLoadbalancing.Value}
 		}
 	}
-	if val, ok := getStringEnv(prefix + "AGENT_TOKEN"); ok {
-		x.AgentToken = &wrappers.StringValue{Value: val}
-	} else if x.AgentToken == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.AgentToken = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.AgentToken != nil {
-			x.AgentToken = &wrappers.StringValue{Value: defaultValues.AgentToken.Value}
-		}
-	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -738,6 +728,25 @@ func (x *MetricsConfig) loadFromEnv(prefix string, defaultValues *MetricsConfig)
 		x.Logging.loadFromEnv(prefix+"LOGGING_", defaultValues.Logging)
 	}
 
+	if x.Exporter == nil {
+		x.Exporter = new(MetricsExporterConfig)
+	}
+	if defaultValues == nil {
+		x.Exporter.loadFromEnv(prefix+"EXPORTER_", nil)
+	} else {
+		x.Exporter.loadFromEnv(prefix+"EXPORTER_", defaultValues.Exporter)
+	}
+
+	if val, ok := getInt32Env(prefix + "MAX_QUEUE_SIZE"); ok {
+		x.MaxQueueSize = &wrappers.Int32Value{Value: val}
+	} else if x.MaxQueueSize == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxQueueSize = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxQueueSize != nil {
+			x.MaxQueueSize = &wrappers.Int32Value{Value: defaultValues.MaxQueueSize.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -976,6 +985,40 @@ func (x *Telemetry) loadFromEnv(prefix string, defaultValues *Telemetry) {
 		x.MetricsEnabled = new(wrappers.BoolValue)
 		if defaultValues != nil && defaultValues.MetricsEnabled != nil {
 			x.MetricsEnabled = &wrappers.BoolValue{Value: defaultValues.MetricsEnabled.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *MetricsExporterConfig) loadFromEnv(prefix string, defaultValues *MetricsExporterConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "EXPORT_INTERVAL_MS"); ok {
+		x.ExportIntervalMs = &wrappers.Int32Value{Value: val}
+	} else if x.ExportIntervalMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ExportIntervalMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.ExportIntervalMs != nil {
+			x.ExportIntervalMs = &wrappers.Int32Value{Value: defaultValues.ExportIntervalMs.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "EXPORT_TIMEOUT_MS"); ok {
+		x.ExportTimeoutMs = &wrappers.Int32Value{Value: val}
+	} else if x.ExportTimeoutMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ExportTimeoutMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.ExportTimeoutMs != nil {
+			x.ExportTimeoutMs = &wrappers.Int32Value{Value: defaultValues.ExportTimeoutMs.Value}
 		}
 	}
 }

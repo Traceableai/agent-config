@@ -78,9 +78,6 @@ message Reporting {
 
   // When `true`, modifies grpc resolver to use dns instead of passthrough and configure round robin client side loadbalancing
   google.protobuf.BoolValue enable_grpc_loadbalancing = 9;
-
-  // represents the agent token to be used by the agent
-  google.protobuf.StringValue agent_token = 11;
 }
 
 // Opa covers the options related to the mechanics for getting Open Policy Agent configuration file.
@@ -218,12 +215,16 @@ message EndpointMetricsConfig {
 }
 
 message MetricsConfig {
-    // set this flag to enable metrics
-    google.protobuf.BoolValue enabled = 1;
-    // endpoint level configuration
-    EndpointMetricsConfig endpoint_config = 2;
-    // config for printing metrics in logs
-    MetricsLogConfig logging = 3;
+  // set this flag to enable metrics
+  google.protobuf.BoolValue enabled = 1;
+  // endpoint level configuration
+  EndpointMetricsConfig endpoint_config = 2;
+  // config for printing metrics in logs
+  MetricsLogConfig logging = 3;
+  // config for exporting metrics to Traceable Platform
+  MetricsExporterConfig exporter = 4;
+  // max length for metrics queue
+  google.protobuf.Int32Value max_queue_size = 5; 
 }
 
 enum SpanType {
@@ -376,4 +377,13 @@ message Telemetry {
   // Whether to capture metrics or not. The metrics will be otel go metrics.
   // See https://github.com/open-telemetry/opentelemetry-go/tree/main/metric
   google.protobuf.BoolValue metrics_enabled = 2;
+}
+
+message MetricsExporterConfig {
+  // when `true` metrics will be exported as spans from libtraceable
+  google.protobuf.BoolValue enabled = 1;
+  // max interval for calls to TPA
+  google.protobuf.Int32Value export_interval_ms  = 2;
+  // max timeout for calls to TPA
+  google.protobuf.Int32Value export_timeout_ms  = 3;
 }

@@ -57,6 +57,10 @@ Agents can be configured using environment variables:
 | TA_METRICS_CONFIG_ENDPOINT_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
 | TA_METRICS_CONFIG_LOGGING_ENABLED | Set this flag to print metrics in logs |
 | TA_METRICS_CONFIG_LOGGING_FREQUENCY | Set the frequency at which metrics should be printed. Examples are '1s', '2m', '3h'. Default value is 30m |
+| TA_METRICS_CONFIG_EXPORTER_ENABLED | When `true` metrics will be exported as spans from libtraceable |
+| TA_METRICS_CONFIG_EXPORTER_EXPORT_INTERVAL_MS | Max interval for calls to TPA |
+| TA_METRICS_CONFIG_EXPORTER_EXPORT_TIMEOUT_MS | Max timeout for calls to TPA |
+| TA_METRICS_CONFIG_MAX_QUEUE_SIZE | Max length for metrics queue |
 | TA_ENVIRONMENT | Represents the environment name of agent |
 | TA_SERVICE_NAME | From HT config |
 | TA_REPORTING_ENDPOINT | Represents the endpoint for reporting the traces For ZIPKIN reporter type use http://api.traceable.ai:9411/api/v2/spans For OTLP reporter type use http://api.traceable.ai:4317 |
@@ -65,7 +69,6 @@ Agents can be configured using environment variables:
 | TA_REPORTING_CERT_FILE | Certificate file containing the CA to verify the server's certificate. This is for private certificates. If this is set then `secure` above should also be set to `true`. |
 | TA_REPORTING_METRIC_ENDPOINT | Represents the endpoint for reporting the metrics. For OTLP metric reporter type use http://api.traceable.ai:4317 |
 | TA_REPORTING_ENABLE_GRPC_LOADBALANCING | When `true`, modifies grpc resolver to use dns instead of passthrough and configure round robin client side loadbalancing |
-| TA_REPORTING_AGENT_TOKEN | Represents the agent token to be used by the agent |
 | TA_DATA_CAPTURE_HTTP_HEADERS_REQUEST | When `false` it disables the capture for the request in a client/request operation |
 | TA_DATA_CAPTURE_HTTP_HEADERS_RESPONSE | When `false` it disables the capture for the response in a client/request operation |
 | TA_DATA_CAPTURE_HTTP_BODY_REQUEST | When `false` it disables the capture for the request in a client/request operation |
