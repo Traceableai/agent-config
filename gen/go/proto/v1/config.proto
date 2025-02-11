@@ -45,6 +45,8 @@ message AgentConfig {
   // Goagent specific config
   GoAgent goagent = 18;
 
+  // tenant id for which the filter is initialised
+  google.protobuf.StringValue tenant_id = 19;
 }
 
 // Reporting covers the options related to the mechanics for sending data to the

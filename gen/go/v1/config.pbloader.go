@@ -176,6 +176,16 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.Goagent.loadFromEnv(prefix+"GOAGENT_", defaultValues.Goagent)
 	}
 
+	if val, ok := getStringEnv(prefix + "TENANT_ID"); ok {
+		x.TenantId = &wrappers.StringValue{Value: val}
+	} else if x.TenantId == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.TenantId = new(wrappers.StringValue)
+		if defaultValues != nil && defaultValues.TenantId != nil {
+			x.TenantId = &wrappers.StringValue{Value: defaultValues.TenantId.Value}
+		}
+	}
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
