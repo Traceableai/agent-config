@@ -32,6 +32,7 @@ Agents can be configured using environment variables:
 | TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_TIMEOUT_MS | Max timeout for calls to EdgeDecisionService |
 | TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_INCLUDE_PATH_REGEXES | Specify regexes which will be matched with http.url attribute to do EdgeDecisionService evaluation. The values should be separated by `,`. |
 | TA_BLOCKING_CONFIG_EDGE_DECISION_SERVICE_EXCLUDE_PATH_REGEXES | Specify regexes which will be matched with http.url attribute to exclude spans from EdgeDecisionService evaluation. The values should be separated by `,`. |
+| TA_BLOCKING_CONFIG_EVALUATE_EDS_FIRST | When `true`, blocking evaluation will be done using Edge Decision Service first and the results will be passed onto the internal evaluator. Only applicable for Traceable Edge deployments. |
 | TA_DEBUG_LOG |  |
 | TA_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
 | TA_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |

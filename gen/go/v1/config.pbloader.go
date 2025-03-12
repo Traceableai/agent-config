@@ -429,6 +429,16 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 		x.EdgeDecisionService.loadFromEnv(prefix+"EDGE_DECISION_SERVICE_", defaultValues.EdgeDecisionService)
 	}
 
+	if val, ok := getBoolEnv(prefix + "EVALUATE_EDS_FIRST"); ok {
+		x.EvaluateEdsFirst = &wrappers.BoolValue{Value: val}
+	} else if x.EvaluateEdsFirst == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.EvaluateEdsFirst = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.EvaluateEdsFirst != nil {
+			x.EvaluateEdsFirst = &wrappers.BoolValue{Value: defaultValues.EvaluateEdsFirst.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
