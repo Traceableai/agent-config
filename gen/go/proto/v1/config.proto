@@ -45,6 +45,9 @@ message AgentConfig {
   // Goagent specific config
   GoAgent goagent = 18;
 
+  // Parser config
+  ParserConfig parser_config = 19;
+
 }
 
 // Reporting covers the options related to the mechanics for sending data to the
@@ -390,4 +393,14 @@ message MetricsExporterConfig {
   google.protobuf.Int32Value export_interval_ms  = 2;
   // max timeout for calls to TPA
   google.protobuf.Int32Value export_timeout_ms  = 3;
+}
+
+message GraphqlParserConfig {
+  // when true, matching requests will be tried to be parsed with graphql schema.
+  google.protobuf.BoolValue enabled = 1;
+}
+
+message ParserConfig {
+  // config for graphql parser.
+  GraphqlParserConfig graphql = 1;
 }
