@@ -176,6 +176,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.Goagent.loadFromEnv(prefix+"GOAGENT_", defaultValues.Goagent)
 	}
 
+	if x.ParserConfig == nil {
+		x.ParserConfig = new(ParserConfig)
+	}
+	if defaultValues == nil {
+		x.ParserConfig.loadFromEnv(prefix+"PARSER_CONFIG_", nil)
+	} else {
+		x.ParserConfig.loadFromEnv(prefix+"PARSER_CONFIG_", defaultValues.ParserConfig)
+	}
+
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
@@ -1031,4 +1040,31 @@ func (x *MetricsExporterConfig) loadFromEnv(prefix string, defaultValues *Metric
 			x.ExportTimeoutMs = &wrappers.Int32Value{Value: defaultValues.ExportTimeoutMs.Value}
 		}
 	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *GraphqlParserConfig) loadFromEnv(prefix string, defaultValues *GraphqlParserConfig) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *ParserConfig) loadFromEnv(prefix string, defaultValues *ParserConfig) {
+	if x.Graphql == nil {
+		x.Graphql = new(GraphqlParserConfig)
+	}
+	if defaultValues == nil {
+		x.Graphql.loadFromEnv(prefix+"GRAPHQL_", nil)
+	} else {
+		x.Graphql.loadFromEnv(prefix+"GRAPHQL_", defaultValues.Graphql)
+	}
+
 }
