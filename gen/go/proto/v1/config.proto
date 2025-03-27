@@ -403,4 +403,6 @@ message GraphqlParserConfig {
 message ParserConfig {
   // config for graphql parser.
   GraphqlParserConfig graphql = 1;
+  // max body size which should be parsed
+  google.protobuf.Int32Value max_body_size = 2;
 }

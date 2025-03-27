@@ -1067,4 +1067,14 @@ func (x *ParserConfig) loadFromEnv(prefix string, defaultValues *ParserConfig) {
 		x.Graphql.loadFromEnv(prefix+"GRAPHQL_", defaultValues.Graphql)
 	}
 
+	if val, ok := getInt32Env(prefix + "MAX_BODY_SIZE"); ok {
+		x.MaxBodySize = &wrappers.Int32Value{Value: val}
+	} else if x.MaxBodySize == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxBodySize = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxBodySize != nil {
+			x.MaxBodySize = &wrappers.Int32Value{Value: defaultValues.MaxBodySize.Value}
+		}
+	}
 }
