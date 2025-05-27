@@ -132,6 +132,9 @@ message BlockingConfig {
   // When `true`, blocking evaluation will be done using Edge Decision Service first and the results
   // will be passed onto the internal evaluator. Only applicable for Traceable Edge deployments.
   google.protobuf.BoolValue evaluate_eds_first = 12;
+
+  // when `true`, blocking evaluation will be skipped for client spans.
+  google.protobuf.BoolValue skip_client_spans = 13;
 }
 
 message ModsecurityConfig {

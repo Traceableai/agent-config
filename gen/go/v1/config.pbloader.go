@@ -448,6 +448,16 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 			x.EvaluateEdsFirst = &wrappers.BoolValue{Value: defaultValues.EvaluateEdsFirst.Value}
 		}
 	}
+	if val, ok := getBoolEnv(prefix + "SKIP_CLIENT_SPANS"); ok {
+		x.SkipClientSpans = &wrappers.BoolValue{Value: val}
+	} else if x.SkipClientSpans == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.SkipClientSpans = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.SkipClientSpans != nil {
+			x.SkipClientSpans = &wrappers.BoolValue{Value: defaultValues.SkipClientSpans.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
