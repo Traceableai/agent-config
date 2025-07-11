@@ -1921,9 +1921,9 @@ type GoAgent struct {
 	// and supports some additional metrics
 	UseCustomBsp *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=use_custom_bsp,json=useCustomBsp,proto3" json:"use_custom_bsp,omitempty"`
 	// Thread Pool related configuration for the filter evaluation calls.
-	FilterPool    *ThreadPool `protobuf:"bytes,2,opt,name=filter_pool,json=filterPool,proto3" json:"filter_pool,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	FilterThreadPool *ThreadPool `protobuf:"bytes,2,opt,name=filter_thread_pool,json=filterThreadPool,proto3" json:"filter_thread_pool,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *GoAgent) Reset() {
@@ -1963,9 +1963,9 @@ func (x *GoAgent) GetUseCustomBsp() *wrapperspb.BoolValue {
 	return nil
 }
 
-func (x *GoAgent) GetFilterPool() *ThreadPool {
+func (x *GoAgent) GetFilterThreadPool() *ThreadPool {
 	if x != nil {
-		return x.FilterPool
+		return x.FilterThreadPool
 	}
 	return nil
 }
@@ -2378,11 +2378,10 @@ const file_ai_traceable_agent_config_v1_config_proto_rawDesc = "" +
 	"\x13body_max_size_bytes\x18\x05 \x01(\v2\x1b.google.protobuf.Int32ValueR\x10bodyMaxSizeBytes\x12_\n" +
 	"\x1ebody_max_processing_size_bytes\x18\x06 \x01(\v2\x1b.google.protobuf.Int32ValueR\x1abodyMaxProcessingSizeBytes\x12P\n" +
 	"\x15allowed_content_types\x18\n" +
-	" \x03(\v2\x1c.google.protobuf.StringValueR\x13allowedContentTypes\"\x96\x01\n" +
+	" \x03(\v2\x1c.google.protobuf.StringValueR\x13allowedContentTypes\"\xa3\x01\n" +
 	"\aGoAgent\x12@\n" +
-	"\x0euse_custom_bsp\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\fuseCustomBsp\x12I\n" +
-	"\vfilter_pool\x18\x02 \x01(\v2(.ai.traceable.agent.config.v1.ThreadPoolR\n" +
-	"filterPool\"\x9e\x01\n" +
+	"\x0euse_custom_bsp\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\fuseCustomBsp\x12V\n" +
+	"\x12filter_thread_pool\x18\x02 \x01(\v2(.ai.traceable.agent.config.v1.ThreadPoolR\x10filterThreadPool\"\x9e\x01\n" +
 	"\tTelemetry\x12L\n" +
 	"\x14startup_span_enabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\x12startupSpanEnabled\x12C\n" +
 	"\x0fmetrics_enabled\x18\x02 \x01(\v2\x1a.google.protobuf.BoolValueR\x0emetricsEnabled\"\xe1\x01\n" +
@@ -2586,7 +2585,7 @@ var file_ai_traceable_agent_config_v1_config_proto_depIdxs = []int32{
 	34,  // 92: ai.traceable.agent.config.v1.DataCapture.body_max_processing_size_bytes:type_name -> google.protobuf.Int32Value
 	33,  // 93: ai.traceable.agent.config.v1.DataCapture.allowed_content_types:type_name -> google.protobuf.StringValue
 	32,  // 94: ai.traceable.agent.config.v1.GoAgent.use_custom_bsp:type_name -> google.protobuf.BoolValue
-	30,  // 95: ai.traceable.agent.config.v1.GoAgent.filter_pool:type_name -> ai.traceable.agent.config.v1.ThreadPool
+	30,  // 95: ai.traceable.agent.config.v1.GoAgent.filter_thread_pool:type_name -> ai.traceable.agent.config.v1.ThreadPool
 	32,  // 96: ai.traceable.agent.config.v1.Telemetry.startup_span_enabled:type_name -> google.protobuf.BoolValue
 	32,  // 97: ai.traceable.agent.config.v1.Telemetry.metrics_enabled:type_name -> google.protobuf.BoolValue
 	32,  // 98: ai.traceable.agent.config.v1.MetricsExporterConfig.enabled:type_name -> google.protobuf.BoolValue

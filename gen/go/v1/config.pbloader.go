@@ -992,13 +992,13 @@ func (x *GoAgent) loadFromEnv(prefix string, defaultValues *GoAgent) {
 			x.UseCustomBsp = &wrappers.BoolValue{Value: defaultValues.UseCustomBsp.Value}
 		}
 	}
-	if x.FilterPool == nil {
-		x.FilterPool = new(ThreadPool)
+	if x.FilterThreadPool == nil {
+		x.FilterThreadPool = new(ThreadPool)
 	}
 	if defaultValues == nil {
-		x.FilterPool.loadFromEnv(prefix+"FILTER_POOL_", nil)
+		x.FilterThreadPool.loadFromEnv(prefix+"FILTER_THREAD_POOL_", nil)
 	} else {
-		x.FilterPool.loadFromEnv(prefix+"FILTER_POOL_", defaultValues.FilterPool)
+		x.FilterThreadPool.loadFromEnv(prefix+"FILTER_THREAD_POOL_", defaultValues.FilterThreadPool)
 	}
 
 }
