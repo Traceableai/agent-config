@@ -375,6 +375,9 @@ message GoAgent {
   // use the custom batch_span_processor adapted from the one in opentelemetry go
   // and supports some additional metrics
   google.protobuf.BoolValue use_custom_bsp = 1;
+
+  // Thread Pool related configuration for the filter evaluation calls.
+  ThreadPool filter_thread_pool = 2;
 }
 
 // Telemetry has config for agent telemetry: traces and metrics on agent's
@@ -408,4 +411,14 @@ message ParserConfig {
   GraphqlParserConfig graphql = 1;
   // max body size which should be parsed
   google.protobuf.Int32Value max_body_size = 2;
+}
+
+// Generic thread pool config for different models
+message ThreadPool {
+  // when `true` the thread pool will be activated
+  google.protobuf.BoolValue enabled = 1;
+    // number of workers in the pool
+  google.protobuf.Int32Value num_workers = 2;
+    // buffer size for handling spikes
+  google.protobuf.Int32Value buffer_size = 3;
 }

@@ -992,6 +992,15 @@ func (x *GoAgent) loadFromEnv(prefix string, defaultValues *GoAgent) {
 			x.UseCustomBsp = &wrappers.BoolValue{Value: defaultValues.UseCustomBsp.Value}
 		}
 	}
+	if x.FilterThreadPool == nil {
+		x.FilterThreadPool = new(ThreadPool)
+	}
+	if defaultValues == nil {
+		x.FilterThreadPool.loadFromEnv(prefix+"FILTER_THREAD_POOL_", nil)
+	} else {
+		x.FilterThreadPool.loadFromEnv(prefix+"FILTER_THREAD_POOL_", defaultValues.FilterThreadPool)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -1085,6 +1094,40 @@ func (x *ParserConfig) loadFromEnv(prefix string, defaultValues *ParserConfig) {
 		x.MaxBodySize = new(wrappers.Int32Value)
 		if defaultValues != nil && defaultValues.MaxBodySize != nil {
 			x.MaxBodySize = &wrappers.Int32Value{Value: defaultValues.MaxBodySize.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *ThreadPool) loadFromEnv(prefix string, defaultValues *ThreadPool) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "NUM_WORKERS"); ok {
+		x.NumWorkers = &wrappers.Int32Value{Value: val}
+	} else if x.NumWorkers == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.NumWorkers = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.NumWorkers != nil {
+			x.NumWorkers = &wrappers.Int32Value{Value: defaultValues.NumWorkers.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "BUFFER_SIZE"); ok {
+		x.BufferSize = &wrappers.Int32Value{Value: val}
+	} else if x.BufferSize == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.BufferSize = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.BufferSize != nil {
+			x.BufferSize = &wrappers.Int32Value{Value: defaultValues.BufferSize.Value}
 		}
 	}
 }
