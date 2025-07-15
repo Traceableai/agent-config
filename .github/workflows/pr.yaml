@@ -16,3 +16,13 @@ jobs:
 
       - name: make lint
         uses: bufbuild/buf-lint-action@v1.0.0
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+
+      - name: run go unit tests
+        run: |
+          cd gen/go
+          go test -v ./...
+          cd - 

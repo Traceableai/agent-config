@@ -68,12 +68,10 @@ func TestGetDurationEnv(t *testing.T) {
 	assert.False(t, ok)
 
 	os.Setenv("my_duration", "30s")
-	durationVal, ok := getStringEnv("my_duration")
+	durationVal, ok := getDurationEnv("my_duration")
 	assert.True(t, ok)
   expectedVal := 30 * time.Second
-  actualVal, err := time.ParseDuration(durationVal)
-  assert.NoError(t, err)
-	assert.Equal(t, expectedVal, actualVal)
+	assert.Equal(t, expectedVal, durationVal)
 }
 
 func TestLoadFromFile(t *testing.T) {
