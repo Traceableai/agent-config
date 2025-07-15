@@ -422,7 +422,7 @@ message ThreadPool {
   google.protobuf.Int32Value num_workers = 2;
   // buffer size for handling spikes
   google.protobuf.Int32Value buffer_size = 3;
-  // timeout interval for waiting for a free slot in the buffer,
-  // after which the event will be dropped.
+  // specifies the maximum duration to wait for a free slot in the buffer.
+  // if this interval elapses without finding a free slot, the pending event will be discarded.
   google.protobuf.Duration timeout = 4;
 }

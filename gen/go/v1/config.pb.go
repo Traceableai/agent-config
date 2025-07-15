@@ -2200,8 +2200,8 @@ type ThreadPool struct {
 	NumWorkers *wrapperspb.Int32Value `protobuf:"bytes,2,opt,name=num_workers,json=numWorkers,proto3" json:"num_workers,omitempty"`
 	// buffer size for handling spikes
 	BufferSize *wrapperspb.Int32Value `protobuf:"bytes,3,opt,name=buffer_size,json=bufferSize,proto3" json:"buffer_size,omitempty"`
-	// timeout interval for waiting for a free slot in the buffer,
-	// after which the event will be dropped.
+	// specifies the maximum duration to wait for a free slot in the buffer.
+	// if this interval elapses without finding a free slot, the pending event will be discarded.
 	Timeout       *durationpb.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
