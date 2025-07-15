@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+  "time"
 
 	"github.com/ghodss/yaml"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -67,6 +68,20 @@ func getInt64Env(name string) (int64, bool) {
 		    return 0, false
 		}
 		return int64(intVal), true
+	}
+
+	return 0, false
+}
+
+// getDurationEnv returns the duration value for an env var and a confirmation
+// if the var exists
+func getDurationEnv(name string) (time.Duration, bool) {
+	if val := os.Getenv(name); val != "" {
+		dur, err := time.ParseDuration(val)
+		if err != nil {
+		    return 0, false
+		}
+		return dur, true
 	}
 
 	return 0, false

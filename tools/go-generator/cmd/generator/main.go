@@ -101,8 +101,11 @@ func generateLoaderForProtoFile(pkgFqpn string, pf pbparser.ProtoFile) ([]byte, 
 	c := fmt.Sprintf("%s\n\n", generatedHeader)
 	c += fmt.Sprintf("package %s\n\n", pkgFqpn[strings.LastIndex(pkgFqpn, "/")+1:])
 	// even if we don't need this import, worth to add it as gofmt is going to remove it.
-	c += "import wrappers \"google.golang.org/protobuf/types/known/wrapperspb\"\n\n"
-
+	c += "import (\n"
+	c += "    \"time\"\n\n"
+	c += "    wrappers \"google.golang.org/protobuf/types/known/wrapperspb\"\n"
+	c += "    duration \"google.golang.org/protobuf/types/known/durationpb\"\n"
+	c += ")\n\n"
 	for _, m := range pf.Messages {
 		if shouldSkipOtherLanguageAgent(m.Name) {
 			continue
@@ -150,6 +153,21 @@ func generateLoaderForProtoFile(pkgFqpn string, pf pbparser.ProtoFile) ([]byte, 
 				c += fmt.Sprintf("    } else if len(x.%s) == 0 && defaultValues != nil && len(defaultValues.%s) > 0 {\n", fieldName, fieldName)
 				c += fmt.Sprintf("        x.%s = defaultValues.%s\n", fieldName, fieldName)
 				c += fmt.Sprintf("    }\n\n")
+			} else if fieldType == "google.protobuf.Duration" {
+				c += fmt.Sprintf(
+					"    if val, ok := getStringEnv(prefix + \"%s\"); ok {\n",
+					envPrefix,
+				)
+				c += "        parsedVal, ok := getDurationEnv(val)\n"
+				c += "        if ok {\n"
+				c += fmt.Sprintf("            x.%s = duration.New(parsedVal)\n", fieldName)
+				c += "         }\n"
+				c += fmt.Sprintf("    } else if x.%s == nil {\n", fieldName)
+				c += fmt.Sprintf("        x.%s = duration.New(time.Duration(0))\n", fieldName)
+				c += fmt.Sprintf("        if defaultValues != nil && defaultValues.%s != nil {\n", fieldName)
+				c += fmt.Sprintf("            x.%s = defaultValues.%s\n", fieldName, fieldName)
+				c += "        }\n"
+				c += "    }\n"
 			} else if strings.HasPrefix(fieldType, "google.protobuf.") {
 				_type := mf.Type.Name()[16 : len(mf.Type.Name())-5] // 16 = len("google.protobuf.")
 				c += fmt.Sprintf(

@@ -9,6 +9,7 @@ package v1
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	durationpb "google.golang.org/protobuf/types/known/durationpb"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
 	reflect "reflect"
 	sync "sync"
@@ -2198,7 +2199,11 @@ type ThreadPool struct {
 	// number of workers in the pool
 	NumWorkers *wrapperspb.Int32Value `protobuf:"bytes,2,opt,name=num_workers,json=numWorkers,proto3" json:"num_workers,omitempty"`
 	// buffer size for handling spikes
-	BufferSize    *wrapperspb.Int32Value `protobuf:"bytes,3,opt,name=buffer_size,json=bufferSize,proto3" json:"buffer_size,omitempty"`
+	BufferSize *wrapperspb.Int32Value `protobuf:"bytes,3,opt,name=buffer_size,json=bufferSize,proto3" json:"buffer_size,omitempty"`
+	// specifies the maximum duration to wait for a free slot in the buffer.
+	// If this interval elapses without finding a free slot, the pending event will be discarded.
+	// Example values are: 10ms, 20s, 30m, 40h.
+	Timeout       *durationpb.Duration `protobuf:"bytes,4,opt,name=timeout,proto3" json:"timeout,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2254,11 +2259,18 @@ func (x *ThreadPool) GetBufferSize() *wrapperspb.Int32Value {
 	return nil
 }
 
+func (x *ThreadPool) GetTimeout() *durationpb.Duration {
+	if x != nil {
+		return x.Timeout
+	}
+	return nil
+}
+
 var File_ai_traceable_agent_config_v1_config_proto protoreflect.FileDescriptor
 
 const file_ai_traceable_agent_config_v1_config_proto_rawDesc = "" +
 	"\n" +
-	")ai/traceable/agent/config/v1/config.proto\x12\x1cai.traceable.agent.config.v1\x1a\x1egoogle/protobuf/wrappers.proto\"\xf0\v\n" +
+	")ai/traceable/agent/config/v1/config.proto\x12\x1cai.traceable.agent.config.v1\x1a\x1egoogle/protobuf/duration.proto\x1a\x1egoogle/protobuf/wrappers.proto\"\xf0\v\n" +
 	"\vAgentConfig\x127\n" +
 	"\x03opa\x18\x01 \x01(\v2!.ai.traceable.agent.config.v1.OpaB\x02\x18\x01R\x03opa\x12U\n" +
 	"\x0fblocking_config\x18\x02 \x01(\v2,.ai.traceable.agent.config.v1.BlockingConfigR\x0eblockingConfig\x12;\n" +
@@ -2393,14 +2405,15 @@ const file_ai_traceable_agent_config_v1_config_proto_rawDesc = "" +
 	"\aenabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\aenabled\"\x9c\x01\n" +
 	"\fParserConfig\x12K\n" +
 	"\agraphql\x18\x01 \x01(\v21.ai.traceable.agent.config.v1.GraphqlParserConfigR\agraphql\x12?\n" +
-	"\rmax_body_size\x18\x02 \x01(\v2\x1b.google.protobuf.Int32ValueR\vmaxBodySize\"\xbe\x01\n" +
+	"\rmax_body_size\x18\x02 \x01(\v2\x1b.google.protobuf.Int32ValueR\vmaxBodySize\"\xf3\x01\n" +
 	"\n" +
 	"ThreadPool\x124\n" +
 	"\aenabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\aenabled\x12<\n" +
 	"\vnum_workers\x18\x02 \x01(\v2\x1b.google.protobuf.Int32ValueR\n" +
 	"numWorkers\x12<\n" +
 	"\vbuffer_size\x18\x03 \x01(\v2\x1b.google.protobuf.Int32ValueR\n" +
-	"bufferSize*^\n" +
+	"bufferSize\x123\n" +
+	"\atimeout\x18\x04 \x01(\v2\x19.google.protobuf.DurationR\atimeout*^\n" +
 	"\aLogMode\x12\x18\n" +
 	"\x14LOG_MODE_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rLOG_MODE_NONE\x10\x01\x12\x13\n" +
@@ -2488,6 +2501,7 @@ var file_ai_traceable_agent_config_v1_config_proto_goTypes = []any{
 	(*wrapperspb.StringValue)(nil),    // 33: google.protobuf.StringValue
 	(*wrapperspb.Int32Value)(nil),     // 34: google.protobuf.Int32Value
 	(*wrapperspb.Int64Value)(nil),     // 35: google.protobuf.Int64Value
+	(*durationpb.Duration)(nil),       // 36: google.protobuf.Duration
 }
 var file_ai_traceable_agent_config_v1_config_proto_depIdxs = []int32{
 	8,   // 0: ai.traceable.agent.config.v1.AgentConfig.opa:type_name -> ai.traceable.agent.config.v1.Opa
@@ -2597,11 +2611,12 @@ var file_ai_traceable_agent_config_v1_config_proto_depIdxs = []int32{
 	32,  // 104: ai.traceable.agent.config.v1.ThreadPool.enabled:type_name -> google.protobuf.BoolValue
 	34,  // 105: ai.traceable.agent.config.v1.ThreadPool.num_workers:type_name -> google.protobuf.Int32Value
 	34,  // 106: ai.traceable.agent.config.v1.ThreadPool.buffer_size:type_name -> google.protobuf.Int32Value
-	107, // [107:107] is the sub-list for method output_type
-	107, // [107:107] is the sub-list for method input_type
-	107, // [107:107] is the sub-list for extension type_name
-	107, // [107:107] is the sub-list for extension extendee
-	0,   // [0:107] is the sub-list for field type_name
+	36,  // 107: ai.traceable.agent.config.v1.ThreadPool.timeout:type_name -> google.protobuf.Duration
+	108, // [108:108] is the sub-list for method output_type
+	108, // [108:108] is the sub-list for method input_type
+	108, // [108:108] is the sub-list for extension type_name
+	108, // [108:108] is the sub-list for extension extendee
+	0,   // [0:108] is the sub-list for field type_name
 }
 
 func init() { file_ai_traceable_agent_config_v1_config_proto_init() }

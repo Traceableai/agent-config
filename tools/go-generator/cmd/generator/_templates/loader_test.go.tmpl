@@ -5,6 +5,7 @@ package v1
 import (
 	"os"
 	"testing"
+  "time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -60,6 +61,17 @@ func TestGetArrayStringEnv(t *testing.T) {
 	vals, ok := getArrayStringEnv("my_vowels")
 	assert.True(t, ok)
 	assert.Equal(t, []string{"a", "b"}, vals)
+}
+
+func TestGetDurationEnv(t *testing.T) {
+	_, ok := getStringEnv("my_duration")
+	assert.False(t, ok)
+
+	os.Setenv("my_duration", "30s")
+	durationVal, ok := getDurationEnv("my_duration")
+	assert.True(t, ok)
+  expectedVal := 30 * time.Second
+	assert.Equal(t, expectedVal, durationVal)
 }
 
 func TestLoadFromFile(t *testing.T) {
