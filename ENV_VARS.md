@@ -90,5 +90,6 @@ Agents can be configured using environment variables:
 | TA_GOAGENT_FILTER_THREAD_POOL_ENABLED | When `true` the thread pool will be activated |
 | TA_GOAGENT_FILTER_THREAD_POOL_NUM_WORKERS | Number of workers in the pool |
 | TA_GOAGENT_FILTER_THREAD_POOL_BUFFER_SIZE | Buffer size for handling spikes |
+| TA_GOAGENT_FILTER_THREAD_POOL_TIMEOUT | Interval for waiting for a free slot in the buffer, after which the event will be dropped. |
 | TA_PARSER_CONFIG_GRAPHQL_ENABLED | When true, matching requests will be tried to be parsed with graphql schema. |
 | TA_PARSER_CONFIG_MAX_BODY_SIZE | Max body size which should be parsed |

@@ -2,6 +2,7 @@ syntax = "proto3";
 
 package ai.traceable.agent.config.v1;
 
+import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/Traceableai/agent-config/gen/go/v1";
@@ -417,8 +418,11 @@ message ParserConfig {
 message ThreadPool {
   // when `true` the thread pool will be activated
   google.protobuf.BoolValue enabled = 1;
-    // number of workers in the pool
+  // number of workers in the pool
   google.protobuf.Int32Value num_workers = 2;
-    // buffer size for handling spikes
+  // buffer size for handling spikes
   google.protobuf.Int32Value buffer_size = 3;
+  // timeout interval for waiting for a free slot in the buffer,
+  // after which the event will be dropped.
+  google.protobuf.Duration timeout = 4;
 }

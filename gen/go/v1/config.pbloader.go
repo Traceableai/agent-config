@@ -2,7 +2,12 @@
 
 package v1
 
-import wrappers "google.golang.org/protobuf/types/known/wrapperspb"
+import (
+	"time"
+
+	duration "google.golang.org/protobuf/types/known/durationpb"
+	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
+)
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
@@ -1128,6 +1133,17 @@ func (x *ThreadPool) loadFromEnv(prefix string, defaultValues *ThreadPool) {
 		x.BufferSize = new(wrappers.Int32Value)
 		if defaultValues != nil && defaultValues.BufferSize != nil {
 			x.BufferSize = &wrappers.Int32Value{Value: defaultValues.BufferSize.Value}
+		}
+	}
+	if val, ok := getStringEnv(prefix + "TIMEOUT"); ok {
+		parsedVal, ok := getDurationEnv(val)
+		if ok {
+			x.Timeout = duration.New(parsedVal)
+		}
+	} else if x.Timeout == nil {
+		x.Timeout = duration.New(time.Duration(0))
+		if defaultValues != nil && defaultValues.Timeout != nil {
+			x.Timeout = defaultValues.Timeout
 		}
 	}
 }
