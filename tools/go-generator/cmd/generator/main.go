@@ -155,13 +155,10 @@ func generateLoaderForProtoFile(pkgFqpn string, pf pbparser.ProtoFile) ([]byte, 
 				c += fmt.Sprintf("    }\n\n")
 			} else if fieldType == "google.protobuf.Duration" {
 				c += fmt.Sprintf(
-					"    if val, ok := getStringEnv(prefix + \"%s\"); ok {\n",
+					"    if val, ok := getDurationEnv(prefix + \"%s\"); ok {\n",
 					envPrefix,
 				)
-				c += "        parsedVal, ok := getDurationEnv(val)\n"
-				c += "        if ok {\n"
-				c += fmt.Sprintf("            x.%s = duration.New(parsedVal)\n", fieldName)
-				c += "         }\n"
+				c += fmt.Sprintf("        x.%s = duration.New(val)\n", fieldName)
 				c += fmt.Sprintf("    } else if x.%s == nil {\n", fieldName)
 				c += fmt.Sprintf("        x.%s = duration.New(time.Duration(0))\n", fieldName)
 				c += fmt.Sprintf("        if defaultValues != nil && defaultValues.%s != nil {\n", fieldName)

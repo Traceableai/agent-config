@@ -1135,11 +1135,8 @@ func (x *ThreadPool) loadFromEnv(prefix string, defaultValues *ThreadPool) {
 			x.BufferSize = &wrappers.Int32Value{Value: defaultValues.BufferSize.Value}
 		}
 	}
-	if val, ok := getStringEnv(prefix + "TIMEOUT"); ok {
-		parsedVal, ok := getDurationEnv(val)
-		if ok {
-			x.Timeout = duration.New(parsedVal)
-		}
+	if val, ok := getDurationEnv(prefix + "TIMEOUT"); ok {
+		x.Timeout = duration.New(val)
 	} else if x.Timeout == nil {
 		x.Timeout = duration.New(time.Duration(0))
 		if defaultValues != nil && defaultValues.Timeout != nil {
