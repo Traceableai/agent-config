@@ -90,6 +90,6 @@ Agents can be configured using environment variables:
 | TA_GOAGENT_FILTER_THREAD_POOL_ENABLED | When `true` the thread pool will be activated |
 | TA_GOAGENT_FILTER_THREAD_POOL_NUM_WORKERS | Number of workers in the pool |
 | TA_GOAGENT_FILTER_THREAD_POOL_BUFFER_SIZE | Buffer size for handling spikes |
-| TA_GOAGENT_FILTER_THREAD_POOL_TIMEOUT | Specifies the maximum duration to wait for a free slot in the buffer. If this interval elapses without finding a free slot, the pending event will be discarded. Example values are: 10ms, 20s, 30m, 40h. |
+| TA_GOAGENT_FILTER_THREAD_POOL_TIMEOUT_MS | Specifies the maximum duration to wait for a free slot in the buffer in milliseconds. If this interval elapses without finding a free slot, the pending event will be discarded. |
 | TA_PARSER_CONFIG_GRAPHQL_ENABLED | When true, matching requests will be tried to be parsed with graphql schema. |
 | TA_PARSER_CONFIG_MAX_BODY_SIZE | Max body size which should be parsed |

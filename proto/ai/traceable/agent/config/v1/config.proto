@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package ai.traceable.agent.config.v1;
 
-import "google/protobuf/duration.proto";
 import "google/protobuf/wrappers.proto";
 
 option go_package = "github.com/Traceableai/agent-config/gen/go/v1";
@@ -422,8 +421,7 @@ message ThreadPool {
   google.protobuf.Int32Value num_workers = 2;
   // buffer size for handling spikes
   google.protobuf.Int32Value buffer_size = 3;
-  // specifies the maximum duration to wait for a free slot in the buffer.
+  // Specifies the maximum duration to wait for a free slot in the buffer in milliseconds.
   // If this interval elapses without finding a free slot, the pending event will be discarded.
-  // Example values are: 10ms, 20s, 30m, 40h.
-  google.protobuf.Duration timeout = 4;
+  google.protobuf.Int32Value timeout_ms = 4;
 }
