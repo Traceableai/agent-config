@@ -3,9 +3,6 @@
 package v1
 
 import (
-	"time"
-
-	duration "google.golang.org/protobuf/types/known/durationpb"
 	wrappers "google.golang.org/protobuf/types/known/wrapperspb"
 )
 
@@ -1135,12 +1132,14 @@ func (x *ThreadPool) loadFromEnv(prefix string, defaultValues *ThreadPool) {
 			x.BufferSize = &wrappers.Int32Value{Value: defaultValues.BufferSize.Value}
 		}
 	}
-	if val, ok := getDurationEnv(prefix + "TIMEOUT"); ok {
-		x.Timeout = duration.New(val)
-	} else if x.Timeout == nil {
-		x.Timeout = duration.New(time.Duration(0))
-		if defaultValues != nil && defaultValues.Timeout != nil {
-			x.Timeout = defaultValues.Timeout
+	if val, ok := getInt32Env(prefix + "TIMEOUT_MS"); ok {
+		x.TimeoutMs = &wrappers.Int32Value{Value: val}
+	} else if x.TimeoutMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.TimeoutMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.TimeoutMs != nil {
+			x.TimeoutMs = &wrappers.Int32Value{Value: defaultValues.TimeoutMs.Value}
 		}
 	}
 }
