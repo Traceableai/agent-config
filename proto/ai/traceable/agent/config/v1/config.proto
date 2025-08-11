@@ -390,6 +390,9 @@ message Telemetry {
   // Whether to capture metrics or not. The metrics will be otel go metrics.
   // See https://github.com/open-telemetry/opentelemetry-go/tree/main/metric
   google.protobuf.BoolValue metrics_enabled = 2;
+
+  // Configure logs export.
+  LogsExport logs = 3;
 }
 
 message MetricsExporterConfig {
@@ -424,4 +427,10 @@ message ThreadPool {
   // Specifies the maximum duration to wait for a free slot in the buffer in milliseconds.
   // If this interval elapses without finding a free slot, the pending event will be discarded.
   google.protobuf.Int32Value timeout_ms = 4;
+}
+
+message LogsExport {
+  // when true, logs from the agent will be exported to Traceable Platform Agent
+  // via Opentelemetry Logs pipeline. Reporting config is shared with the Traces pipeline.
+  google.protobuf.BoolValue enabled = 1;
 }
