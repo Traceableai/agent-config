@@ -2277,7 +2277,9 @@ type LogsExport struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// when true, logs from the agent will be exported to Traceable Platform Agent
 	// via Opentelemetry Logs pipeline. Reporting config is shared with the Traces pipeline.
-	Enabled       *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	// the level of logs to export, anything below that will be dropped.
+	LogLevel      LogLevel `protobuf:"varint,2,opt,name=log_level,json=logLevel,proto3,enum=ai.traceable.agent.config.v1.LogLevel" json:"log_level,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2317,6 +2319,13 @@ func (x *LogsExport) GetEnabled() *wrapperspb.BoolValue {
 		return x.Enabled
 	}
 	return nil
+}
+
+func (x *LogsExport) GetLogLevel() LogLevel {
+	if x != nil {
+		return x.LogLevel
+	}
+	return LogLevel_LOG_LEVEL_UNSPECIFIED
 }
 
 var File_ai_traceable_agent_config_v1_config_proto protoreflect.FileDescriptor
@@ -2468,10 +2477,11 @@ const file_ai_traceable_agent_config_v1_config_proto_rawDesc = "" +
 	"\vbuffer_size\x18\x03 \x01(\v2\x1b.google.protobuf.Int32ValueR\n" +
 	"bufferSize\x12:\n" +
 	"\n" +
-	"timeout_ms\x18\x04 \x01(\v2\x1b.google.protobuf.Int32ValueR\ttimeoutMs\"B\n" +
+	"timeout_ms\x18\x04 \x01(\v2\x1b.google.protobuf.Int32ValueR\ttimeoutMs\"\x87\x01\n" +
 	"\n" +
 	"LogsExport\x124\n" +
-	"\aenabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\aenabled*^\n" +
+	"\aenabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\aenabled\x12C\n" +
+	"\tlog_level\x18\x02 \x01(\x0e2&.ai.traceable.agent.config.v1.LogLevelR\blogLevel*^\n" +
 	"\aLogMode\x12\x18\n" +
 	"\x14LOG_MODE_UNSPECIFIED\x10\x00\x12\x11\n" +
 	"\rLOG_MODE_NONE\x10\x01\x12\x13\n" +
@@ -2672,11 +2682,12 @@ var file_ai_traceable_agent_config_v1_config_proto_depIdxs = []int32{
 	35,  // 107: ai.traceable.agent.config.v1.ThreadPool.buffer_size:type_name -> google.protobuf.Int32Value
 	35,  // 108: ai.traceable.agent.config.v1.ThreadPool.timeout_ms:type_name -> google.protobuf.Int32Value
 	33,  // 109: ai.traceable.agent.config.v1.LogsExport.enabled:type_name -> google.protobuf.BoolValue
-	110, // [110:110] is the sub-list for method output_type
-	110, // [110:110] is the sub-list for method input_type
-	110, // [110:110] is the sub-list for extension type_name
-	110, // [110:110] is the sub-list for extension extendee
-	0,   // [0:110] is the sub-list for field type_name
+	1,   // 110: ai.traceable.agent.config.v1.LogsExport.log_level:type_name -> ai.traceable.agent.config.v1.LogLevel
+	111, // [111:111] is the sub-list for method output_type
+	111, // [111:111] is the sub-list for method input_type
+	111, // [111:111] is the sub-list for extension type_name
+	111, // [111:111] is the sub-list for extension extendee
+	0,   // [0:111] is the sub-list for field type_name
 }
 
 func init() { file_ai_traceable_agent_config_v1_config_proto_init() }
