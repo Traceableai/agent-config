@@ -370,23 +370,6 @@ enum MetricReporterType {
   METRIC_REPORTER_TYPE_NONE = 4;
 }
 
-// LogReporterType represents the reporting format for trace data.
-enum LogReporterType {
-
-  // Default to none. Agent will use it's default reporting type
-  LOG_REPORTER_TYPE_UNSPECIFIED = 0;
-
-  // OpenTelemetry protobuf reporting format.
-  // see https://github.com/open-telemetry/opentelemetry-proto
-  LOG_REPORTER_TYPE_OTLP = 1;
-
-  // OTLP over http
-  LOG_REPORTER_TYPE_OTLP_HTTP = 2;
-
-  // Logging reporting format
-  LOG_REPORTER_TYPE_LOGGING = 3;
-}
-
 // GoAgent has the configs specific to goagent
 message GoAgent {
   // use the custom batch_span_processor adapted from the one in opentelemetry go
@@ -453,7 +436,4 @@ message LogsExport {
 
   // the level of logs to export, anything below that will be dropped.
   LogLevel level = 2;
-
-  // the reporter type for logs. If not specified, the value of trace reporter type will be used.
-  LogReporterType reporter_type = 3;
 }

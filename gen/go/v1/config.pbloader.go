@@ -1171,10 +1171,4 @@ func (x *LogsExport) loadFromEnv(prefix string, defaultValues *LogsExport) {
 		x.Level = defaultValues.Level
 	}
 
-	if rawVal, ok := getStringEnv(prefix + "REPORTER_TYPE"); ok {
-		x.ReporterType = LogReporterType(LogReporterType_value[rawVal])
-	} else if x.ReporterType == LogReporterType(0) && defaultValues != nil && defaultValues.ReporterType != LogReporterType(0) {
-		x.ReporterType = defaultValues.ReporterType
-	}
-
 }
