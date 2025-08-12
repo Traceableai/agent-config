@@ -1165,10 +1165,16 @@ func (x *LogsExport) loadFromEnv(prefix string, defaultValues *LogsExport) {
 			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
-	if rawVal, ok := getStringEnv(prefix + "LOG_LEVEL"); ok {
-		x.LogLevel = LogLevel(LogLevel_value[rawVal])
-	} else if x.LogLevel == LogLevel(0) && defaultValues != nil && defaultValues.LogLevel != LogLevel(0) {
-		x.LogLevel = defaultValues.LogLevel
+	if rawVal, ok := getStringEnv(prefix + "LEVEL"); ok {
+		x.Level = LogLevel(LogLevel_value[rawVal])
+	} else if x.Level == LogLevel(0) && defaultValues != nil && defaultValues.Level != LogLevel(0) {
+		x.Level = defaultValues.Level
+	}
+
+	if rawVal, ok := getStringEnv(prefix + "REPORTER_TYPE"); ok {
+		x.ReporterType = LogReporterType(LogReporterType_value[rawVal])
+	} else if x.ReporterType == LogReporterType(0) && defaultValues != nil && defaultValues.ReporterType != LogReporterType(0) {
+		x.ReporterType = defaultValues.ReporterType
 	}
 
 }
