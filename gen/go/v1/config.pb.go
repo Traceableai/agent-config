@@ -2277,9 +2277,8 @@ type LogsExport struct {
 	state protoimpl.MessageState `protogen:"open.v1"`
 	// when true, logs from the agent will be exported to Traceable Platform Agent
 	// via Opentelemetry Logs pipeline. Reporting config is shared with the Traces pipeline.
-	Enabled *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
-	// the level of logs to export, anything below that will be dropped.
-	Level         LogLevel `protobuf:"varint,2,opt,name=level,proto3,enum=ai.traceable.agent.config.v1.LogLevel" json:"level,omitempty"`
+	Enabled       *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	Level         LogLevel              `protobuf:"varint,2,opt,name=level,proto3,enum=ai.traceable.agent.config.v1.LogLevel" json:"level,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
