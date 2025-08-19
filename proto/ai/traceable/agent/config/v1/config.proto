@@ -48,6 +48,9 @@ message AgentConfig {
   // Parser config
   ParserConfig parser_config = 19;
 
+  // Agent Identifying Attributes config
+  AgentIdentity agent_identity = 20;
+
 }
 
 // Reporting covers the options related to the mechanics for sending data to the
@@ -424,4 +427,12 @@ message ThreadPool {
   // Specifies the maximum duration to wait for a free slot in the buffer in milliseconds.
   // If this interval elapses without finding a free slot, the pending event will be discarded.
   google.protobuf.Int32Value timeout_ms = 4;
+}
+
+// Agent identification attributes config
+message AgentIdentity {
+  // path of the agent ID file
+  google.protobuf.StringValue id_file = 1;
+  // deployment_name is used as a part of Agent Identifying attributes to group the agents
+  google.protobuf.StringValue deployment_name = 2;
 }
