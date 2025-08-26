@@ -1155,16 +1155,6 @@ func (x *ThreadPool) loadFromEnv(prefix string, defaultValues *ThreadPool) {
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *AgentIdentity) loadFromEnv(prefix string, defaultValues *AgentIdentity) {
-	if val, ok := getStringEnv(prefix + "ID_FILE"); ok {
-		x.IdFile = &wrappers.StringValue{Value: val}
-	} else if x.IdFile == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.IdFile = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.IdFile != nil {
-			x.IdFile = &wrappers.StringValue{Value: defaultValues.IdFile.Value}
-		}
-	}
 	if val, ok := getStringEnv(prefix + "DEPLOYMENT_NAME"); ok {
 		x.DeploymentName = &wrappers.StringValue{Value: val}
 	} else if x.DeploymentName == nil {
