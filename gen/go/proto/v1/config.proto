@@ -431,8 +431,6 @@ message ThreadPool {
 
 // Agent identification attributes config
 message AgentIdentity {
-  // path of the agent ID file
-  google.protobuf.StringValue id_file = 1;
   // deployment_name is used as a part of Agent Identifying attributes to group the agents
-  google.protobuf.StringValue deployment_name = 2;
+  google.protobuf.StringValue deployment_name = 1;
 }

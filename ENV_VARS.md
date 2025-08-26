@@ -93,5 +93,4 @@ Agents can be configured using environment variables:
 | TA_GOAGENT_FILTER_THREAD_POOL_TIMEOUT_MS | Specifies the maximum duration to wait for a free slot in the buffer in milliseconds. If this interval elapses without finding a free slot, the pending event will be discarded. |
 | TA_PARSER_CONFIG_GRAPHQL_ENABLED | When true, matching requests will be tried to be parsed with graphql schema. |
 | TA_PARSER_CONFIG_MAX_BODY_SIZE | Max body size which should be parsed |
-| TA_AGENT_IDENTITY_ID_FILE | Path of the agent ID file |
 | TA_AGENT_IDENTITY_DEPLOYMENT_NAME | Is used as a part of Agent Identifying attributes to group the agents |
