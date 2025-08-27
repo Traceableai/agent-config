@@ -29,3 +29,9 @@ if you see some untracked changes in submodule, delete those untracked changes i
 If you see some new commits in nested submodule, update the nested submodule in your local to the commit it points to in the new version of the submodule.
 After these, there should not be any changes to be committed in the submodule directory.
 In the root directory, add and commit the change to update submodules.
+
+## C# Generator
+
+```shell
+protoc --csharp_out=. --plugin=protoc-gen-envloader=tools/csharp-generator/bin/Release/net10.0/osx-arm64/Traceable.Csharp.Generator  --envloader_out=. proto/ai/traceable/agent/config/v1/config.proto
+```
