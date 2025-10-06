@@ -196,6 +196,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.AgentIdentity.loadFromEnv(prefix+"AGENT_IDENTITY_", defaultValues.AgentIdentity)
 	}
 
+	if x.PipelineManager == nil {
+		x.PipelineManager = new(FilterPipelineManager)
+	}
+	if defaultValues == nil {
+		x.PipelineManager.loadFromEnv(prefix+"PIPELINE_MANAGER_", nil)
+	} else {
+		x.PipelineManager.loadFromEnv(prefix+"PIPELINE_MANAGER_", defaultValues.PipelineManager)
+	}
+
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
@@ -1163,6 +1172,20 @@ func (x *AgentIdentity) loadFromEnv(prefix string, defaultValues *AgentIdentity)
 		x.DeploymentName = new(wrappers.StringValue)
 		if defaultValues != nil && defaultValues.DeploymentName != nil {
 			x.DeploymentName = &wrappers.StringValue{Value: defaultValues.DeploymentName.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *FilterPipelineManager) loadFromEnv(prefix string, defaultValues *FilterPipelineManager) {
+	if val, ok := getInt64Env(prefix + "PIPELINE_REQUESTS_QUEUE_INITIAL_SIZE"); ok {
+		x.PipelineRequestsQueueInitialSize = &wrappers.Int64Value{Value: val}
+	} else if x.PipelineRequestsQueueInitialSize == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.PipelineRequestsQueueInitialSize = new(wrappers.Int64Value)
+		if defaultValues != nil && defaultValues.PipelineRequestsQueueInitialSize != nil {
+			x.PipelineRequestsQueueInitialSize = &wrappers.Int64Value{Value: defaultValues.PipelineRequestsQueueInitialSize.Value}
 		}
 	}
 }
