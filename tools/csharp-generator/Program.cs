@@ -54,7 +54,7 @@ string ToPascalCase(string name)
       .Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1)));
 }
 
-void GenerateConstructorRecursively(string fieldPrefix, string envVarPrefix, FieldDescriptorProto field, StringBuilder sb)
+string GenerateConstructorRecursively(string fieldPrefix, string envVarPrefix, FieldDescriptorProto field, StringBuilder sb)
 {
   string envVar = $"{envVarPrefix}_{field.Name.ToUpperInvariant()}";
   string genName = ToPascalCase(field.Name);
