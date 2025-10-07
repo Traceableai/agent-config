@@ -94,3 +94,4 @@ Agents can be configured using environment variables:
 | TA_PARSER_CONFIG_GRAPHQL_ENABLED | When true, matching requests will be tried to be parsed with graphql schema. |
 | TA_PARSER_CONFIG_MAX_BODY_SIZE | Max body size which should be parsed |
 | TA_AGENT_IDENTITY_DEPLOYMENT_NAME | Is used as a part of Agent Identifying attributes to group the agents |
+| TA_PIPELINE_MANAGER_PIPELINE_REQUESTS_QUEUE_INITIAL_SIZE |  |

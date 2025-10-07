@@ -51,6 +51,8 @@ message AgentConfig {
   // Agent Identifying Attributes config
   AgentIdentity agent_identity = 20;
 
+  FilterPipelineManager pipeline_manager = 21;
+
 }
 
 // Reporting covers the options related to the mechanics for sending data to the
@@ -433,4 +435,9 @@ message ThreadPool {
 message AgentIdentity {
   // deployment_name is used as a part of Agent Identifying attributes to group the agents
   google.protobuf.StringValue deployment_name = 1;
+}
+
+// Configuration for libtraceable's pipeline manager
+message FilterPipelineManager {
+  google.protobuf.Int64Value pipeline_requests_queue_initial_size = 1;
 }
