@@ -1021,6 +1021,12 @@ func (x *GoAgent) loadFromEnv(prefix string, defaultValues *GoAgent) {
 		x.FilterThreadPool.loadFromEnv(prefix+"FILTER_THREAD_POOL_", defaultValues.FilterThreadPool)
 	}
 
+	if rawVal, ok := getStringEnv(prefix + "SPAN_SANITIZATION_MODE"); ok {
+		x.SpanSanitizationMode = SpanSanitizationMode(SpanSanitizationMode_value[rawVal])
+	} else if x.SpanSanitizationMode == SpanSanitizationMode(0) && defaultValues != nil && defaultValues.SpanSanitizationMode != SpanSanitizationMode(0) {
+		x.SpanSanitizationMode = defaultValues.SpanSanitizationMode
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.

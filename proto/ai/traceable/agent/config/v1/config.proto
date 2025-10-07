@@ -383,6 +383,8 @@ message GoAgent {
 
   // Thread Pool related configuration for the filter evaluation calls.
   ThreadPool filter_thread_pool = 2;
+
+  SpanSanitizationMode span_sanitization_mode = 3;
 }
 
 // Telemetry has config for agent telemetry: traces and metrics on agent's
@@ -440,4 +442,16 @@ message AgentIdentity {
 // Configuration for libtraceable's pipeline manager
 message FilterPipelineManager {
   google.protobuf.Int64Value pipeline_requests_queue_initial_size = 1;
+}
+
+// Sanitization details for attributes of a span
+enum SpanSanitizationMode {
+  // no sanitization check configured
+  SPAN_SANITIZATION_MODE_NONE = 0;
+
+  // drop the span incase sanitization panics
+  SPAN_SANITIZATION_MODE_DROP_SPAN_ON_FAILURE = 1;
+
+  // drop the attribute and continue processing the span
+  SPAN_SANITIZATION_MODE_CONTINUE = 2;
 }
