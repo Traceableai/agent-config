@@ -3,34 +3,46 @@ using Google.Protobuf;
 using Google.Protobuf.Compiler;
 using Google.Protobuf.Reflection;
 
-string EnvVarPrefix = "TA";
 var req = CodeGeneratorRequest.Parser.ParseFrom(Console.OpenStandardInput());
 var res = new CodeGeneratorResponse();
 
 foreach (var file in req.ProtoFile)
 {
+  if (file.Name != "proto/ai/traceable/agent/config/v1/config.proto") continue;
   foreach (var msg in file.MessageType)
   {
     var sb = new StringBuilder();
     string className = msg.Name;
     sb.AppendLine("using System;");
-    sb.AppendLine($"public static class {className}EnvLoader");
+    sb.AppendLine("using Tracaeble.Agent.Config.V1;");
+    sb.AppendLine("namespace Tracaeble.Agent.Config.Loader;");
+    sb.AppendLine($"internal class {className}EnvLoader");
     sb.AppendLine("{");
-    sb.AppendLine($"    public static {className} FromEnv()");
+    sb.AppendLine("    private readonly string envVarPrefix;");
+    sb.AppendLine($"    internal {className}EnvLoader (string envVarPrefix)");
+    sb.AppendLine("    {");
+    sb.AppendLine($"        this.envVarPrefix = envVarPrefix;");
+    sb.AppendLine("    }");
+    sb.AppendLine($"    internal {className} FromEnv()");
     sb.AppendLine("     {");
     sb.AppendLine($"        var cfg = new {className}();");
 
     foreach (var field in msg.Field)
     {
-      string envVar = $"{EnvVarPrefix}_{className.ToUpperInvariant()}_{field.Name.ToUpperInvariant()}";
-      string genName = ToPascalCase(field.Name);
-      string constructor = field.TypeName switch
+      string genName = field.Name.ToPascalCase();
+      string constructor = field.Type switch
       {
-        ".google.protobuf.StringValue" => $"Environment.GetEnvironmentVariable(\"{envVar}\")",
-        ".google.protobuf.Int32Value" => $"Int32.TryParse(Environment.GetEnvironmentVariable(\"{envVar}\"), out var {genName.ToLower()})? {genName.ToLower()} : null",
-        ".google.protobuf.Int64Value" => $"Int64.TryParse(Environment.GetEnvironmentVariable(\"{envVar}\"), out var {genName.ToLower()})? {genName.ToLower()} : null",
-        ".google.protobuf.BoolValue" => $"bool.TryParse(Environment.GetEnvironmentVariable(\"{envVar}\"), out var {genName.ToLower()}) ? {genName.ToLower()} : null",
-        _ => ""
+        FieldDescriptorProto.Types.Type.Enum => $"Enum.TryParse(Environment.GetEnvironmentVairable($\"{{envVarPrefix}}_{field.Name.ToUpperSnakeCase()}\"), out var {genName.ToLower()}) ? {genName.ToLower()} : {field.TypeName.GetTypeName()}.Unspecified",
+        FieldDescriptorProto.Types.Type.Message =>
+          field.TypeName switch
+          {
+            ".google.protobuf.StringValue" => $"Environment.GetEnvironmentVariable($\"{{envVarPrefix}}_{field.Name.ToUpperSnakeCase()}\")",
+            ".google.protobuf.Int32Value" => $"Int32.TryParse(Environment.GetEnvironmentVariable($\"{{envVarPrefix}}_{field.Name.ToUpperSnakeCase()}\"), out var {genName.ToLower()})? {genName.ToLower()} : null",
+            ".google.protobuf.Int64Value" => $"Int64.TryParse(Environment.GetEnvironmentVariable($\"{{envVarPrefix}}_{field.Name.ToUpperSnakeCase()}\"), out var {genName.ToLower()})? {genName.ToLower()} : null",
+            ".google.protobuf.BoolValue" => $"bool.TryParse(Environment.GetEnvironmentVariable($\"{{envVarPrefix}}_{field.Name.ToUpperSnakeCase()}\"), out var {genName.ToLower()}) ? {genName.ToLower()} : null",
+            _ => $"new {genName}EnvLoader($\"{{envVarPrefix}}_{field.Name.ToUpperSnakeCase()}\").FromEnv()",
+          },
+        _ => throw new ArgumentException($"Unsupported field type {field.Type}"),
       };
       sb.AppendLine($"        cfg.{genName} = {constructor};");
     }
@@ -47,25 +59,4 @@ foreach (var file in req.ProtoFile)
 }
 
 res.WriteTo(Console.OpenStandardOutput());
-
-string ToPascalCase(string name)
-{
-  return string.Concat(name.Split('_')
-      .Select(s => char.ToUpperInvariant(s[0]) + s.Substring(1)));
-}
-
-string GenerateConstructorRecursively(string fieldPrefix, string envVarPrefix, FieldDescriptorProto field, StringBuilder sb)
-{
-  string envVar = $"{envVarPrefix}_{field.Name.ToUpperInvariant()}";
-  string genName = ToPascalCase(field.Name);
-  string fieldKey = $"{fieldPrefix}.{genName}";
-  return field.TypeName switch
-  {
-    ".google.protobuf.StringValue" => $"Environment.GetEnvironmentVariable(\"{envVar}\")",
-    ".google.protobuf.Int32Value" => $"Int32.TryParse(Environment.GetEnvironmentVariable(\"{envVar}\"), out var {field.Name.ToLower()})? {field.Name.ToLower()} : null",
-    ".google.protobuf.Int64Value" => $"Int64.TryParse(Environment.GetEnvironmentVariable(\"{envVar}\"), out var {field.Name.ToLower()})? {field.Name.ToLower()} : null",
-    ".google.protobuf.BoolValue" => $"bool.TryParse(Environment.GetEnvironmentVariable(\"{envVar}\"), out var {field.Name.ToLower()}) ? {field.Name.ToLower()} : null",
-    _ => ""
-  };
-}
 
