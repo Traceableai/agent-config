@@ -8,15 +8,6 @@ import (
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
-	if x.Opa == nil {
-		x.Opa = new(Opa)
-	}
-	if defaultValues == nil {
-		x.Opa.loadFromEnv(prefix+"OPA_", nil)
-	} else {
-		x.Opa.loadFromEnv(prefix+"OPA_", defaultValues.Opa)
-	}
-
 	if x.BlockingConfig == nil {
 		x.BlockingConfig = new(BlockingConfig)
 	}
@@ -43,15 +34,6 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", nil)
 	} else {
 		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", defaultValues.RemoteConfig)
-	}
-
-	if x.ApiDiscovery == nil {
-		x.ApiDiscovery = new(ApiDiscoveryConfig)
-	}
-	if defaultValues == nil {
-		x.ApiDiscovery.loadFromEnv(prefix+"API_DISCOVERY_", nil)
-	} else {
-		x.ApiDiscovery.loadFromEnv(prefix+"API_DISCOVERY_", defaultValues.ApiDiscovery)
 	}
 
 	if x.Sampling == nil {
@@ -205,6 +187,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.PipelineManager.loadFromEnv(prefix+"PIPELINE_MANAGER_", defaultValues.PipelineManager)
 	}
 
+	if x.DetectionConfig == nil {
+		x.DetectionConfig = new(ThreatActivityDetection)
+	}
+	if defaultValues == nil {
+		x.DetectionConfig.loadFromEnv(prefix+"DETECTION_CONFIG_", nil)
+	} else {
+		x.DetectionConfig.loadFromEnv(prefix+"DETECTION_CONFIG_", defaultValues.DetectionConfig)
+	}
+
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
@@ -303,60 +294,6 @@ func (x *Reporting) loadFromEnv(prefix string, defaultValues *Reporting) {
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
-func (x *Opa) loadFromEnv(prefix string, defaultValues *Opa) {
-	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
-		x.Enabled = &wrappers.BoolValue{Value: val}
-	} else if x.Enabled == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.Enabled = new(wrappers.BoolValue)
-		if defaultValues != nil && defaultValues.Enabled != nil {
-			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
-		}
-	}
-	if val, ok := getStringEnv(prefix + "ENDPOINT"); ok {
-		x.Endpoint = &wrappers.StringValue{Value: val}
-	} else if x.Endpoint == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.Endpoint = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.Endpoint != nil {
-			x.Endpoint = &wrappers.StringValue{Value: defaultValues.Endpoint.Value}
-		}
-	}
-	if val, ok := getInt32Env(prefix + "POLL_PERIOD_SECONDS"); ok {
-		x.PollPeriodSeconds = &wrappers.Int32Value{Value: val}
-	} else if x.PollPeriodSeconds == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.PollPeriodSeconds = new(wrappers.Int32Value)
-		if defaultValues != nil && defaultValues.PollPeriodSeconds != nil {
-			x.PollPeriodSeconds = &wrappers.Int32Value{Value: defaultValues.PollPeriodSeconds.Value}
-		}
-	}
-	if val, ok := getStringEnv(prefix + "CERT_FILE"); ok {
-		x.CertFile = &wrappers.StringValue{Value: val}
-	} else if x.CertFile == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.CertFile = new(wrappers.StringValue)
-		if defaultValues != nil && defaultValues.CertFile != nil {
-			x.CertFile = &wrappers.StringValue{Value: defaultValues.CertFile.Value}
-		}
-	}
-	if val, ok := getBoolEnv(prefix + "USE_SECURE_CONNECTION"); ok {
-		x.UseSecureConnection = &wrappers.BoolValue{Value: val}
-	} else if x.UseSecureConnection == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.UseSecureConnection = new(wrappers.BoolValue)
-		if defaultValues != nil && defaultValues.UseSecureConnection != nil {
-			x.UseSecureConnection = &wrappers.BoolValue{Value: defaultValues.UseSecureConnection.Value}
-		}
-	}
-}
-
-// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
 func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfig) {
 	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
 		x.Enabled = &wrappers.BoolValue{Value: val}
@@ -366,16 +303,6 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 		x.Enabled = new(wrappers.BoolValue)
 		if defaultValues != nil && defaultValues.Enabled != nil {
 			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
-		}
-	}
-	if val, ok := getBoolEnv(prefix + "DEBUG_LOG"); ok {
-		x.DebugLog = &wrappers.BoolValue{Value: val}
-	} else if x.DebugLog == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.DebugLog = new(wrappers.BoolValue)
-		if defaultValues != nil && defaultValues.DebugLog != nil {
-			x.DebugLog = &wrappers.BoolValue{Value: defaultValues.DebugLog.Value}
 		}
 	}
 	if x.Modsecurity == nil {
@@ -404,15 +331,6 @@ func (x *BlockingConfig) loadFromEnv(prefix string, defaultValues *BlockingConfi
 		x.RegionBlocking.loadFromEnv(prefix+"REGION_BLOCKING_", nil)
 	} else {
 		x.RegionBlocking.loadFromEnv(prefix+"REGION_BLOCKING_", defaultValues.RegionBlocking)
-	}
-
-	if x.RemoteConfig == nil {
-		x.RemoteConfig = new(RemoteConfig)
-	}
-	if defaultValues == nil {
-		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", nil)
-	} else {
-		x.RemoteConfig.loadFromEnv(prefix+"REMOTE_CONFIG_", defaultValues.RemoteConfig)
 	}
 
 	if val, ok := getBoolEnv(prefix + "SKIP_INTERNAL_REQUEST"); ok {
@@ -574,20 +492,6 @@ func (x *RemoteConfig) loadFromEnv(prefix string, defaultValues *RemoteConfig) {
 		x.UseSecureConnection = new(wrappers.BoolValue)
 		if defaultValues != nil && defaultValues.UseSecureConnection != nil {
 			x.UseSecureConnection = &wrappers.BoolValue{Value: defaultValues.UseSecureConnection.Value}
-		}
-	}
-}
-
-// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
-func (x *ApiDiscoveryConfig) loadFromEnv(prefix string, defaultValues *ApiDiscoveryConfig) {
-	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
-		x.Enabled = &wrappers.BoolValue{Value: val}
-	} else if x.Enabled == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.Enabled = new(wrappers.BoolValue)
-		if defaultValues != nil && defaultValues.Enabled != nil {
-			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
 }
@@ -1229,4 +1133,18 @@ func (x *LogsExport) loadFromEnv(prefix string, defaultValues *LogsExport) {
 		x.Level = defaultValues.Level
 	}
 
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *ThreatActivityDetection) loadFromEnv(prefix string, defaultValues *ThreatActivityDetection) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
 }
