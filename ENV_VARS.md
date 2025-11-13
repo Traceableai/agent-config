@@ -7,22 +7,10 @@ Agents can be configured using environment variables:
 
 | Name | Description |
 |------|-------------|
-| TA_OPA_ENABLED | When `true` Open Policy Agent evaluation is enabled to block request |
-| TA_OPA_ENDPOINT | Represents the endpoint for polling OPA config file e.g. http://opa.traceableai:8181/ |
-| TA_OPA_POLL_PERIOD_SECONDS | Poll period in seconds to query OPA service |
-| TA_OPA_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. If this is non-empty, you shoulds `https` for the protocol in `endpoint` above. |
-| TA_OPA_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_BLOCKING_CONFIG_ENABLED |  |
-| TA_BLOCKING_CONFIG_DEBUG_LOG | Has moved to top level |
 | TA_BLOCKING_CONFIG_MODSECURITY_ENABLED |  |
 | TA_BLOCKING_CONFIG_EVALUATE_BODY |  |
 | TA_BLOCKING_CONFIG_REGION_BLOCKING_ENABLED |  |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENABLED | Denotes if config needs to be fetched from remote or not |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_ENDPOINT | Denotes the agentmanager endpoint to connect to for config. eg: localhost:5441 |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_POLL_PERIOD_SECONDS | Poll period in seconds to query for config updates |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
-| TA_BLOCKING_CONFIG_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
 | TA_BLOCKING_CONFIG_SKIP_INTERNAL_REQUEST | When `true`, blocking evaluation will be skipped for internal requests i.e. requests coming from private IPs |
 | TA_BLOCKING_CONFIG_RESPONSE_STATUS_CODE | Allows user to set a custom blocking status code value |
 | TA_BLOCKING_CONFIG_MAX_RECURSION_DEPTH | Setting a maximum allowed depth for recursion while parsing combination policies |
@@ -41,7 +29,6 @@ Agents can be configured using environment variables:
 | TA_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
 | TA_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
 | TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
-| TA_API_DISCOVERY_ENABLED |  |
 | TA_SAMPLING_ENABLED |  |
 | TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_ENABLED | Set this flag to enable rate limiter |
 | TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_MAX_COUNT_GLOBAL | Total number of requests to be rate limited in a given time window |
@@ -86,6 +73,7 @@ Agents can be configured using environment variables:
 | TA_ENABLED | When `false`, disables the agent |
 | TA_TELEMETRY_STARTUP_SPAN_ENABLED | When `true`, an internal span is created and exported when the agent is initialized and started. It's useful to denote when the application the agent is in started. |
 | TA_TELEMETRY_METRICS_ENABLED | Whether to capture metrics or not. The metrics will be otel go metrics. See https://github.com/open-telemetry/opentelemetry-go/tree/main/metric |
+| TA_TELEMETRY_LOGS_ENABLED | When true, logs from the agent will be exported to Traceable Platform Agent via Opentelemetry Logs pipeline. Reporting config is shared with the Traces pipeline. |
 | TA_GOAGENT_USE_CUSTOM_BSP | Use the custom batch_span_processor adapted from the one in opentelemetry go and supports some additional metrics |
 | TA_GOAGENT_FILTER_THREAD_POOL_ENABLED | When `true` the thread pool will be activated |
 | TA_GOAGENT_FILTER_THREAD_POOL_NUM_WORKERS | Number of workers in the pool |
@@ -95,3 +83,4 @@ Agents can be configured using environment variables:
 | TA_PARSER_CONFIG_MAX_BODY_SIZE | Max body size which should be parsed |
 | TA_AGENT_IDENTITY_DEPLOYMENT_NAME | Is used as a part of Agent Identifying attributes to group the agents |
 | TA_PIPELINE_MANAGER_PIPELINE_REQUESTS_QUEUE_INITIAL_SIZE |  |
+| TA_DETECTION_CONFIG_ENABLED |  |
