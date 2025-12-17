@@ -293,6 +293,8 @@ message DataCapture {
   // default should be json, x-www-form-urlencoded
   // ex: ["json"] will record any request bodies that have a content-type header that includes "json"
   repeated google.protobuf.StringValue allowed_content_types = 10;
+
+  SseCapture sse = 11;
 }
 
 // PropagationFormat represents the propagation formats supported by agents
@@ -452,4 +454,24 @@ enum CompressionType {
 
 message ThreatActivityDetection {
   google.protobuf.BoolValue enabled = 1;
+}
+
+// Batching related config for SSE events. Once a batch is closed it will be exported as part of the span.
+// And if a new batch is to be opened, it will be part of a new span under the same trace.
+message SseCaptureBatch {
+  // The maximum bytes across events to be captured after which a batch is closed.
+  google.protobuf.Int32Value max_size_bytes = 1;
+  // The maximum time windows in milli seconds to be waited before closing an open batch.
+  google.protobuf.Int32Value max_time_window_ms = 2;
+}
+
+// Configuration related to capturing SSE Events.
+message SseCapture {
+
+  // Whether SSE Capture is enabled or not.
+  google.protobuf.BoolValue enabled = 1;
+  // The maximum number of batches to be captured/exported.
+  google.protobuf.Int32Value max_batches = 2;
+  // Configuration of each batch.
+  SseCaptureBatch batch = 3;
 }

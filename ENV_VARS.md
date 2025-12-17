@@ -69,6 +69,10 @@ Agents can be configured using environment variables:
 | TA_DATA_CAPTURE_BODY_MAX_SIZE_BYTES | Is the maximum size of captured body in bytes. Default should be 131_072 (128 KiB). |
 | TA_DATA_CAPTURE_BODY_MAX_PROCESSING_SIZE_BYTES | Is maximum size of body being processed by filters in bytes. Default should be 1_048_576 (1MB).  For uncompressed bodies we capture all bytes up to `body_max_processing_size_bytes` in memory and pass that through the filter. For compressed and GRPC bodies, if the size of the body is larger than this, we ignore it entirely, otherwise we decompress/decode the body and then pass it to the filter. |
 | TA_DATA_CAPTURE_ALLOWED_CONTENT_TYPES | Array of allowed content type substrings to record default should be json, x-www-form-urlencoded ex: ["json"] will record any request bodies that have a content-type header that includes "json". The values should be separated by `,`. |
+| TA_DATA_CAPTURE_SSE_ENABLED | Whether SSE Capture is enabled or not. |
+| TA_DATA_CAPTURE_SSE_MAX_BATCHES | The maximum number of batches to be captured/exported. |
+| TA_DATA_CAPTURE_SSE_BATCH_MAX_SIZE_BYTES | The maximum bytes across events to be captured after which a batch is closed. |
+| TA_DATA_CAPTURE_SSE_BATCH_MAX_TIME_WINDOW_MS | The maximum time windows in milli seconds to be waited before closing an open batch. |
 | TA_PROPAGATION_FORMATS | List the supported propagation formats e.g. `TA_PROPAGATION_FORMATS="B3,TRACECONTEXT"`. |
 | TA_ENABLED | When `false`, disables the agent |
 | TA_TELEMETRY_STARTUP_SPAN_ENABLED | When `true`, an internal span is created and exported when the agent is initialized and started. It's useful to denote when the application the agent is in started. |
