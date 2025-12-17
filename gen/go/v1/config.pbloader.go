@@ -908,6 +908,15 @@ func (x *DataCapture) loadFromEnv(prefix string, defaultValues *DataCapture) {
 		x.AllowedContentTypes = defaultValues.AllowedContentTypes
 	}
 
+	if x.Sse == nil {
+		x.Sse = new(SseCapture)
+	}
+	if defaultValues == nil {
+		x.Sse.loadFromEnv(prefix+"SSE_", nil)
+	} else {
+		x.Sse.loadFromEnv(prefix+"SSE_", defaultValues.Sse)
+	}
+
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
@@ -1147,4 +1156,61 @@ func (x *ThreatActivityDetection) loadFromEnv(prefix string, defaultValues *Thre
 			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *SseCaptureBatch) loadFromEnv(prefix string, defaultValues *SseCaptureBatch) {
+	if val, ok := getInt32Env(prefix + "MAX_SIZE_BYTES"); ok {
+		x.MaxSizeBytes = &wrappers.Int32Value{Value: val}
+	} else if x.MaxSizeBytes == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxSizeBytes = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxSizeBytes != nil {
+			x.MaxSizeBytes = &wrappers.Int32Value{Value: defaultValues.MaxSizeBytes.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "MAX_TIME_WINDOW_MS"); ok {
+		x.MaxTimeWindowMs = &wrappers.Int32Value{Value: val}
+	} else if x.MaxTimeWindowMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxTimeWindowMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxTimeWindowMs != nil {
+			x.MaxTimeWindowMs = &wrappers.Int32Value{Value: defaultValues.MaxTimeWindowMs.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *SseCapture) loadFromEnv(prefix string, defaultValues *SseCapture) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "MAX_BATCHES"); ok {
+		x.MaxBatches = &wrappers.Int32Value{Value: val}
+	} else if x.MaxBatches == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.MaxBatches = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.MaxBatches != nil {
+			x.MaxBatches = &wrappers.Int32Value{Value: defaultValues.MaxBatches.Value}
+		}
+	}
+	if x.Batch == nil {
+		x.Batch = new(SseCaptureBatch)
+	}
+	if defaultValues == nil {
+		x.Batch.loadFromEnv(prefix+"BATCH_", nil)
+	} else {
+		x.Batch.loadFromEnv(prefix+"BATCH_", defaultValues.Batch)
+	}
+
 }
