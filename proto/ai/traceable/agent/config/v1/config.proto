@@ -251,6 +251,8 @@ message EdgeDecisionServiceConfig {
   repeated google.protobuf.StringValue include_path_regexes = 4;
     // specify regexes which will be matched with http.url attribute to exclude spans from EdgeDecisionService evaluation.
   repeated google.protobuf.StringValue exclude_path_regexes = 5;
+  // If true will enable client side grpc load balancing
+  google.protobuf.BoolValue grpc_load_balancing_enabled = 7;
 }
 
 // Message describes what message should be considered for certain DataCapture option
