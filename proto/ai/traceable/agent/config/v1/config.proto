@@ -53,6 +53,9 @@ message AgentConfig {
 
   // Config to run detection on agent side without blocking
   ThreatActivityDetection detection_config = 22;
+
+  // Config for genai collection & evaluation
+  GenAi gen_ai = 23;
 }
 
 // Reporting covers the options related to the mechanics for sending data to the
@@ -474,4 +477,13 @@ message SseCapture {
   google.protobuf.Int32Value max_batches = 2;
   // Configuration of each batch.
   SseCaptureBatch batch = 3;
+}
+
+message GenAi {
+  // Whether Genai span capture is enabled or not
+  google.protobuf.BoolValue enabled = 1;
+  // If enabled will record genai body payloads
+  google.protobuf.BoolValue payload_capture_enabled = 2;
+  // If enabled will evaluate genai span payloads for blocking/redaction
+  google.protobuf.BoolValue payload_evaluation_enabled = 3;
 }

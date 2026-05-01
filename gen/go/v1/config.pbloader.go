@@ -196,6 +196,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.DetectionConfig.loadFromEnv(prefix+"DETECTION_CONFIG_", defaultValues.DetectionConfig)
 	}
 
+	if x.GenAi == nil {
+		x.GenAi = new(GenAi)
+	}
+	if defaultValues == nil {
+		x.GenAi.loadFromEnv(prefix+"GEN_AI_", nil)
+	} else {
+		x.GenAi.loadFromEnv(prefix+"GEN_AI_", defaultValues.GenAi)
+	}
+
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
@@ -1213,4 +1222,38 @@ func (x *SseCapture) loadFromEnv(prefix string, defaultValues *SseCapture) {
 		x.Batch.loadFromEnv(prefix+"BATCH_", defaultValues.Batch)
 	}
 
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *GenAi) loadFromEnv(prefix string, defaultValues *GenAi) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
+		}
+	}
+	if val, ok := getBoolEnv(prefix + "PAYLOAD_CAPTURE_ENABLED"); ok {
+		x.PayloadCaptureEnabled = &wrappers.BoolValue{Value: val}
+	} else if x.PayloadCaptureEnabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.PayloadCaptureEnabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.PayloadCaptureEnabled != nil {
+			x.PayloadCaptureEnabled = &wrappers.BoolValue{Value: defaultValues.PayloadCaptureEnabled.Value}
+		}
+	}
+	if val, ok := getBoolEnv(prefix + "PAYLOAD_EVALUATION_ENABLED"); ok {
+		x.PayloadEvaluationEnabled = &wrappers.BoolValue{Value: val}
+	} else if x.PayloadEvaluationEnabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.PayloadEvaluationEnabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.PayloadEvaluationEnabled != nil {
+			x.PayloadEvaluationEnabled = &wrappers.BoolValue{Value: defaultValues.PayloadEvaluationEnabled.Value}
+		}
+	}
 }

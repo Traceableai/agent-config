@@ -88,3 +88,6 @@ Agents can be configured using environment variables:
 | TA_AGENT_IDENTITY_DEPLOYMENT_NAME | Is used as a part of Agent Identifying attributes to group the agents |
 | TA_PIPELINE_MANAGER_PIPELINE_REQUESTS_QUEUE_INITIAL_SIZE |  |
 | TA_DETECTION_CONFIG_ENABLED |  |
+| TA_GEN_AI_ENABLED | Whether Genai span capture is enabled or not |
+| TA_GEN_AI_PAYLOAD_CAPTURE_ENABLED | If enabled will record genai body payloads |
+| TA_GEN_AI_PAYLOAD_EVALUATION_ENABLED | If enabled will evaluate genai span payloads for blocking/redaction |
