@@ -816,16 +816,6 @@ func (x *EdgeDecisionServiceConfig) loadFromEnv(prefix string, defaultValues *Ed
 		x.ExcludePathRegexes = defaultValues.ExcludePathRegexes
 	}
 
-	if val, ok := getBoolEnv(prefix + "GRPC_LOAD_BALANCING_ENABLED"); ok {
-		x.GrpcLoadBalancingEnabled = &wrappers.BoolValue{Value: val}
-	} else if x.GrpcLoadBalancingEnabled == nil {
-		// when there is no value to set we still prefer to initialize the variable to avoid
-		// `nil` checks in the consumers.
-		x.GrpcLoadBalancingEnabled = new(wrappers.BoolValue)
-		if defaultValues != nil && defaultValues.GrpcLoadBalancingEnabled != nil {
-			x.GrpcLoadBalancingEnabled = &wrappers.BoolValue{Value: defaultValues.GrpcLoadBalancingEnabled.Value}
-		}
-	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
