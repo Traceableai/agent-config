@@ -1,0 +1,83 @@
+gen/go/v1/config.pbloader.go
+  human 208-219,235-247
+proto/ai/traceable/agent/config/v1/config.proto
+  human 59-61
+gen/go/proto/v1/config.proto
+  human 59-61
+gen/go/v1/config.pb.go
+  human 507-511,692-698,2650,2673-2674,2677-2679,2875,2916-2920,2924,2930-2931,2935,2944-3047,3061
+---
+{
+  "attestations": [
+    {
+      "entries": [
+        {
+          "accepted_lines": 25,
+          "added_lines": 25,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "208-219,235-247",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "gen/go/v1/config.pbloader.go"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 3,
+          "added_lines": 3,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "59-61",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "proto/ai/traceable/agent/config/v1/config.proto"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 3,
+          "added_lines": 3,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "59-61",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "gen/go/proto/v1/config.proto"
+    },
+    {
+      "entries": [
+        {
+          "accepted_lines": 133,
+          "added_lines": 133,
+          "deleted_lines": 0,
+          "hash": "human",
+          "lines": "507-511,692-698,2650,2673-2674,2677-2679,2875,2916-2920,2924,2930-2931,2935,2944-3047,3061",
+          "overridden_lines": 0
+        }
+      ],
+      "file": "gen/go/v1/config.pb.go"
+    }
+  ],
+  "base_commit_sha": "20c2c25c735a70afb3c6b172e0c78647038fde50",
+  "branch": "add-span-attributes",
+  "commit_sha": "35b10d0bbcfd2e26906de7d2cfd9594de11a2c1a",
+  "commit_time": "2026-05-11T13:50:28-04:00",
+  "commit_type": "direct_commit",
+  "git_ai_version": "1.4.4",
+  "prompts": {
+    "human": {
+      "accepted_lines": 164,
+      "agent_id": null,
+      "human_author": "Donald Propst <donald.prospt@harness.io>",
+      "overriden_lines": 0,
+      "total_additions": 164,
+      "total_deletions": 0
+    }
+  },
+  "repo": "git@github.com:Traceableai/agent-config.git",
+  "schema_version": "authorship/3.0.0"
+}
