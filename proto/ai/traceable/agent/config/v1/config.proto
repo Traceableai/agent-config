@@ -56,6 +56,9 @@ message AgentConfig {
 
   // Config for genai collection & evaluation
   GenAi gen_ai = 23;
+
+  // span_attributes map define the static list of attributes added to each span
+  map<string, string> span_attributes = 24;
 }
 
 // Reporting covers the options related to the mechanics for sending data to the

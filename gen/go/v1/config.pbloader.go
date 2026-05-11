@@ -205,6 +205,18 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		x.GenAi.loadFromEnv(prefix+"GEN_AI_", defaultValues.GenAi)
 	}
 
+	if defaultValues != nil && len(defaultValues.SpanAttributes) > 0 {
+		if x.SpanAttributes == nil {
+			x.SpanAttributes = make(map[string]string)
+		}
+		for k, v := range defaultValues.SpanAttributes {
+			// defaults should not override existing resource attributes unless empty
+			if _, ok := x.SpanAttributes[k]; !ok {
+				x.SpanAttributes[k] = v
+			}
+		}
+	}
+
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
@@ -217,6 +229,19 @@ func (x *AgentConfig) PutResourceAttributes(m map[string]string) {
 	}
 	for k, v := range m {
 		x.ResourceAttributes[k] = v
+	}
+}
+
+// PutSpanAttributes sets values in the SpanAttributes map.
+func (x *AgentConfig) PutSpanAttributes(m map[string]string) {
+	if len(m) == 0 {
+		return
+	}
+	if x.SpanAttributes == nil {
+		x.SpanAttributes = make(map[string]string)
+	}
+	for k, v := range m {
+		x.SpanAttributes[k] = v
 	}
 }
 
