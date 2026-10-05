@@ -217,6 +217,15 @@ func (x *AgentConfig) loadFromEnv(prefix string, defaultValues *AgentConfig) {
 		}
 	}
 
+	if x.AttributeRuleEngine == nil {
+		x.AttributeRuleEngine = new(AttributeRuleEngine)
+	}
+	if defaultValues == nil {
+		x.AttributeRuleEngine.loadFromEnv(prefix+"ATTRIBUTE_RULE_ENGINE_", nil)
+	} else {
+		x.AttributeRuleEngine.loadFromEnv(prefix+"ATTRIBUTE_RULE_ENGINE_", defaultValues.AttributeRuleEngine)
+	}
+
 }
 
 // PutResourceAttributes sets values in the ResourceAttributes map.
@@ -1279,6 +1288,20 @@ func (x *GenAi) loadFromEnv(prefix string, defaultValues *GenAi) {
 		x.PayloadEvaluationEnabled = new(wrappers.BoolValue)
 		if defaultValues != nil && defaultValues.PayloadEvaluationEnabled != nil {
 			x.PayloadEvaluationEnabled = &wrappers.BoolValue{Value: defaultValues.PayloadEvaluationEnabled.Value}
+		}
+	}
+}
+
+// loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
+func (x *AttributeRuleEngine) loadFromEnv(prefix string, defaultValues *AttributeRuleEngine) {
+	if val, ok := getBoolEnv(prefix + "ENABLED"); ok {
+		x.Enabled = &wrappers.BoolValue{Value: val}
+	} else if x.Enabled == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.Enabled = new(wrappers.BoolValue)
+		if defaultValues != nil && defaultValues.Enabled != nil {
+			x.Enabled = &wrappers.BoolValue{Value: defaultValues.Enabled.Value}
 		}
 	}
 }

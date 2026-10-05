@@ -91,3 +91,4 @@ Agents can be configured using environment variables:
 | TA_GEN_AI_ENABLED | Whether Genai span capture is enabled or not |
 | TA_GEN_AI_PAYLOAD_CAPTURE_ENABLED | If enabled will record genai body payloads |
 | TA_GEN_AI_PAYLOAD_EVALUATION_ENABLED | If enabled will evaluate genai span payloads for blocking/redaction |
+| TA_ATTRIBUTE_RULE_ENGINE_ENABLED |  |
