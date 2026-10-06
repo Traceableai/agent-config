@@ -2656,8 +2656,9 @@ func (x *GenAi) GetPayloadEvaluationEnabled() *wrapperspb.BoolValue {
 // span attributes from request and response data. The rules themselves are
 // delivered over remote config.
 type AttributeRuleEngine struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Enabled       *wrapperspb.BoolValue  `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// When true, attribute rules are derived in libtraceable rather than by the agent
+	Enabled       *wrapperspb.BoolValue `protobuf:"bytes,1,opt,name=enabled,proto3" json:"enabled,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }

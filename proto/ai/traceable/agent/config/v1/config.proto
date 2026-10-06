@@ -498,5 +498,6 @@ message GenAi {
 // span attributes from request and response data. The rules themselves are
 // delivered over remote config.
 message AttributeRuleEngine {
+  // When true, attribute rules are derived in libtraceable rather than by the agent
   google.protobuf.BoolValue enabled = 1;
 }
