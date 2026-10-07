@@ -59,6 +59,9 @@ message AgentConfig {
 
   // span_attributes map define the static list of attributes added to each span
   map<string, string> span_attributes = 24;
+
+  // Config for the attribute rule engine
+  AttributeRuleEngine attribute_rule_engine = 25;
 }
 
 // Reporting covers the options related to the mechanics for sending data to the
@@ -489,4 +492,12 @@ message GenAi {
   google.protobuf.BoolValue payload_capture_enabled = 2;
   // If enabled will evaluate genai span payloads for blocking/redaction
   google.protobuf.BoolValue payload_evaluation_enabled = 3;
+}
+
+// Configuration for libtraceable's attribute rule engine, which derives
+// span attributes from request and response data. The rules themselves are
+// delivered over remote config.
+message AttributeRuleEngine {
+  // When true, attribute rules are derived in libtraceable rather than by the agent
+  google.protobuf.BoolValue enabled = 1;
 }
