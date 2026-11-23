@@ -95,6 +95,12 @@ message Reporting {
 
   // Compression type
   CompressionType compression_type = 10;
+
+  // max time to establish connection to TPA, default 300 ms
+  google.protobuf.Int32Value connection_timeout_ms = 11;
+
+  // max time for full agent→TPA request/response, default 1000 ms (1s)
+  google.protobuf.Int32Value timeout_ms = 12;
 }
 
 // Blocking config
