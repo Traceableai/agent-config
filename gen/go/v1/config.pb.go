@@ -723,9 +723,9 @@ type Reporting struct {
 	EnableGrpcLoadbalancing *wrapperspb.BoolValue `protobuf:"bytes,9,opt,name=enable_grpc_loadbalancing,json=enableGrpcLoadbalancing,proto3" json:"enable_grpc_loadbalancing,omitempty"`
 	// Compression type
 	CompressionType CompressionType `protobuf:"varint,10,opt,name=compression_type,json=compressionType,proto3,enum=ai.traceable.agent.config.v1.CompressionType" json:"compression_type,omitempty"`
-	// max time to establish connection to TPA, default 300 ms
+	// max time to establish connection to TPA, default 100 ms
 	ConnectionTimeoutMs *wrapperspb.Int32Value `protobuf:"bytes,11,opt,name=connection_timeout_ms,json=connectionTimeoutMs,proto3" json:"connection_timeout_ms,omitempty"`
-	// max time for full agent→TPA request/response, default 1000 ms (1s)
+	// max time for full agent→TPA request/response, default 500 ms
 	TimeoutMs     *wrapperspb.Int32Value `protobuf:"bytes,12,opt,name=timeout_ms,json=timeoutMs,proto3" json:"timeout_ms,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
