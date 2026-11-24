@@ -723,8 +723,12 @@ type Reporting struct {
 	EnableGrpcLoadbalancing *wrapperspb.BoolValue `protobuf:"bytes,9,opt,name=enable_grpc_loadbalancing,json=enableGrpcLoadbalancing,proto3" json:"enable_grpc_loadbalancing,omitempty"`
 	// Compression type
 	CompressionType CompressionType `protobuf:"varint,10,opt,name=compression_type,json=compressionType,proto3,enum=ai.traceable.agent.config.v1.CompressionType" json:"compression_type,omitempty"`
-	unknownFields   protoimpl.UnknownFields
-	sizeCache       protoimpl.SizeCache
+	// max time to establish connection to TPA, default 100 ms
+	ConnectionTimeoutMs *wrapperspb.Int32Value `protobuf:"bytes,11,opt,name=connection_timeout_ms,json=connectionTimeoutMs,proto3" json:"connection_timeout_ms,omitempty"`
+	// max time for full agent→TPA request/response, default 500 ms
+	TimeoutMs     *wrapperspb.Int32Value `protobuf:"bytes,12,opt,name=timeout_ms,json=timeoutMs,proto3" json:"timeout_ms,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Reporting) Reset() {
@@ -818,6 +822,20 @@ func (x *Reporting) GetCompressionType() CompressionType {
 		return x.CompressionType
 	}
 	return CompressionType_COMPRESSION_TYPE_UNSPECIFIED
+}
+
+func (x *Reporting) GetConnectionTimeoutMs() *wrapperspb.Int32Value {
+	if x != nil {
+		return x.ConnectionTimeoutMs
+	}
+	return nil
+}
+
+func (x *Reporting) GetTimeoutMs() *wrapperspb.Int32Value {
+	if x != nil {
+		return x.TimeoutMs
+	}
+	return nil
 }
 
 // Blocking config
@@ -2677,7 +2695,7 @@ const file_ai_traceable_agent_config_v1_config_proto_rawDesc = "" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\x1aA\n" +
 	"\x13SpanAttributesEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xa6\x05\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb3\x06\n" +
 	"\tReporting\x128\n" +
 	"\bendpoint\x18\x01 \x01(\v2\x1c.google.protobuf.StringValueR\bendpoint\x122\n" +
 	"\x06secure\x18\x02 \x01(\v2\x1a.google.protobuf.BoolValueR\x06secure\x122\n" +
@@ -2688,7 +2706,10 @@ const file_ai_traceable_agent_config_v1_config_proto_rawDesc = "" +
 	"\x14metric_reporter_type\x18\b \x01(\x0e20.ai.traceable.agent.config.v1.MetricReporterTypeR\x12metricReporterType\x12V\n" +
 	"\x19enable_grpc_loadbalancing\x18\t \x01(\v2\x1a.google.protobuf.BoolValueR\x17enableGrpcLoadbalancing\x12X\n" +
 	"\x10compression_type\x18\n" +
-	" \x01(\x0e2-.ai.traceable.agent.config.v1.CompressionTypeR\x0fcompressionType\"\xeb\x06\n" +
+	" \x01(\x0e2-.ai.traceable.agent.config.v1.CompressionTypeR\x0fcompressionType\x12O\n" +
+	"\x15connection_timeout_ms\x18\v \x01(\v2\x1b.google.protobuf.Int32ValueR\x13connectionTimeoutMs\x12:\n" +
+	"\n" +
+	"timeout_ms\x18\f \x01(\v2\x1b.google.protobuf.Int32ValueR\ttimeoutMs\"\xeb\x06\n" +
 	"\x0eBlockingConfig\x124\n" +
 	"\aenabled\x18\x01 \x01(\v2\x1a.google.protobuf.BoolValueR\aenabled\x12Q\n" +
 	"\vmodsecurity\x18\x03 \x01(\v2/.ai.traceable.agent.config.v1.ModsecurityConfigR\vmodsecurity\x12?\n" +
@@ -2951,100 +2972,102 @@ var file_ai_traceable_agent_config_v1_config_proto_depIdxs = []int32{
 	5,   // 28: ai.traceable.agent.config.v1.Reporting.metric_reporter_type:type_name -> ai.traceable.agent.config.v1.MetricReporterType
 	40,  // 29: ai.traceable.agent.config.v1.Reporting.enable_grpc_loadbalancing:type_name -> google.protobuf.BoolValue
 	7,   // 30: ai.traceable.agent.config.v1.Reporting.compression_type:type_name -> ai.traceable.agent.config.v1.CompressionType
-	40,  // 31: ai.traceable.agent.config.v1.BlockingConfig.enabled:type_name -> google.protobuf.BoolValue
-	11,  // 32: ai.traceable.agent.config.v1.BlockingConfig.modsecurity:type_name -> ai.traceable.agent.config.v1.ModsecurityConfig
-	40,  // 33: ai.traceable.agent.config.v1.BlockingConfig.evaluate_body:type_name -> google.protobuf.BoolValue
-	12,  // 34: ai.traceable.agent.config.v1.BlockingConfig.region_blocking:type_name -> ai.traceable.agent.config.v1.RegionBlockingConfig
-	40,  // 35: ai.traceable.agent.config.v1.BlockingConfig.skip_internal_request:type_name -> google.protobuf.BoolValue
-	42,  // 36: ai.traceable.agent.config.v1.BlockingConfig.response_status_code:type_name -> google.protobuf.Int32Value
-	42,  // 37: ai.traceable.agent.config.v1.BlockingConfig.max_recursion_depth:type_name -> google.protobuf.Int32Value
-	41,  // 38: ai.traceable.agent.config.v1.BlockingConfig.response_message:type_name -> google.protobuf.StringValue
-	22,  // 39: ai.traceable.agent.config.v1.BlockingConfig.edge_decision_service:type_name -> ai.traceable.agent.config.v1.EdgeDecisionServiceConfig
-	40,  // 40: ai.traceable.agent.config.v1.BlockingConfig.evaluate_eds_first:type_name -> google.protobuf.BoolValue
-	40,  // 41: ai.traceable.agent.config.v1.BlockingConfig.skip_client_spans:type_name -> google.protobuf.BoolValue
-	40,  // 42: ai.traceable.agent.config.v1.ModsecurityConfig.enabled:type_name -> google.protobuf.BoolValue
-	40,  // 43: ai.traceable.agent.config.v1.RegionBlockingConfig.enabled:type_name -> google.protobuf.BoolValue
-	40,  // 44: ai.traceable.agent.config.v1.RemoteConfig.enabled:type_name -> google.protobuf.BoolValue
-	41,  // 45: ai.traceable.agent.config.v1.RemoteConfig.endpoint:type_name -> google.protobuf.StringValue
-	42,  // 46: ai.traceable.agent.config.v1.RemoteConfig.poll_period_seconds:type_name -> google.protobuf.Int32Value
-	41,  // 47: ai.traceable.agent.config.v1.RemoteConfig.cert_file:type_name -> google.protobuf.StringValue
-	42,  // 48: ai.traceable.agent.config.v1.RemoteConfig.grpc_max_call_recv_msg_size:type_name -> google.protobuf.Int32Value
-	40,  // 49: ai.traceable.agent.config.v1.RemoteConfig.use_secure_connection:type_name -> google.protobuf.BoolValue
-	40,  // 50: ai.traceable.agent.config.v1.SamplingConfig.enabled:type_name -> google.protobuf.BoolValue
-	21,  // 51: ai.traceable.agent.config.v1.SamplingConfig.default_rate_limit_config:type_name -> ai.traceable.agent.config.v1.RateLimitConfig
-	40,  // 52: ai.traceable.agent.config.v1.Javaagent.import_jks_certs:type_name -> google.protobuf.BoolValue
-	41,  // 53: ai.traceable.agent.config.v1.Javaagent.filter_jar_paths:type_name -> google.protobuf.StringValue
-	0,   // 54: ai.traceable.agent.config.v1.LogConfig.log_mode:type_name -> ai.traceable.agent.config.v1.LogMode
-	1,   // 55: ai.traceable.agent.config.v1.LogConfig.log_level:type_name -> ai.traceable.agent.config.v1.LogLevel
-	17,  // 56: ai.traceable.agent.config.v1.LogConfig.log_file:type_name -> ai.traceable.agent.config.v1.LogFileConfig
-	42,  // 57: ai.traceable.agent.config.v1.LogFileConfig.max_files:type_name -> google.protobuf.Int32Value
-	42,  // 58: ai.traceable.agent.config.v1.LogFileConfig.max_file_size:type_name -> google.protobuf.Int32Value
-	41,  // 59: ai.traceable.agent.config.v1.LogFileConfig.file_path:type_name -> google.protobuf.StringValue
-	40,  // 60: ai.traceable.agent.config.v1.MetricsLogConfig.enabled:type_name -> google.protobuf.BoolValue
-	41,  // 61: ai.traceable.agent.config.v1.MetricsLogConfig.frequency:type_name -> google.protobuf.StringValue
-	40,  // 62: ai.traceable.agent.config.v1.EndpointMetricsConfig.enabled:type_name -> google.protobuf.BoolValue
-	42,  // 63: ai.traceable.agent.config.v1.EndpointMetricsConfig.max_endpoints:type_name -> google.protobuf.Int32Value
-	18,  // 64: ai.traceable.agent.config.v1.EndpointMetricsConfig.logging:type_name -> ai.traceable.agent.config.v1.MetricsLogConfig
-	40,  // 65: ai.traceable.agent.config.v1.MetricsConfig.enabled:type_name -> google.protobuf.BoolValue
-	19,  // 66: ai.traceable.agent.config.v1.MetricsConfig.endpoint_config:type_name -> ai.traceable.agent.config.v1.EndpointMetricsConfig
-	18,  // 67: ai.traceable.agent.config.v1.MetricsConfig.logging:type_name -> ai.traceable.agent.config.v1.MetricsLogConfig
-	27,  // 68: ai.traceable.agent.config.v1.MetricsConfig.exporter:type_name -> ai.traceable.agent.config.v1.MetricsExporterConfig
-	42,  // 69: ai.traceable.agent.config.v1.MetricsConfig.max_queue_size:type_name -> google.protobuf.Int32Value
-	40,  // 70: ai.traceable.agent.config.v1.RateLimitConfig.enabled:type_name -> google.protobuf.BoolValue
-	43,  // 71: ai.traceable.agent.config.v1.RateLimitConfig.max_count_global:type_name -> google.protobuf.Int64Value
-	43,  // 72: ai.traceable.agent.config.v1.RateLimitConfig.max_count_per_endpoint:type_name -> google.protobuf.Int64Value
-	41,  // 73: ai.traceable.agent.config.v1.RateLimitConfig.refresh_period:type_name -> google.protobuf.StringValue
-	41,  // 74: ai.traceable.agent.config.v1.RateLimitConfig.value_expiration_period:type_name -> google.protobuf.StringValue
-	2,   // 75: ai.traceable.agent.config.v1.RateLimitConfig.span_type:type_name -> ai.traceable.agent.config.v1.SpanType
-	40,  // 76: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.enabled:type_name -> google.protobuf.BoolValue
-	41,  // 77: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.endpoint:type_name -> google.protobuf.StringValue
-	42,  // 78: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.timeout_ms:type_name -> google.protobuf.Int32Value
-	41,  // 79: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.include_path_regexes:type_name -> google.protobuf.StringValue
-	41,  // 80: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.exclude_path_regexes:type_name -> google.protobuf.StringValue
-	40,  // 81: ai.traceable.agent.config.v1.Message.request:type_name -> google.protobuf.BoolValue
-	40,  // 82: ai.traceable.agent.config.v1.Message.response:type_name -> google.protobuf.BoolValue
-	23,  // 83: ai.traceable.agent.config.v1.DataCapture.http_headers:type_name -> ai.traceable.agent.config.v1.Message
-	23,  // 84: ai.traceable.agent.config.v1.DataCapture.http_body:type_name -> ai.traceable.agent.config.v1.Message
-	23,  // 85: ai.traceable.agent.config.v1.DataCapture.rpc_metadata:type_name -> ai.traceable.agent.config.v1.Message
-	23,  // 86: ai.traceable.agent.config.v1.DataCapture.rpc_body:type_name -> ai.traceable.agent.config.v1.Message
-	42,  // 87: ai.traceable.agent.config.v1.DataCapture.body_max_size_bytes:type_name -> google.protobuf.Int32Value
-	42,  // 88: ai.traceable.agent.config.v1.DataCapture.body_max_processing_size_bytes:type_name -> google.protobuf.Int32Value
-	41,  // 89: ai.traceable.agent.config.v1.DataCapture.allowed_content_types:type_name -> google.protobuf.StringValue
-	36,  // 90: ai.traceable.agent.config.v1.DataCapture.sse:type_name -> ai.traceable.agent.config.v1.SseCapture
-	40,  // 91: ai.traceable.agent.config.v1.GoAgent.use_custom_bsp:type_name -> google.protobuf.BoolValue
-	30,  // 92: ai.traceable.agent.config.v1.GoAgent.filter_thread_pool:type_name -> ai.traceable.agent.config.v1.ThreadPool
-	6,   // 93: ai.traceable.agent.config.v1.GoAgent.span_sanitization_mode:type_name -> ai.traceable.agent.config.v1.SpanSanitizationMode
-	40,  // 94: ai.traceable.agent.config.v1.Telemetry.startup_span_enabled:type_name -> google.protobuf.BoolValue
-	40,  // 95: ai.traceable.agent.config.v1.Telemetry.metrics_enabled:type_name -> google.protobuf.BoolValue
-	33,  // 96: ai.traceable.agent.config.v1.Telemetry.logs:type_name -> ai.traceable.agent.config.v1.LogsExport
-	40,  // 97: ai.traceable.agent.config.v1.MetricsExporterConfig.enabled:type_name -> google.protobuf.BoolValue
-	42,  // 98: ai.traceable.agent.config.v1.MetricsExporterConfig.export_interval_ms:type_name -> google.protobuf.Int32Value
-	42,  // 99: ai.traceable.agent.config.v1.MetricsExporterConfig.export_timeout_ms:type_name -> google.protobuf.Int32Value
-	40,  // 100: ai.traceable.agent.config.v1.GraphqlParserConfig.enabled:type_name -> google.protobuf.BoolValue
-	28,  // 101: ai.traceable.agent.config.v1.ParserConfig.graphql:type_name -> ai.traceable.agent.config.v1.GraphqlParserConfig
-	42,  // 102: ai.traceable.agent.config.v1.ParserConfig.max_body_size:type_name -> google.protobuf.Int32Value
-	40,  // 103: ai.traceable.agent.config.v1.ThreadPool.enabled:type_name -> google.protobuf.BoolValue
-	42,  // 104: ai.traceable.agent.config.v1.ThreadPool.num_workers:type_name -> google.protobuf.Int32Value
-	42,  // 105: ai.traceable.agent.config.v1.ThreadPool.buffer_size:type_name -> google.protobuf.Int32Value
-	42,  // 106: ai.traceable.agent.config.v1.ThreadPool.timeout_ms:type_name -> google.protobuf.Int32Value
-	41,  // 107: ai.traceable.agent.config.v1.AgentIdentity.deployment_name:type_name -> google.protobuf.StringValue
-	43,  // 108: ai.traceable.agent.config.v1.FilterPipelineManager.pipeline_requests_queue_initial_size:type_name -> google.protobuf.Int64Value
-	40,  // 109: ai.traceable.agent.config.v1.LogsExport.enabled:type_name -> google.protobuf.BoolValue
-	1,   // 110: ai.traceable.agent.config.v1.LogsExport.level:type_name -> ai.traceable.agent.config.v1.LogLevel
-	40,  // 111: ai.traceable.agent.config.v1.ThreatActivityDetection.enabled:type_name -> google.protobuf.BoolValue
-	42,  // 112: ai.traceable.agent.config.v1.SseCaptureBatch.max_size_bytes:type_name -> google.protobuf.Int32Value
-	42,  // 113: ai.traceable.agent.config.v1.SseCaptureBatch.max_time_window_ms:type_name -> google.protobuf.Int32Value
-	40,  // 114: ai.traceable.agent.config.v1.SseCapture.enabled:type_name -> google.protobuf.BoolValue
-	42,  // 115: ai.traceable.agent.config.v1.SseCapture.max_batches:type_name -> google.protobuf.Int32Value
-	35,  // 116: ai.traceable.agent.config.v1.SseCapture.batch:type_name -> ai.traceable.agent.config.v1.SseCaptureBatch
-	40,  // 117: ai.traceable.agent.config.v1.GenAi.enabled:type_name -> google.protobuf.BoolValue
-	40,  // 118: ai.traceable.agent.config.v1.GenAi.payload_capture_enabled:type_name -> google.protobuf.BoolValue
-	40,  // 119: ai.traceable.agent.config.v1.GenAi.payload_evaluation_enabled:type_name -> google.protobuf.BoolValue
-	120, // [120:120] is the sub-list for method output_type
-	120, // [120:120] is the sub-list for method input_type
-	120, // [120:120] is the sub-list for extension type_name
-	120, // [120:120] is the sub-list for extension extendee
-	0,   // [0:120] is the sub-list for field type_name
+	42,  // 31: ai.traceable.agent.config.v1.Reporting.connection_timeout_ms:type_name -> google.protobuf.Int32Value
+	42,  // 32: ai.traceable.agent.config.v1.Reporting.timeout_ms:type_name -> google.protobuf.Int32Value
+	40,  // 33: ai.traceable.agent.config.v1.BlockingConfig.enabled:type_name -> google.protobuf.BoolValue
+	11,  // 34: ai.traceable.agent.config.v1.BlockingConfig.modsecurity:type_name -> ai.traceable.agent.config.v1.ModsecurityConfig
+	40,  // 35: ai.traceable.agent.config.v1.BlockingConfig.evaluate_body:type_name -> google.protobuf.BoolValue
+	12,  // 36: ai.traceable.agent.config.v1.BlockingConfig.region_blocking:type_name -> ai.traceable.agent.config.v1.RegionBlockingConfig
+	40,  // 37: ai.traceable.agent.config.v1.BlockingConfig.skip_internal_request:type_name -> google.protobuf.BoolValue
+	42,  // 38: ai.traceable.agent.config.v1.BlockingConfig.response_status_code:type_name -> google.protobuf.Int32Value
+	42,  // 39: ai.traceable.agent.config.v1.BlockingConfig.max_recursion_depth:type_name -> google.protobuf.Int32Value
+	41,  // 40: ai.traceable.agent.config.v1.BlockingConfig.response_message:type_name -> google.protobuf.StringValue
+	22,  // 41: ai.traceable.agent.config.v1.BlockingConfig.edge_decision_service:type_name -> ai.traceable.agent.config.v1.EdgeDecisionServiceConfig
+	40,  // 42: ai.traceable.agent.config.v1.BlockingConfig.evaluate_eds_first:type_name -> google.protobuf.BoolValue
+	40,  // 43: ai.traceable.agent.config.v1.BlockingConfig.skip_client_spans:type_name -> google.protobuf.BoolValue
+	40,  // 44: ai.traceable.agent.config.v1.ModsecurityConfig.enabled:type_name -> google.protobuf.BoolValue
+	40,  // 45: ai.traceable.agent.config.v1.RegionBlockingConfig.enabled:type_name -> google.protobuf.BoolValue
+	40,  // 46: ai.traceable.agent.config.v1.RemoteConfig.enabled:type_name -> google.protobuf.BoolValue
+	41,  // 47: ai.traceable.agent.config.v1.RemoteConfig.endpoint:type_name -> google.protobuf.StringValue
+	42,  // 48: ai.traceable.agent.config.v1.RemoteConfig.poll_period_seconds:type_name -> google.protobuf.Int32Value
+	41,  // 49: ai.traceable.agent.config.v1.RemoteConfig.cert_file:type_name -> google.protobuf.StringValue
+	42,  // 50: ai.traceable.agent.config.v1.RemoteConfig.grpc_max_call_recv_msg_size:type_name -> google.protobuf.Int32Value
+	40,  // 51: ai.traceable.agent.config.v1.RemoteConfig.use_secure_connection:type_name -> google.protobuf.BoolValue
+	40,  // 52: ai.traceable.agent.config.v1.SamplingConfig.enabled:type_name -> google.protobuf.BoolValue
+	21,  // 53: ai.traceable.agent.config.v1.SamplingConfig.default_rate_limit_config:type_name -> ai.traceable.agent.config.v1.RateLimitConfig
+	40,  // 54: ai.traceable.agent.config.v1.Javaagent.import_jks_certs:type_name -> google.protobuf.BoolValue
+	41,  // 55: ai.traceable.agent.config.v1.Javaagent.filter_jar_paths:type_name -> google.protobuf.StringValue
+	0,   // 56: ai.traceable.agent.config.v1.LogConfig.log_mode:type_name -> ai.traceable.agent.config.v1.LogMode
+	1,   // 57: ai.traceable.agent.config.v1.LogConfig.log_level:type_name -> ai.traceable.agent.config.v1.LogLevel
+	17,  // 58: ai.traceable.agent.config.v1.LogConfig.log_file:type_name -> ai.traceable.agent.config.v1.LogFileConfig
+	42,  // 59: ai.traceable.agent.config.v1.LogFileConfig.max_files:type_name -> google.protobuf.Int32Value
+	42,  // 60: ai.traceable.agent.config.v1.LogFileConfig.max_file_size:type_name -> google.protobuf.Int32Value
+	41,  // 61: ai.traceable.agent.config.v1.LogFileConfig.file_path:type_name -> google.protobuf.StringValue
+	40,  // 62: ai.traceable.agent.config.v1.MetricsLogConfig.enabled:type_name -> google.protobuf.BoolValue
+	41,  // 63: ai.traceable.agent.config.v1.MetricsLogConfig.frequency:type_name -> google.protobuf.StringValue
+	40,  // 64: ai.traceable.agent.config.v1.EndpointMetricsConfig.enabled:type_name -> google.protobuf.BoolValue
+	42,  // 65: ai.traceable.agent.config.v1.EndpointMetricsConfig.max_endpoints:type_name -> google.protobuf.Int32Value
+	18,  // 66: ai.traceable.agent.config.v1.EndpointMetricsConfig.logging:type_name -> ai.traceable.agent.config.v1.MetricsLogConfig
+	40,  // 67: ai.traceable.agent.config.v1.MetricsConfig.enabled:type_name -> google.protobuf.BoolValue
+	19,  // 68: ai.traceable.agent.config.v1.MetricsConfig.endpoint_config:type_name -> ai.traceable.agent.config.v1.EndpointMetricsConfig
+	18,  // 69: ai.traceable.agent.config.v1.MetricsConfig.logging:type_name -> ai.traceable.agent.config.v1.MetricsLogConfig
+	27,  // 70: ai.traceable.agent.config.v1.MetricsConfig.exporter:type_name -> ai.traceable.agent.config.v1.MetricsExporterConfig
+	42,  // 71: ai.traceable.agent.config.v1.MetricsConfig.max_queue_size:type_name -> google.protobuf.Int32Value
+	40,  // 72: ai.traceable.agent.config.v1.RateLimitConfig.enabled:type_name -> google.protobuf.BoolValue
+	43,  // 73: ai.traceable.agent.config.v1.RateLimitConfig.max_count_global:type_name -> google.protobuf.Int64Value
+	43,  // 74: ai.traceable.agent.config.v1.RateLimitConfig.max_count_per_endpoint:type_name -> google.protobuf.Int64Value
+	41,  // 75: ai.traceable.agent.config.v1.RateLimitConfig.refresh_period:type_name -> google.protobuf.StringValue
+	41,  // 76: ai.traceable.agent.config.v1.RateLimitConfig.value_expiration_period:type_name -> google.protobuf.StringValue
+	2,   // 77: ai.traceable.agent.config.v1.RateLimitConfig.span_type:type_name -> ai.traceable.agent.config.v1.SpanType
+	40,  // 78: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.enabled:type_name -> google.protobuf.BoolValue
+	41,  // 79: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.endpoint:type_name -> google.protobuf.StringValue
+	42,  // 80: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.timeout_ms:type_name -> google.protobuf.Int32Value
+	41,  // 81: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.include_path_regexes:type_name -> google.protobuf.StringValue
+	41,  // 82: ai.traceable.agent.config.v1.EdgeDecisionServiceConfig.exclude_path_regexes:type_name -> google.protobuf.StringValue
+	40,  // 83: ai.traceable.agent.config.v1.Message.request:type_name -> google.protobuf.BoolValue
+	40,  // 84: ai.traceable.agent.config.v1.Message.response:type_name -> google.protobuf.BoolValue
+	23,  // 85: ai.traceable.agent.config.v1.DataCapture.http_headers:type_name -> ai.traceable.agent.config.v1.Message
+	23,  // 86: ai.traceable.agent.config.v1.DataCapture.http_body:type_name -> ai.traceable.agent.config.v1.Message
+	23,  // 87: ai.traceable.agent.config.v1.DataCapture.rpc_metadata:type_name -> ai.traceable.agent.config.v1.Message
+	23,  // 88: ai.traceable.agent.config.v1.DataCapture.rpc_body:type_name -> ai.traceable.agent.config.v1.Message
+	42,  // 89: ai.traceable.agent.config.v1.DataCapture.body_max_size_bytes:type_name -> google.protobuf.Int32Value
+	42,  // 90: ai.traceable.agent.config.v1.DataCapture.body_max_processing_size_bytes:type_name -> google.protobuf.Int32Value
+	41,  // 91: ai.traceable.agent.config.v1.DataCapture.allowed_content_types:type_name -> google.protobuf.StringValue
+	36,  // 92: ai.traceable.agent.config.v1.DataCapture.sse:type_name -> ai.traceable.agent.config.v1.SseCapture
+	40,  // 93: ai.traceable.agent.config.v1.GoAgent.use_custom_bsp:type_name -> google.protobuf.BoolValue
+	30,  // 94: ai.traceable.agent.config.v1.GoAgent.filter_thread_pool:type_name -> ai.traceable.agent.config.v1.ThreadPool
+	6,   // 95: ai.traceable.agent.config.v1.GoAgent.span_sanitization_mode:type_name -> ai.traceable.agent.config.v1.SpanSanitizationMode
+	40,  // 96: ai.traceable.agent.config.v1.Telemetry.startup_span_enabled:type_name -> google.protobuf.BoolValue
+	40,  // 97: ai.traceable.agent.config.v1.Telemetry.metrics_enabled:type_name -> google.protobuf.BoolValue
+	33,  // 98: ai.traceable.agent.config.v1.Telemetry.logs:type_name -> ai.traceable.agent.config.v1.LogsExport
+	40,  // 99: ai.traceable.agent.config.v1.MetricsExporterConfig.enabled:type_name -> google.protobuf.BoolValue
+	42,  // 100: ai.traceable.agent.config.v1.MetricsExporterConfig.export_interval_ms:type_name -> google.protobuf.Int32Value
+	42,  // 101: ai.traceable.agent.config.v1.MetricsExporterConfig.export_timeout_ms:type_name -> google.protobuf.Int32Value
+	40,  // 102: ai.traceable.agent.config.v1.GraphqlParserConfig.enabled:type_name -> google.protobuf.BoolValue
+	28,  // 103: ai.traceable.agent.config.v1.ParserConfig.graphql:type_name -> ai.traceable.agent.config.v1.GraphqlParserConfig
+	42,  // 104: ai.traceable.agent.config.v1.ParserConfig.max_body_size:type_name -> google.protobuf.Int32Value
+	40,  // 105: ai.traceable.agent.config.v1.ThreadPool.enabled:type_name -> google.protobuf.BoolValue
+	42,  // 106: ai.traceable.agent.config.v1.ThreadPool.num_workers:type_name -> google.protobuf.Int32Value
+	42,  // 107: ai.traceable.agent.config.v1.ThreadPool.buffer_size:type_name -> google.protobuf.Int32Value
+	42,  // 108: ai.traceable.agent.config.v1.ThreadPool.timeout_ms:type_name -> google.protobuf.Int32Value
+	41,  // 109: ai.traceable.agent.config.v1.AgentIdentity.deployment_name:type_name -> google.protobuf.StringValue
+	43,  // 110: ai.traceable.agent.config.v1.FilterPipelineManager.pipeline_requests_queue_initial_size:type_name -> google.protobuf.Int64Value
+	40,  // 111: ai.traceable.agent.config.v1.LogsExport.enabled:type_name -> google.protobuf.BoolValue
+	1,   // 112: ai.traceable.agent.config.v1.LogsExport.level:type_name -> ai.traceable.agent.config.v1.LogLevel
+	40,  // 113: ai.traceable.agent.config.v1.ThreatActivityDetection.enabled:type_name -> google.protobuf.BoolValue
+	42,  // 114: ai.traceable.agent.config.v1.SseCaptureBatch.max_size_bytes:type_name -> google.protobuf.Int32Value
+	42,  // 115: ai.traceable.agent.config.v1.SseCaptureBatch.max_time_window_ms:type_name -> google.protobuf.Int32Value
+	40,  // 116: ai.traceable.agent.config.v1.SseCapture.enabled:type_name -> google.protobuf.BoolValue
+	42,  // 117: ai.traceable.agent.config.v1.SseCapture.max_batches:type_name -> google.protobuf.Int32Value
+	35,  // 118: ai.traceable.agent.config.v1.SseCapture.batch:type_name -> ai.traceable.agent.config.v1.SseCaptureBatch
+	40,  // 119: ai.traceable.agent.config.v1.GenAi.enabled:type_name -> google.protobuf.BoolValue
+	40,  // 120: ai.traceable.agent.config.v1.GenAi.payload_capture_enabled:type_name -> google.protobuf.BoolValue
+	40,  // 121: ai.traceable.agent.config.v1.GenAi.payload_evaluation_enabled:type_name -> google.protobuf.BoolValue
+	122, // [122:122] is the sub-list for method output_type
+	122, // [122:122] is the sub-list for method input_type
+	122, // [122:122] is the sub-list for extension type_name
+	122, // [122:122] is the sub-list for extension extendee
+	0,   // [0:122] is the sub-list for field type_name
 }
 
 func init() { file_ai_traceable_agent_config_v1_config_proto_init() }

@@ -325,6 +325,26 @@ func (x *Reporting) loadFromEnv(prefix string, defaultValues *Reporting) {
 		x.CompressionType = defaultValues.CompressionType
 	}
 
+	if val, ok := getInt32Env(prefix + "CONNECTION_TIMEOUT_MS"); ok {
+		x.ConnectionTimeoutMs = &wrappers.Int32Value{Value: val}
+	} else if x.ConnectionTimeoutMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.ConnectionTimeoutMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.ConnectionTimeoutMs != nil {
+			x.ConnectionTimeoutMs = &wrappers.Int32Value{Value: defaultValues.ConnectionTimeoutMs.Value}
+		}
+	}
+	if val, ok := getInt32Env(prefix + "TIMEOUT_MS"); ok {
+		x.TimeoutMs = &wrappers.Int32Value{Value: val}
+	} else if x.TimeoutMs == nil {
+		// when there is no value to set we still prefer to initialize the variable to avoid
+		// `nil` checks in the consumers.
+		x.TimeoutMs = new(wrappers.Int32Value)
+		if defaultValues != nil && defaultValues.TimeoutMs != nil {
+			x.TimeoutMs = &wrappers.Int32Value{Value: defaultValues.TimeoutMs.Value}
+		}
+	}
 }
 
 // loadFromEnv loads the data from env vars, defaults and makes sure all values are initialized.
