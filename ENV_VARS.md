@@ -34,6 +34,8 @@ Agents can be configured using environment variables:
 | TA_REMOTE_CONFIG_CERT_FILE | Certificate filename containing the CA to verify the server's certificate. |
 | TA_REMOTE_CONFIG_GRPC_MAX_CALL_RECV_MSG_SIZE |  |
 | TA_REMOTE_CONFIG_USE_SECURE_CONNECTION | Set this flag to use https connection when the provided certificate path is empty |
+| TA_REMOTE_CONFIG_CONNECTION_TIMEOUT_MS | Max time in milliseconds to establish connection to TPA |
+| TA_REMOTE_CONFIG_TIMEOUT_MS | Max time in milliseconds for full agent→TPA request/response |
 | TA_API_DISCOVERY_ENABLED |  |
 | TA_SAMPLING_ENABLED |  |
 | TA_SAMPLING_DEFAULT_RATE_LIMIT_CONFIG_ENABLED | Set this flag to enable rate limiter |

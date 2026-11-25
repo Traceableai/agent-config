@@ -87,6 +87,10 @@ message RemoteConfig {
   google.protobuf.Int32Value grpc_max_call_recv_msg_size = 5;
   // set this flag to use https connection when the provided certificate path is empty
   google.protobuf.BoolValue use_secure_connection = 6;
+  // max time to establish connection to TPA
+  google.protobuf.Int32Value connection_timeout_ms = 7;
+  // max time for full agent→TPA request/response
+  google.protobuf.Int32Value timeout_ms = 8;
 }
 
 message ApiDiscoveryConfig {
